@@ -25,7 +25,7 @@ public class ExpenseListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
         List<Expense> expenses = new ArrayList<>();
-        expenses.add(new Expense("Groceries", 50.0));
+        expenses.add(new Expense("Groceries test lkdfjsalfkjsadlfjaslkdfjaslkdfjalsdfkfdl", 50.0));
         expenses.add(new Expense("Dinner", 30.0));
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Gas", 54.0));
@@ -41,10 +41,7 @@ public class ExpenseListActivity extends AppCompatActivity {
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Gas", 54.0));
-        expenses.add(new Expense("Gas", 54.0));
-        expenses.add(new Expense("Gas", 54.0));
-        expenses.add(new Expense("Gas", 54.0));
-        expenses.add(new Expense("Gas", 54.0));
+        expenses.add(new Expense("Restaurant", 54.0));
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Gas", 54.0));

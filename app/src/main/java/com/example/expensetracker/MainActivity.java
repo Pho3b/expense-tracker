@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         // Starting the second activity
-        Log.d(this.getLocalClassName(), "Starting the second activity");
-        Intent intent = new Intent(MainActivity.this, ExpenseListActivity.class);
-        startActivity(intent);
+//        Log.d(this.getLocalClassName(), "Starting the second activity");
+//        Intent intent = new Intent(MainActivity.this, ExpenseListActivity.class);
+//        startActivity(intent);
     }
 
     @Override

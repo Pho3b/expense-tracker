@@ -23,7 +23,12 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.expense_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.expense_item,
+                parent,
+                false
+        );
+
         return new ViewHolder(view);
     }
 
@@ -31,7 +36,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Expense expense = expenses.get(position);
         holder.expenseNameTextView.setText(expense.getName());
-        holder.expenseAmountTextView.setText(String.format("$%.2f", expense.getAmount()));
+        holder.expenseAmountTextView.setText(String.format("%.2f€", expense.getAmount()));
     }
 
     @Override
