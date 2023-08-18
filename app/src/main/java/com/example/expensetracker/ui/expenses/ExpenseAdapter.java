@@ -36,7 +36,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Expense expense = expenses.get(position);
         holder.expenseNameTextView.setText(expense.getName());
-        holder.expenseAmountTextView.setText(String.format("%.2f€", expense.getAmount()));
+        holder.expenseAmountTextView.setText(String.format("€%.2f", expense.getAmount()));
     }
 
     @Override
