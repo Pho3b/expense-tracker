@@ -8,8 +8,8 @@
     android:layout_marginBottom="8dp">
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:src="@mipmap/ic_restaurant"
         android:contentDescription="Category Icon" />
 
@@ -24,8 +24,7 @@
         android:paddingStart="@dimen/expense_txt_end_padding"
         android:paddingEnd="@dimen/expense_txt_end_padding"
         android:ellipsize="end"
-        android:singleLine="true"
-        android:textStyle="bold" />
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/expenseAmountTextView"

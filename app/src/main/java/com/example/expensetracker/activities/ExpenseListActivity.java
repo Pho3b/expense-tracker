@@ -1,6 +1,7 @@
 package com.example.expensetracker.activities;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,11 +50,8 @@ public class ExpenseListActivity extends AppCompatActivity {
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Gas", 54.0));
         expenses.add(new Expense("Book", 12.0));
-        // Add more expenses as needed
-
-        expenseAdapter = new ExpenseAdapter(expenses);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(expenseAdapter);
+        recyclerView.setAdapter(new ExpenseAdapter(expenses));
     }
 }
