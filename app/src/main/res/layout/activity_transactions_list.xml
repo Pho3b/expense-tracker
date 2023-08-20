@@ -4,81 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:paddingLeft="15dp"
     android:paddingTop="15dp"
     android:paddingRight="15dp"
     android:paddingBottom="25dp"
-    android:orientation="vertical"
     tools:context=".activities.ListExpenseActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingTop="15dp"
-        android:paddingRight="15dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:layout_marginBottom="15dp">
-
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/expense_category_txt"
+            android:id="@+id/expense_type_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="start"
             android:padding="8dp"
+            android:text="Expense"
             android:textSize="20sp"
-            android:text="Expense" />
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/income_type_btn"
+            android:text="Income"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:textSize="20sp"
-            android:text="Income" />
+            android:gravity="end"
+            android:padding="8dp"
+            android:layout_marginStart="165dp"
+            android:textStyle="bold"
+            android:clickable="true"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical"
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
         android:paddingRight="15dp"
-        android:paddingBottom="10dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/rounded_background"
-        android:orientation="vertical">
+        android:paddingBottom="10dp">
 
         <TextView
             android:id="@+id/month_year_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="5dp"
             android:text="August 2023"
-            android:textSize="24sp"
-            android:padding="5dp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/month_amount_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:padding="5dp"
             android:text="234"
-            android:textSize="24sp"
-            android:padding="5dp" />
+            android:textSize="24sp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addExpenseBtn"
+            android:id="@+id/add_expense_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:clickable="true"
             android:src="@android:drawable/ic_input_add"
             app:backgroundTint="#5D6ECF" />
-
     </LinearLayout>
-
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -86,4 +86,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
 </LinearLayout>
