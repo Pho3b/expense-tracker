@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activities.click_handlers.ListTransactionClickHandler;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.ui.expenses.Expense;
 import com.example.expensetracker.ui.expenses.ExpenseAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,18 +54,6 @@ public class ListTransactionActivity extends AppCompatActivity {
         addTransactionBtn = findViewById(R.id.add_transaction_btn);
     }
 
-    private void associateViewListeners() {
-        ListTransactionClickHandler handler = new ListTransactionClickHandler(this);
-
-        onClickActions.put(expenseTypeTxt.getId(), () -> handler.handleExpenseTypeClick(expenseTypeTxt));
-        onClickActions.put(incomeTypeTxt.getId(), () -> handler.handleIncomeTypeClick(incomeTypeTxt));
-        onClickActions.put(addTransactionBtn.getId(), handler::handleAddTransactionClick);
-
-        expenseTypeTxt.setOnClickListener(onClickListener);
-        incomeTypeTxt.setOnClickListener(onClickListener);
-        addTransactionBtn.setOnClickListener(onClickListener);
-    }
-
     private void setupViewValues() {
         LocalDate currentDate = LocalDate.now();
 
@@ -79,6 +67,18 @@ public class ListTransactionActivity extends AppCompatActivity {
         monthYearTitleView.setText(
                 getString(R.string.month_year_title, currentDate.getMonth(), currentDate.getYear())
         );
+    }
+
+    private void associateViewListeners() {
+        ListTransactionClickHandler handler = new ListTransactionClickHandler(this);
+
+        onClickActions.put(expenseTypeTxt.getId(), () -> handler.handleExpenseTypeClick(expenseTypeTxt));
+        onClickActions.put(incomeTypeTxt.getId(), () -> handler.handleIncomeTypeClick(incomeTypeTxt));
+        onClickActions.put(addTransactionBtn.getId(), handler::handleAddTransactionClick);
+
+        expenseTypeTxt.setOnClickListener(onClickListener);
+        incomeTypeTxt.setOnClickListener(onClickListener);
+        addTransactionBtn.setOnClickListener(onClickListener);
     }
 
     private final View.OnClickListener onClickListener = v -> {
