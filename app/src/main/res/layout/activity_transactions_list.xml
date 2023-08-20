@@ -9,7 +9,7 @@
     android:paddingTop="15dp"
     android:paddingRight="15dp"
     android:paddingBottom="25dp"
-    tools:context=".activities.ListExpenseActivity">
+    tools:context=".activities.ListTransactionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,7 +71,7 @@
             android:textSize="24sp" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_expense_btn"
+            android:id="@+id/add_transaction_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

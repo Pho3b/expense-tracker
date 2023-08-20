@@ -1,8 +1,6 @@
 package com.example.expensetracker.activities;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.SurfaceControl;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,6 +15,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private TextView expenseTypeTxt;
     private TextView incomeTypeTxt;
     private TransactionType selectedTransactionType;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +38,6 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
         selectedTransactionType = (TransactionType) getIntent().
                 getSerializableExtra(Constants.TRANSACTION_TYPE_EXTRA);
-
-        Log.d("TRANSACTION TYPE", selectedTransactionType.toString());
 
         updateTransactionTypeTxt(selectedTransactionType);
     }

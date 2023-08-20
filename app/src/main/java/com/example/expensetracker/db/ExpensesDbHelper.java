@@ -61,4 +61,15 @@ public class ExpensesDbHelper extends SQLiteOpenHelper {
             dbRead = this.getWritableDatabase();
         }
     }
+
+    //        ExpensesDbHelper dbHelper = new ExpensesDbHelper(this);
+    //        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    //            boolean res = dbHelper.insertNewExpense(db, new Expense("Cinema Test", 11));
+    //            String resMsg = res ? "Insertion Success" : "Insertion Error";
+    //
+    //            Toast.makeText(
+    //                    ListExpenseActivity.this,
+    //                    resMsg,
+    //                    Toast.LENGTH_SHORT
+    //            ).show();
 }
