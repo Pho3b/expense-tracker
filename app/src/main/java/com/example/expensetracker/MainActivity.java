@@ -1,12 +1,9 @@
 package com.example.expensetracker;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
-import android.util.Log;
 
-import com.example.expensetracker.activities.ExpenseListActivity;
 import com.example.expensetracker.ui.expenses.ExpenseAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;

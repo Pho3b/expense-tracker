@@ -1,11 +1,14 @@
 package com.example.expensetracker.activities;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpenseListActivity extends AppCompatActivity {
+public class ListExpenseActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ExpenseAdapter expenseAdapter;
@@ -28,6 +31,7 @@ public class ExpenseListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_list);
+
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ExpenseAdapter(this.retrieveExpenses()));
@@ -47,6 +51,11 @@ public class ExpenseListActivity extends AppCompatActivity {
 
         TextView monthAmountView = findViewById(R.id.month_amount_txt);
         monthAmountView.setText("€198");
+
+        TextView expenseCategoryTxt = findViewById(R.id.expense_category_txt);
+        expenseCategoryTxt.setBackground(
+                ContextCompat.getDrawable(this, R.drawable.rounded_background)
+        );
     }
 
     private void attachOnClickListeners(SQLiteDatabase db, ExpensesDbHelper dbHelper) {
@@ -54,14 +63,21 @@ public class ExpenseListActivity extends AppCompatActivity {
         FloatingActionButton addExpenseBtn = findViewById(R.id.addExpenseBtn);
 
         addExpenseBtn.setOnClickListener(v -> {
-            boolean res = dbHelper.insertNewExpense(db, new Expense("Cinema Test", 11));
-            String resMsg = res ? "Insertion Success" : "Insertion Error";
+            Log.d(this.getLocalClassName(), "Starting the second activity");
+            Intent intent = new Intent(
+                    ListExpenseActivity.this,
+                    CreateTransactionActivity.class
+            );
+            startActivity(intent);
 
-            Toast.makeText(
-                    ExpenseListActivity.this,
-                    resMsg,
-                    Toast.LENGTH_SHORT
-            ).show();
+//            boolean res = dbHelper.insertNewExpense(db, new Expense("Cinema Test", 11));
+//            String resMsg = res ? "Insertion Success" : "Insertion Error";
+//
+//            Toast.makeText(
+//                    ListExpenseActivity.this,
+//                    resMsg,
+//                    Toast.LENGTH_SHORT
+//            ).show();
         });
     }
 
