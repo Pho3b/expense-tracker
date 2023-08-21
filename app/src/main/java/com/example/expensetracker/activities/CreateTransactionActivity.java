@@ -1,6 +1,10 @@
 package com.example.expensetracker.activities;
 
+import static com.example.expensetracker.shared.Constants.TRANSACTION_TYPE_EXTRA;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +26,15 @@ public class CreateTransactionActivity extends AppCompatActivity {
     public TextView expenseTypeTxt;
     public TextView incomeTypeTxt;
     private final Map<Integer, Runnable> onClickActions = new HashMap<>();
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra(TRANSACTION_TYPE_EXTRA, selectedTransactionType);
+        setResult(200, intent);
+        finish();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +59,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     private void setupViewValues() {
         selectedTransactionType = (TransactionType) getIntent().
-                getSerializableExtra(Constants.TRANSACTION_TYPE_EXTRA);
+                getSerializableExtra(TRANSACTION_TYPE_EXTRA);
 
         if (selectedTransactionType == TransactionType.Expense) {
             expenseTypeTxt.setBackground(
