@@ -17,7 +17,7 @@
             android:exported="true"
             android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
         <activity
-            android:name=".activities.ListTransactionActivity"
+            android:name=".activity.ListTransactionActivity"
             android:exported="true"
             android:theme="@style/Theme.ExpenseTracker.NoActionBar">
 
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.CreateTransactionActivity"
+            android:name=".activity.CreateTransactionActivity"
             android:exported="true"
             android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
     </application>

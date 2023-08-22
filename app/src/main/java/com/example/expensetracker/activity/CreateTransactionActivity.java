@@ -1,22 +1,23 @@
-package com.example.expensetracker.activities;
+package com.example.expensetracker.activity;
 
 import static com.example.expensetracker.shared.Constants.TRANSACTION_TYPE_EXTRA;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activities.click_handlers.CreateTransactionClickHandler;
-import com.example.expensetracker.activities.click_handlers.ListTransactionClickHandler;
+import com.example.expensetracker.activity.click_handler.CreateTransactionClickHandler;
+import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
+import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +41,15 @@ public class CreateTransactionActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
+
+        CreateTransactionViewModel vm = new ViewModelProvider(this)
+                .get(CreateTransactionViewModel.class);
+        ActivityCreateTransactionBinding binding = DataBindingUtil
+                 .setContentView(this, R.layout.activity_create_transaction);
+        binding.setViewModel(vm);
+        binding.setLifecycleOwner(this);
+
+        vm.setAmount("test");
 
         findViews();
         setupViewValues();

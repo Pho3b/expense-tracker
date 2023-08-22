@@ -1,4 +1,4 @@
-package com.example.expensetracker.activities;
+package com.example.expensetracker.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activities.click_handlers.ListTransactionClickHandler;
+import com.example.expensetracker.activity.click_handler.ListTransactionClickHandler;
 import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.ui.expenses.Expense;
 import com.example.expensetracker.ui.expenses.ExpenseAdapter;

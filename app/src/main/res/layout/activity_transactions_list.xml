@@ -9,7 +9,7 @@
     android:paddingTop="15dp"
     android:paddingRight="15dp"
     android:paddingBottom="25dp"
-    tools:context=".activities.ListTransactionActivity">
+    tools:context=".activity.ListTransactionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
