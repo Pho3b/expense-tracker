@@ -35,7 +35,7 @@
                 android:text="@string/expense"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:onClick="handleExpenseTypeClick"/>
+                android:onClick="@{viewModel.expenseTypeBtnOnClick}"/>
 
             <TextView
                 android:id="@+id/income_type_btn"
@@ -48,7 +48,8 @@
                 android:padding="8dp"
                 android:text="@string/income"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:onClick="@{viewModel.incomeTypeBtnOnClick}"/>
         </LinearLayout>
 
 

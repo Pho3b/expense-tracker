@@ -1,22 +1,21 @@
 package com.example.expensetracker.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.click_handler.ListTransactionClickHandler;
-import com.example.expensetracker.shared.enums.TransactionType;
+import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
+import com.example.expensetracker.databinding.ActivityListTransactionBinding;
+import com.example.expensetracker.shared.service.GlobalService;
 import com.example.expensetracker.ui.expenses.Expense;
 import com.example.expensetracker.ui.expenses.ExpenseAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,69 +23,56 @@ import java.util.Map;
 
 public class ListTransactionActivity extends AppCompatActivity {
 
-    public TransactionType selectedTransactionType;
-    public TextView incomeTypeTxt;
-    public TextView expenseTypeTxt;
+    protected ListTransactionViewModel viewModel;
     private final Map<Integer, Runnable> onClickActions = new HashMap<>();
     private RecyclerView recyclerView;
-    private TextView monthAmountView;
-    private TextView monthYearTitleView;
-    private FloatingActionButton addTransactionBtn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions_list);
+        setContentView(R.layout.activity_list_transaction);
 
+        bindViewModel();
         findViews();
         setupViewValues();
-        associateViewListeners();
+
+        viewModel.navigateToCreateTransaction.observe(
+                this,
+                event -> startActivity(new Intent(this, CreateTransactionActivity.class))
+        );
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        GlobalService.updateSelectedTransactionType(
+                getApplication(),
+                viewModel.expenseBackground,
+                viewModel.incomeBackground
+        );
+    }
+
+
     private void findViews() {
-        expenseTypeTxt = findViewById(R.id.expense_type_btn);
-        incomeTypeTxt = findViewById(R.id.income_type_btn);
         recyclerView = findViewById(R.id.recyclerView);
-        monthAmountView = findViewById(R.id.month_amount_txt);
-        monthYearTitleView = findViewById(R.id.month_year_txt);
-        addTransactionBtn = findViewById(R.id.add_transaction_btn);
     }
 
     private void setupViewValues() {
-        LocalDate currentDate = LocalDate.now();
-
-        selectedTransactionType = TransactionType.Expense;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ExpenseAdapter(this.retrieveExpenses()));
-        monthAmountView.setText("€198");
-        expenseTypeTxt.setBackground(
-                ContextCompat.getDrawable(this, R.drawable.rounded_background)
-        );
-        monthYearTitleView.setText(
-                getString(R.string.month_year_title, currentDate.getMonth(), currentDate.getYear())
-        );
     }
 
-    private void associateViewListeners() {
-        ListTransactionClickHandler handler = new ListTransactionClickHandler(this);
-
-        onClickActions.put(expenseTypeTxt.getId(), () -> handler.handleExpenseTypeClick(expenseTypeTxt));
-        onClickActions.put(incomeTypeTxt.getId(), () -> handler.handleIncomeTypeClick(incomeTypeTxt));
-        onClickActions.put(addTransactionBtn.getId(), handler::handleAddTransactionClick);
-
-        expenseTypeTxt.setOnClickListener(onClickListener);
-        incomeTypeTxt.setOnClickListener(onClickListener);
-        addTransactionBtn.setOnClickListener(onClickListener);
+    private void bindViewModel() {
+        viewModel = new ListTransactionViewModel(getApplication());
+        ActivityListTransactionBinding binding = DataBindingUtil.setContentView(
+                this,
+                R.layout.activity_list_transaction
+        );
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
     }
-
-    private final View.OnClickListener onClickListener = v -> {
-        Runnable action = onClickActions.get(v.getId());
-
-        if (action != null) {
-            action.run();
-        }
-    };
 
     private List<Expense> retrieveExpenses() {
         List<Expense> expenses = new ArrayList<>();
