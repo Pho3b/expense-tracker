@@ -1,17 +1,13 @@
 package com.example.expensetracker.activity.view_model;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+import android.graphics.drawable.Drawable;
+
 import androidx.lifecycle.ViewModel;
 
 public class CreateTransactionViewModel extends ViewModel {
-    public String amount;
+    public String amount = "0";
+    public String transactionAmountHint;
 
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String newData) {
-        this.amount = newData;
-    }
+    public Drawable incomeBackground = null;
+    public Drawable expenseBackground = null;
 }

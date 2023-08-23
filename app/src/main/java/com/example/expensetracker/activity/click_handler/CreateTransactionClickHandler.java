@@ -1,34 +1,34 @@
 package com.example.expensetracker.activity.click_handler;
 
-import android.widget.TextView;
-
 import androidx.core.content.ContextCompat;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.CreateTransactionActivity;
+import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
 import com.example.expensetracker.shared.enums.TransactionType;
 
 public class CreateTransactionClickHandler {
     protected final CreateTransactionActivity activity;
+    protected final CreateTransactionViewModel viewModel;
 
 
-    public CreateTransactionClickHandler(CreateTransactionActivity activity) {
+    public CreateTransactionClickHandler(
+            CreateTransactionActivity activity,
+            CreateTransactionViewModel viewModel
+    ) {
         this.activity = activity;
+        this.viewModel = viewModel;
     }
 
-    public void handleExpenseTypeClick(TextView textView) {
+    public void handleExpenseTypeClick() {
         activity.selectedTransactionType = TransactionType.Expense;
-        textView.setBackground(
-                ContextCompat.getDrawable(activity, R.drawable.rounded_background)
-        );
-        activity.incomeTypeTxt.setBackground(null);
+        viewModel.expenseBackground = ContextCompat.getDrawable(activity, R.drawable.rounded_background);
+        viewModel.incomeBackground = null;
     }
 
-    public void handleIncomeTypeClick(TextView textView) {
+    public void handleIncomeTypeClick() {
         activity.selectedTransactionType = TransactionType.Income;
-        textView.setBackground(
-                ContextCompat.getDrawable(activity, R.drawable.rounded_background)
-        );
-        activity.expenseTypeTxt.setBackground(null);
+        viewModel.incomeBackground = ContextCompat.getDrawable(activity, R.drawable.rounded_background);
+        viewModel.expenseBackground = null;
     }
 }

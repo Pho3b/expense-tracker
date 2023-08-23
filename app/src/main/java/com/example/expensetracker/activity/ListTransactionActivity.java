@@ -27,7 +27,6 @@ public class ListTransactionActivity extends AppCompatActivity {
     public TransactionType selectedTransactionType;
     public TextView incomeTypeTxt;
     public TextView expenseTypeTxt;
-    private ExpenseAdapter expenseAdapter;
     private final Map<Integer, Runnable> onClickActions = new HashMap<>();
     private RecyclerView recyclerView;
     private TextView monthAmountView;

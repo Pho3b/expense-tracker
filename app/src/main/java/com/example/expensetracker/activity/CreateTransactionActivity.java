@@ -4,6 +4,7 @@ import static com.example.expensetracker.shared.Constants.TRANSACTION_TYPE_EXTRA
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,9 +25,9 @@ import java.util.Map;
 
 public class CreateTransactionActivity extends AppCompatActivity {
     public TransactionType selectedTransactionType;
-    public TextView expenseTypeTxt;
-    public TextView incomeTypeTxt;
     private final Map<Integer, Runnable> onClickActions = new HashMap<>();
+
+    protected CreateTransactionViewModel viewModel;
 
 
     @Override
@@ -42,16 +43,16 @@ public class CreateTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
 
-        CreateTransactionViewModel vm = new ViewModelProvider(this)
+        viewModel = new ViewModelProvider(this)
                 .get(CreateTransactionViewModel.class);
         ActivityCreateTransactionBinding binding = DataBindingUtil
-                 .setContentView(this, R.layout.activity_create_transaction);
-        binding.setViewModel(vm);
+                .setContentView(this, R.layout.activity_create_transaction);
+        binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
 
-        vm.setAmount("test");
+        viewModel.amount = "13.51";
+        viewModel.transactionAmountHint = getResources().getString(R.string.transaction_amount);
 
-        findViews();
         setupViewValues();
         associateViewListeners();
     }
@@ -62,38 +63,32 @@ public class CreateTransactionActivity extends AppCompatActivity {
         setupViewValues();
     }
 
-    private void findViews() {
-        expenseTypeTxt = findViewById(R.id.expense_type_btn);
-        incomeTypeTxt = findViewById(R.id.income_type_btn);
-    }
-
     private void setupViewValues() {
         selectedTransactionType = (TransactionType) getIntent().
                 getSerializableExtra(TRANSACTION_TYPE_EXTRA);
 
         if (selectedTransactionType == TransactionType.Expense) {
-            expenseTypeTxt.setBackground(
-                    ContextCompat.getDrawable(this, R.drawable.rounded_background)
+            viewModel.incomeBackground = null;
+            viewModel.expenseBackground = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.rounded_background
             );
-            incomeTypeTxt.setBackground(null);
         }
 
         if (selectedTransactionType == TransactionType.Income) {
-            incomeTypeTxt.setBackground(
-                    ContextCompat.getDrawable(this, R.drawable.rounded_background)
+            viewModel.expenseBackground = null;
+            viewModel.incomeBackground = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.rounded_background
             );
-            expenseTypeTxt.setBackground(null);
         }
     }
 
     private void associateViewListeners() {
-        CreateTransactionClickHandler handler = new CreateTransactionClickHandler(this);
+        CreateTransactionClickHandler handler = new CreateTransactionClickHandler(this, viewModel);
 
-        onClickActions.put(expenseTypeTxt.getId(), () -> handler.handleExpenseTypeClick(expenseTypeTxt));
-        onClickActions.put(incomeTypeTxt.getId(), () -> handler.handleIncomeTypeClick(incomeTypeTxt));
-
-        expenseTypeTxt.setOnClickListener(onClickListener);
-        incomeTypeTxt.setOnClickListener(onClickListener);
+        onClickActions.put(R.id.expense_type_btn, handler::handleExpenseTypeClick);
+        onClickActions.put(R.id.income_type_btn, handler::handleIncomeTypeClick);
     }
 
     private final View.OnClickListener onClickListener = v -> {

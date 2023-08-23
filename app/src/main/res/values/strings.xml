@@ -11,4 +11,7 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="month_year_title">%1s %2d</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="transaction_amount">Transaction Amount</string>
 </resources>
