@@ -1,9 +1,6 @@
 package com.example.expensetracker.activity.view_model;
 
 import android.app.Application;
-import android.app.usage.UsageEvents;
-import android.content.Intent;
-import android.database.Observable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -23,7 +20,7 @@ public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<String> monthAmountTxt = new MutableLiveData<>();
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
 
-    public MutableLiveData<Boolean> navigateToCreateTransaction = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
 
     private final Application application;
 
@@ -49,8 +46,13 @@ public class ListTransactionViewModel extends ViewModel {
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
-    public void addTransactionBtnOnClick() {
-        navigateToCreateTransaction.setValue(true);
+    /**
+     * Handles the onClick event for the view button with ID 'init_create_transaction_activity_btn'.
+     * Sets to true the boolean Observable 'startCreateTransactionClicked' in order to notify
+     * the listening Observables.
+     */
+    public void initCreateTransactionActivityBtnOnClick() {
+        startCreateTransactionClicked.setValue(true);
     }
 
     /**

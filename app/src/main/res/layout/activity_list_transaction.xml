@@ -83,12 +83,12 @@
                 android:textSize="24sp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_transaction_btn"
+                android:id="@+id/init_create_transaction_activity_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:clickable="true"
-                android:onClick="@{() -> viewModel.addTransactionBtnOnClick()}"
+                android:onClick="@{() -> viewModel.initCreateTransactionActivityBtnOnClick()}"
                 android:src="@android:drawable/ic_input_add"
                 app:backgroundTint="#5D6ECF" />
         </LinearLayout>
