@@ -3,10 +3,12 @@ package com.example.expensetracker.activity.view_model;
 import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.expensetracker.R;
 import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalService;
 
@@ -46,4 +48,9 @@ public class CreateTransactionViewModel extends ViewModel {
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
+    public void onIconClicked(View view) {
+        Toast.makeText(application, Integer.toString(view.getId()), Toast.LENGTH_SHORT).show();
+
+
+    }
 }

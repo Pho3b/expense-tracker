@@ -31,11 +31,11 @@
                 android:background="@{viewModel.expenseBackground}"
                 android:clickable="true"
                 android:gravity="start"
+                android:onClick="@{viewModel.expenseTypeBtnOnClick}"
                 android:padding="8dp"
                 android:text="@string/expense"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:onClick="@{viewModel.expenseTypeBtnOnClick}"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/income_type_btn"
@@ -45,23 +45,55 @@
                 android:background="@{viewModel.incomeBackground}"
                 android:clickable="true"
                 android:gravity="end"
+                android:onClick="@{viewModel.incomeTypeBtnOnClick}"
                 android:padding="8dp"
                 android:text="@string/income"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:onClick="@{viewModel.incomeTypeBtnOnClick}"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:digits="0123456789."
+            android:textColor="@color/white"
+            android:hint="@string/transaction_amount"
+            android:inputType="numberDecimal"
+            android:text="@{viewModel.amount}" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/transaction_amount"
-                android:text="@{viewModel.amount}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/icon1"
+                    android:layout_width="@dimen/category_icon_size"
+                    android:layout_height="@dimen/category_icon_size"
+                    android:src="@drawable/ic_menu_camera"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:onClick="@{viewModel.onIconClicked}" />
+
+                <ImageView
+                    android:id="@+id/icon2"
+                    android:layout_width="@dimen/category_icon_size"
+                    android:layout_height="@dimen/category_icon_size"
+                    android:src="@drawable/ic_menu_slideshow"
+                    android:padding="10dp"
+                    android:clickable="true"
+                    android:onClick="@{viewModel.onIconClicked}" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
     </LinearLayout>
 </layout>

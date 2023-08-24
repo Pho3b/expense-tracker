@@ -1,6 +1,5 @@
 package com.example.expensetracker.activity;
 
-
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -36,6 +35,9 @@ public class CreateTransactionActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Binds the current Activity to its ViewModel
+     */
     private void bindViewModel() {
         viewModel = new CreateTransactionViewModel(getApplication());
         ActivityCreateTransactionBinding binding = DataBindingUtil.setContentView(

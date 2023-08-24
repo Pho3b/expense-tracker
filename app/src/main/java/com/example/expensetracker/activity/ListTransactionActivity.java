@@ -43,6 +43,9 @@ public class ListTransactionActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     * Binds the current Activity to its ViewModel
+     */
     private void bindViewModel() {
         viewModel = new ListTransactionViewModel(getApplication());
         ActivityListTransactionBinding binding = DataBindingUtil.setContentView(
@@ -54,6 +57,7 @@ public class ListTransactionActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
+        // Button responsible to start the 'CreateTransactionActivity'
         viewModel.startCreateTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
