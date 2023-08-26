@@ -1,7 +1,10 @@
 package com.example.expensetracker.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +14,8 @@ import androidx.fragment.app.DialogFragment;
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
-import com.example.expensetracker.fragment.DatePickerFragment;
+import com.example.expensetracker.activity.fragment.DatePickerFragment;
+import com.example.expensetracker.shared.model.CategoryIcon;
 import com.example.expensetracker.shared.service.GlobalService;
 
 public class CreateTransactionActivity extends AppCompatActivity {
@@ -27,6 +31,32 @@ public class CreateTransactionActivity extends AppCompatActivity {
         bindViewModel();
         setupObservers();
         viewModel.amount.setValue("22");
+
+        LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
+        LinearLayout linearLayout = getNewLinearLayout();
+        int test = 22;
+
+        for (int i = 0; i < test; i++) {
+            if (i > 0 && i % 3 == 0) {
+                wrapper.addView(linearLayout);
+                linearLayout = getNewLinearLayout();
+            }
+
+            linearLayout.addView(new CategoryIcon(this, i));
+        }
+    }
+
+    private LinearLayout getNewLinearLayout() {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(
+                new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                )
+        );
+
+        return linearLayout;
     }
 
     @Override
@@ -54,7 +84,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        // Button responsible to start the 'CreateTransactionActivity'
+        // Button responsible to open the 'Select Custom Date' Date-picker Fragment
         viewModel.openDatePickerFragmentClicked.observe(
                 this,
                 (Boolean clicked) -> {
