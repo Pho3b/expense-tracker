@@ -8,7 +8,6 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.expensetracker.R;
 import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalService;
 
@@ -16,6 +15,7 @@ public class CreateTransactionViewModel extends ViewModel {
     public MutableLiveData<String> amount = new MutableLiveData<>("0");
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
+    public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
     private final Application application;
 
     /**
@@ -33,7 +33,7 @@ public class CreateTransactionViewModel extends ViewModel {
      *
      * @param view current View instance.
      */
-    public void expenseTypeBtnOnClick(View view) {
+    public void onExpenseTypeBtnClick(View view) {
         GlobalService.selectedTransactionType = TransactionType.Expense;
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
@@ -43,14 +43,16 @@ public class CreateTransactionViewModel extends ViewModel {
      *
      * @param view current View instance.
      */
-    public void incomeTypeBtnOnClick(View view) {
+    public void onIncomeTypeBtnClick(View view) {
         GlobalService.selectedTransactionType = TransactionType.Income;
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
+    public void onDatePickerBtnClick(View view) {
+        openDatePickerFragmentClicked.setValue(true);
+    }
+
     public void onIconClicked(View view) {
         Toast.makeText(application, Integer.toString(view.getId()), Toast.LENGTH_SHORT).show();
-
-
     }
 }
