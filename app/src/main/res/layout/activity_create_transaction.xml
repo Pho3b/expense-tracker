@@ -60,7 +60,7 @@
             android:digits="0123456789."
             android:hint="@string/transaction_amount"
             android:inputType="numberDecimal"
-            android:text="@{viewModel.amount}"
+            android:text="@={viewModel.amount}"
             android:textColor="@color/white" />
 
 
@@ -94,6 +94,7 @@
                 android:inputType="text"
                 android:importantForAccessibility="yes"
                 android:hint=""
+                android:text="@={viewModel.comment}"
                 android:maxLines="1"
                 android:imeOptions="actionDone" />
 

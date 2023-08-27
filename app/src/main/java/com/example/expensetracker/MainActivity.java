@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.expensetracker.db.service.ExpenseAdapter;
+import com.example.expensetracker.db.service.TransactionAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private RecyclerView recyclerView;
-    private ExpenseAdapter expenseAdapter;
+    private TransactionAdapter expenseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

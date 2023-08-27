@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import com.example.expensetracker.R;
 
 public class CategoryIcon extends androidx.appcompat.widget.AppCompatImageView {
-    private int categoryId;
+    public int categoryId;
 
     public CategoryIcon(@NonNull Context context, int categoryId) {
         super(context);

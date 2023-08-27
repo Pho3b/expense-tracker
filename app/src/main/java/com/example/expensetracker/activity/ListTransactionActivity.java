@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
+import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.shared.service.GlobalService;
-import com.example.expensetracker.db.model.Expense;
-import com.example.expensetracker.db.service.ExpenseAdapter;
+import com.example.expensetracker.db.service.TransactionAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -71,14 +71,14 @@ public class ListTransactionActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        List<Expense> expenses = new ArrayList<>();
-        expenses.add(new Expense(123f, "Groceries test lkdfjsalfkjsadlfjaslkdfjaslkdfjalsdfkfdl", 2, LocalDate.now()));
-        expenses.add(new Expense(31f, "saldkfjalksfjlaksdf", 1, LocalDate.now()));
-        expenses.add(new Expense(3f, "test", 2, LocalDate.now()));
-        expenses.add(new Expense(31f, "Cinme", 2, LocalDate.now()));
+        List<Transaction> expenses = new ArrayList<>();
+        expenses.add(new Transaction(123f, "Groceries test lkdfjsalfkjsadlfjaslkdfjaslkdfjalsdfkfdl", 2, LocalDate.now()));
+        expenses.add(new Transaction(31f, "saldkfjalksfjlaksdf", 1, LocalDate.now()));
+        expenses.add(new Transaction(3f, "test", 2, LocalDate.now()));
+        expenses.add(new Transaction(31f, "Cinme", 2, LocalDate.now()));
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ExpenseAdapter(expenses));
+        recyclerView.setAdapter(new TransactionAdapter(expenses));
     }
 }

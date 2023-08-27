@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.db.model.Expense;
+import com.example.expensetracker.db.model.Transaction;
 
-public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
+public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHolder> {
 
-    private List<Expense> expenses;
+    private final List<Transaction> transactions;
 
-    public ExpenseAdapter(List<Expense> expenses) {
-        this.expenses = expenses;
+    public TransactionAdapter(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 
     @NonNull
@@ -35,14 +35,14 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Expense expense = expenses.get(position);
+        Transaction expense = transactions.get(position);
         holder.expenseNameTextView.setText(expense.comment);
         holder.expenseAmountTextView.setText(String.format("€%.2f", expense.amount));
     }
 
     @Override
     public int getItemCount() {
-        return expenses.size();
+        return transactions.size();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

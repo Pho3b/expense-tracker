@@ -1,6 +1,7 @@
 package com.example.expensetracker.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -14,9 +15,7 @@ import com.example.expensetracker.activity.view_model.CreateTransactionViewModel
 import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
-import com.example.expensetracker.db.model.Expense;
-import com.example.expensetracker.db.model.Income;
-import com.example.expensetracker.shared.enums.TransactionType;
+import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.ui.model.CategoryIcon;
 import com.example.expensetracker.shared.service.GlobalService;
 
@@ -65,7 +64,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        // Button responsible to open the 'Select Custom Date' Date-picker Fragment
+        // Opens the date-picker Fragment
         viewModel.openDatePickerFragmentClicked.observe(
                 this,
                 (Boolean clicked) -> {
@@ -76,27 +75,20 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 }
         );
 
+        // Insert a new Transaction into the Database
         viewModel.addTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        if (GlobalService.selectedTransactionType == TransactionType.Expense) {
-                            Expense expense = new Expense(
-                                    Double.parseDouble(Objects.requireNonNull(viewModel.amount.getValue())),
-                                    "Test comment",
-                                    22,
-                                    LocalDate.now()
-                            );
-                            dbHelper.insertNewTransaction(expense, GlobalService.selectedTransactionType);
-                        } else if (GlobalService.selectedTransactionType == TransactionType.Income) {
-                            Income income = new Income(
-                                    Double.parseDouble(Objects.requireNonNull(viewModel.amount.getValue())),
-                                    "Test income cmnt",
-                                    1,
-                                    LocalDate.now()
-                            );
-                            dbHelper.insertNewTransaction(income, GlobalService.selectedTransactionType);
-                        }
+                        Transaction transaction = new Transaction(
+                                Double.parseDouble(Objects.requireNonNull(viewModel.amount.getValue())),
+                                viewModel.comment.getValue(),
+                                viewModel.selectedCategoryId,
+                                LocalDate.now(),
+                                GlobalService.selectedTransactionType
+                        );
+
+                        dbHelper.insertNewTransaction(transaction);
                     }
                 }
         );

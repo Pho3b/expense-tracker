@@ -5,8 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.expensetracker.db.model.AbstractTransaction;
-import com.example.expensetracker.db.model.Expense;
+import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.shared.enums.TransactionType;
 
 public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
@@ -46,12 +45,8 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertNewTransaction(AbstractTransaction transaction, TransactionType type) {
+    public boolean insertNewTransaction(Transaction transaction) {
         initWriteDbInstanceIfNeeded();
-        String tableName = type == TransactionType.Expense ?
-                ExpenseContract.ExpenseEntry.TABLE_NAME :
-                IncomeContract.IncomeEntry.TABLE_NAME;
-
 
         ContentValues values = new ContentValues();
         values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_AMOUNT, transaction.amount);
@@ -59,7 +54,11 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
         values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
-        return dbWrite.insert(tableName, null, values) != -1;
+        return dbWrite.insert(
+                transaction.type.toString().toLowerCase(),
+                null,
+                values
+        ) != -1;
     }
 
     public boolean readExpense() {
@@ -77,15 +76,4 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
             dbRead = this.getWritableDatabase();
         }
     }
-
-    //        ExpensesDbHelper dbHelper = new ExpensesDbHelper(this);
-    //        SQLiteDatabase db = dbHelper.getWritableDatabase();
-    //            boolean res = dbHelper.insertNewExpense(db, new Expense("Cinema Test", 11));
-    //            String resMsg = res ? "Insertion Success" : "Insertion Error";
-    //
-    //            Toast.makeText(
-    //                    ListExpenseActivity.this,
-    //                    resMsg,
-    //                    Toast.LENGTH_SHORT
-    //            ).show();
 }

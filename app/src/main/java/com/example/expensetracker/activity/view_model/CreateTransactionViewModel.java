@@ -10,13 +10,16 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalService;
+import com.example.expensetracker.ui.model.CategoryIcon;
 
 public class CreateTransactionViewModel extends ViewModel {
-    public MutableLiveData<String> amount = new MutableLiveData<>("0");
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> addTransactionClicked = new MutableLiveData<>(false);
+    public MutableLiveData<String> amount = new MutableLiveData<>("0");
+    public MutableLiveData<String> comment = new MutableLiveData<>();
+    public int selectedCategoryId = 0;
     private final Application application;
 
     /**
@@ -58,6 +61,7 @@ public class CreateTransactionViewModel extends ViewModel {
     }
 
     public void onIconClicked(View view) {
-        Toast.makeText(application, Integer.toString(view.getId()), Toast.LENGTH_SHORT).show();
+        this.selectedCategoryId = ((CategoryIcon) view).categoryId;
+        Toast.makeText(application, Integer.toString(this.selectedCategoryId), Toast.LENGTH_SHORT).show();
     }
 }
