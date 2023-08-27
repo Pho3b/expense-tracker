@@ -1,4 +1,4 @@
-package com.example.expensetracker.ui.expenses;
+package com.example.expensetracker.db.service;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.db.model.Expense;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHolder> {
 
@@ -35,8 +36,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Expense expense = expenses.get(position);
-        holder.expenseNameTextView.setText(expense.getName());
-        holder.expenseAmountTextView.setText(String.format("€%.2f", expense.getAmount()));
+        holder.expenseNameTextView.setText(expense.comment);
+        holder.expenseAmountTextView.setText(String.format("€%.2f", expense.amount));
     }
 
     @Override

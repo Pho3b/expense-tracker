@@ -16,6 +16,7 @@ public class CreateTransactionViewModel extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> addTransactionClicked = new MutableLiveData<>(false);
     private final Application application;
 
     /**
@@ -48,8 +49,12 @@ public class CreateTransactionViewModel extends ViewModel {
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
-    public void onDatePickerBtnClick(View view) {
+    public void onOpenDatePickerClick(View view) {
         openDatePickerFragmentClicked.setValue(true);
+    }
+
+    public void onAddTransactionClick(View view) {
+        addTransactionClicked.setValue(true);
     }
 
     public void onIconClicked(View view) {

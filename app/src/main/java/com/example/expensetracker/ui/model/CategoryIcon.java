@@ -1,10 +1,8 @@
-package com.example.expensetracker.shared.model;
+package com.example.expensetracker.ui.model;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -12,28 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
-
-import java.util.Random;
 
 public class CategoryIcon extends androidx.appcompat.widget.AppCompatImageView {
-    private int iconId;
+    private int categoryId;
 
-    public CategoryIcon(@NonNull Context context, int tagId) {
+    public CategoryIcon(@NonNull Context context, int categoryId) {
         super(context);
 
         int dpPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
         int dpIconSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, getResources().getDisplayMetrics());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(dpIconSize, dpIconSize);
+        this.categoryId = categoryId;
 
         setLayoutParams(lp);
         setPadding(dpPadding, dpPadding, dpPadding, dpPadding);
         setImageResource(R.drawable.ic_menu_slideshow);
-        iconId = tagId;
         setOnClickListener(
                 v -> Toast.makeText(
                         getContext(),
-                        Integer.toString(iconId),
+                        Integer.toString(this.categoryId),
                         Toast.LENGTH_SHORT
                 ).show()
         );

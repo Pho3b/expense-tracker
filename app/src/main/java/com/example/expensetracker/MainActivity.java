@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.expensetracker.ui.expenses.ExpenseAdapter;
+import com.example.expensetracker.db.service.ExpenseAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
