@@ -1,5 +1,7 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.shared.Constants.MY_DEBUG_LOG_TAG;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -8,7 +10,6 @@ import android.widget.LinearLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.DialogFragment;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
@@ -19,7 +20,6 @@ import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.ui.model.CategoryIcon;
 import com.example.expensetracker.shared.service.GlobalService;
 
-import java.time.LocalDate;
 import java.util.Objects;
 
 public class CreateTransactionActivity extends AppCompatActivity {
@@ -69,7 +69,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        DialogFragment datePickerFragment = new DatePickerFragment();
+                        DatePickerFragment datePickerFragment = new DatePickerFragment();
+                        datePickerFragment.datePickerListener = viewModel;
                         datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
                     }
                 }
@@ -83,8 +84,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
                         Transaction transaction = new Transaction(
                                 Double.parseDouble(Objects.requireNonNull(viewModel.amount.getValue())),
                                 viewModel.comment.getValue(),
-                                viewModel.selectedCategoryId,
-                                LocalDate.now(),
+                                viewModel.categoryId,
+                                viewModel.date,
                                 GlobalService.selectedTransactionType
                         );
 
@@ -95,8 +96,6 @@ public class CreateTransactionActivity extends AppCompatActivity {
     }
 
     private void setupViews() {
-        viewModel.amount.setValue("22");
-
         LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
         LinearLayout linearLayout = getNewLinearLayout();
         int test = 22;
@@ -107,7 +106,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 linearLayout = getNewLinearLayout();
             }
 
-            linearLayout.addView(new CategoryIcon(this, i));
+            linearLayout.addView(new CategoryIcon(this, viewModel, i));
         }
     }
 

@@ -4,17 +4,21 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
 
 public class CategoryIcon extends androidx.appcompat.widget.AppCompatImageView {
     public int categoryId;
 
-    public CategoryIcon(@NonNull Context context, int categoryId) {
+    public CategoryIcon(
+            @NonNull Context context,
+            CreateTransactionViewModel viewModel,
+            int categoryId
+    ) {
         super(context);
 
         int dpPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
@@ -25,13 +29,7 @@ public class CategoryIcon extends androidx.appcompat.widget.AppCompatImageView {
         setLayoutParams(lp);
         setPadding(dpPadding, dpPadding, dpPadding, dpPadding);
         setImageResource(R.drawable.ic_menu_slideshow);
-        setOnClickListener(
-                v -> Toast.makeText(
-                        getContext(),
-                        Integer.toString(this.categoryId),
-                        Toast.LENGTH_SHORT
-                ).show()
-        );
+        setOnClickListener(viewModel::onIconClicked);
     }
 
     public CategoryIcon(@NonNull Context context, @Nullable AttributeSet attrs) {

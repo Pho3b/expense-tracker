@@ -55,7 +55,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
         return dbWrite.insert(
-                transaction.type.toString().toLowerCase(),
+                transaction.type.toString().toLowerCase() + "s",
                 null,
                 values
         ) != -1;

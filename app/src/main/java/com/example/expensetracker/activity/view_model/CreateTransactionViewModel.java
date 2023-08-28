@@ -3,7 +3,6 @@ package com.example.expensetracker.activity.view_model;
 import android.app.Application;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -12,6 +11,10 @@ import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalService;
 import com.example.expensetracker.ui.model.CategoryIcon;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 public class CreateTransactionViewModel extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
@@ -19,7 +22,8 @@ public class CreateTransactionViewModel extends ViewModel {
     public MutableLiveData<Boolean> addTransactionClicked = new MutableLiveData<>(false);
     public MutableLiveData<String> amount = new MutableLiveData<>("0");
     public MutableLiveData<String> comment = new MutableLiveData<>();
-    public int selectedCategoryId = 0;
+    public Integer categoryId = 0;
+    public LocalDate date = LocalDate.now();
     private final Application application;
 
     /**
@@ -60,8 +64,14 @@ public class CreateTransactionViewModel extends ViewModel {
         addTransactionClicked.setValue(true);
     }
 
-    public void onIconClicked(View view) {
-        this.selectedCategoryId = ((CategoryIcon) view).categoryId;
-        Toast.makeText(application, Integer.toString(this.selectedCategoryId), Toast.LENGTH_SHORT).show();
+    public void onIconClicked(View categoryIcon) {
+        categoryId = ((CategoryIcon) categoryIcon).categoryId;
+    }
+
+    public void onDateSelected(int year, int month, int day) {
+        this.date = LocalDate.parse(
+                String.format(Locale.ITALIAN,"%d-%d-%d", day, month, year),
+                DateTimeFormatter.ofPattern("d-M-yyyy")
+        );
     }
 }
