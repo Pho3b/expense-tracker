@@ -25,6 +25,7 @@ public class DatePickerFragment extends DialogFragment {
                     if (datePickerListener != null) {
                         datePickerListener.onDateSelected(selectedYear, selectedMonth, selectedDay);
                     }
+
                     Toast.makeText(
                             view.getContext(),
                             String.format("%s : %s : %s", selectedDay, selectedMonth, selectedYear),

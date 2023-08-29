@@ -21,6 +21,7 @@ public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
 
     private final Application application;
 
@@ -63,6 +64,7 @@ public class ListTransactionViewModel extends ViewModel {
     public void expenseTypeBtnOnClick(View view) {
         GlobalService.selectedTransactionType = TransactionType.Expense;
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        transactionTypeBtnClicked.setValue(true);
     }
 
     /**
@@ -73,5 +75,6 @@ public class ListTransactionViewModel extends ViewModel {
     public void incomeTypeBtnOnClick(View view) {
         GlobalService.selectedTransactionType = TransactionType.Income;
         GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        transactionTypeBtnClicked.setValue(true);
     }
 }

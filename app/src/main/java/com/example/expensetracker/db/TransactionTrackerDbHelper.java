@@ -2,11 +2,17 @@ package com.example.expensetracker.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.shared.enums.TransactionType;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -49,10 +55,10 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         initWriteDbInstanceIfNeeded();
 
         ContentValues values = new ContentValues();
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_AMOUNT, transaction.amount);
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_COMMENT, transaction.comment);
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
+        values.put(TransactionEntry.COLUMN_NAME_AMOUNT, transaction.amount);
+        values.put(TransactionEntry.COLUMN_NAME_COMMENT, transaction.comment);
+        values.put(TransactionEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
+        values.put(TransactionEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
         return dbWrite.insert(
                 transaction.type.toString().toLowerCase() + "s",
@@ -62,7 +68,52 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     public boolean readExpense() {
+        checkReadDbInstance();
+
         return true;
+    }
+
+    public List<Transaction> retrieveAllTransactionsOfType(TransactionType type) {
+        checkReadDbInstance();
+        List<Transaction> transactionsList = new ArrayList<>();
+
+        Cursor cursor = dbRead.query(
+                type.toString().toLowerCase() + "s", // Table name
+                null,       // Columns (null to retrieve all columns)
+                null,       // Selection (null to retrieve all rows)
+                null,       // SelectionArgs
+                null,       // GroupBy
+                null,       // Having
+                "date DESC" // OrderBy
+        );
+
+        int idColumnIndex = cursor.getColumnIndex(TransactionEntry._ID);
+        int commentColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_COMMENT);
+        int amountColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT);
+        int categoryIdColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_CATEGORY_ID);
+        int dateColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_DATE);
+
+        while (cursor.moveToNext()) {
+            if (
+                    idColumnIndex >= 0 && commentColumnIndex >= 0 && amountColumnIndex >= 0 &&
+                            categoryIdColumnIndex >= 0 && dateColumnIndex >= 0
+            ) {
+                int id = cursor.getInt(idColumnIndex);
+                String comment = cursor.getString(commentColumnIndex);
+                double amount = cursor.getDouble(amountColumnIndex);
+                int categoryId = cursor.getInt(amountColumnIndex);
+                LocalDate date = LocalDate.parse(
+                        cursor.getString(dateColumnIndex),
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                );
+
+                Transaction transaction = new Transaction(amount, comment, categoryId, date, type);
+                transactionsList.add(transaction);
+            }
+        }
+
+        cursor.close();
+        return transactionsList;
     }
 
     private void initWriteDbInstanceIfNeeded() {

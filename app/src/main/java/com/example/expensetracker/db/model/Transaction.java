@@ -14,23 +14,23 @@ public class Transaction {
     public Transaction(
             double amount,
             String comment,
-            int category_id,
+            int categoryId,
             LocalDate date,
             TransactionType type
     ) {
         this.amount = amount;
         this.comment = comment;
         this.date = date;
-        this.category_id = category_id;
+        this.category_id = categoryId;
         this.type = type;
     }
 
     public Transaction(
             double amount,
             String comment,
-            int category_id,
+            int categoryId,
             LocalDate date
     ) {
-        this(amount, comment, category_id, date, TransactionType.Expense);
+        this(amount, comment, categoryId, date, TransactionType.Expense);
     }
 }

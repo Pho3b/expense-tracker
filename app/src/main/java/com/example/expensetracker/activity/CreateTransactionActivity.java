@@ -1,9 +1,6 @@
 package com.example.expensetracker.activity;
 
-import static com.example.expensetracker.shared.Constants.MY_DEBUG_LOG_TAG;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
