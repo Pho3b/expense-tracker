@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "transaction_tracker.db";
     private SQLiteDatabase dbWrite;

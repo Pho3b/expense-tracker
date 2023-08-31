@@ -14,7 +14,7 @@
         android:contentDescription="Category Icon" />
 
     <TextView
-        android:id="@+id/expenseNameTextView"
+        android:id="@+id/transactionNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -27,7 +27,7 @@
         android:singleLine="true" />
 
     <TextView
-        android:id="@+id/expenseAmountTextView"
+        android:id="@+id/transactionAmountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"

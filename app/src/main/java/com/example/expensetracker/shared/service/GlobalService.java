@@ -12,6 +12,10 @@ import com.example.expensetracker.shared.enums.TransactionType;
 public class GlobalService {
     public static TransactionType selectedTransactionType = TransactionType.Expense;
 
+    // TODO: Consider to use this booleans as flags for a caching system
+    public static boolean insertedNewExpense = false;
+    public static boolean insertedNewIncome = false;
+
 
     /**
      * Visually updates the transaction type buttons on top of the view.

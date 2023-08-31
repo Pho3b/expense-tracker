@@ -1,5 +1,6 @@
 package com.example.expensetracker.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.example.expensetracker.shared.service.GlobalService;
 import java.util.Objects;
 
 public class CreateTransactionActivity extends AppCompatActivity {
+
     protected CreateTransactionViewModel viewModel;
     private static final String DATE_PICKER_TAG = "datePicker";
     private TransactionTrackerDbHelper dbHelper;
@@ -87,6 +89,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
                         );
 
                         dbHelper.insertNewTransaction(transaction);
+                        startActivity(new Intent(this, ListTransactionActivity.class));
                     }
                 }
         );

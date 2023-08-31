@@ -16,7 +16,6 @@ import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.shared.service.GlobalService;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,8 @@ public class ListTransactionActivity extends AppCompatActivity {
 
     protected ListTransactionViewModel viewModel;
     private TransactionTrackerDbHelper dbHelper;
+    private RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class ListTransactionActivity extends AppCompatActivity {
         );
         binding.setViewModel(viewModel);
         binding.setLifecycleOwner(this);
+
+        recyclerView = findViewById(R.id.recyclerView);
     }
 
     private void setupObservers() {
@@ -73,29 +76,23 @@ public class ListTransactionActivity extends AppCompatActivity {
                 }
         );
 
-//        viewModel.transactionTypeBtnClicked.observe(
-//                this,
-//                (Boolean clicked) -> {
-//                    if (clicked) {
-//                        setupRecyclerView();
-//                    }
-//                }
-//        );
+        viewModel.transactionTypeBtnClicked.observe(
+                this,
+                (Boolean clicked) -> {
+                    if (clicked) {
+                        setupRecyclerView();
+                    }
+                }
+        );
     }
 
     private void setupRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        List<Transaction> expenses = new ArrayList<>(
+        List<Transaction> transactions = new ArrayList<>(
                 dbHelper.retrieveAllTransactionsOfType(GlobalService.selectedTransactionType)
         );
 
-//        expenses.add(new Transaction(123f, "Groceries test lkdfjsalfkjsadlfjaslkdfjaslkdfjalsdfkfdl", 2, LocalDate.now()));
-//        expenses.add(new Transaction(31f, "saldkfjalksfjlaksdf", 1, LocalDate.now()));
-//        expenses.add(new Transaction(3f, "test", 2, LocalDate.now()));
-//        expenses.add(new Transaction(31f, "Cinme", 2, LocalDate.now()));
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TransactionAdapter(expenses));
+        recyclerView.setAdapter(new TransactionAdapter(transactions));
     }
 
     private void setupDbConnection() {
