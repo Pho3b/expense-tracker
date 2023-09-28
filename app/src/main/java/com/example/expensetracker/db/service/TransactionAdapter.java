@@ -13,7 +13,7 @@ import java.util.List;
 import com.example.expensetracker.R;
 import com.example.expensetracker.db.model.Transaction;
 
-public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
+public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Transaction> transactions;
     private static final int TRANSACTION = 0;
     private static final int TRANSACTION_WITH_HEADER = 1;
@@ -38,9 +38,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @NonNull
     @Override
-    public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TRANSACTION_WITH_HEADER) {
-            return new TransactionViewHolder(
+            return new TransactionWithHeaderViewHolder(
                     LayoutInflater.from(parent.getContext()).inflate(
                             R.layout.transaction_item_with_header,
                             parent,
@@ -58,20 +58,19 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         );
     }
 
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,, int position) {
-        Transaction expense = transactions.get(position);
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Transaction currentTransaction = transactions.get(position);
 
         if (holder instanceof TransactionViewHolder) {
-            TransactionViewHolder h = (TransactionViewHolder) holder;
-            h.transactionNameTextView.setText(expense.comment);
-            h.transactionAmountTextView.setText(String.format("€%.2f", expense.amount));
+            TransactionViewHolder transactionHolder = (TransactionViewHolder) holder;
+            transactionHolder.transactionNameTextView.setText(currentTransaction.comment);
+            transactionHolder.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
         } else {
-            TransactionWithHeaderViewHolder h = (TransactionWithHeaderViewHolder) holder;
-            h.transactionNameTextView.setText(expense.comment);
-            h.transactionAmountTextView.setText(String.format("€%.2f", expense.amount));
-            h.transactionHeaderTextView.setText(expense.date.toString());
-
-            holder.bind
+            TransactionWithHeaderViewHolder transactionHolder = (TransactionWithHeaderViewHolder) holder;
+            transactionHolder.transactionNameTextView.setText(currentTransaction.comment);
+            transactionHolder.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
+            transactionHolder.transactionHeaderTextView.setText(currentTransaction.date.toString());
         }
     }
 

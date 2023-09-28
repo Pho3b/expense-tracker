@@ -1,37 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="5dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/transaction_header"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:textSize="@dimen/expense_amount_txt_dim"
         android:paddingStart="@dimen/expense_txt_end_padding"
         android:paddingEnd="@dimen/expense_txt_end_padding"
         android:ellipsize="end"
         android:singleLine="true"
         android:textStyle="bold"
-        android:text="22/04/1992"/>
+        android:layout_marginBottom="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_background"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@mipmap/ic_restaurant"
-            android:contentDescription="Category Icon" />
+            android:contentDescription="Category Icon"
+            android:padding="3dp"/>
 
         <TextView
             android:id="@+id/transactionNameTextView"

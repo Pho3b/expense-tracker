@@ -2,36 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     android:background="@drawable/rounded_background"
-    android:orientation="horizontal"
-    android:padding="5dp"
-    android:layout_marginBottom="8dp">
+    android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:contentDescription="Category Icon"
         android:src="@mipmap/ic_restaurant"
-        android:contentDescription="Category Icon" />
+        android:padding="3dp"/>
 
     <TextView
         android:id="@+id/transactionNameTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="start"
         android:layout_gravity="center_vertical"
-        android:textSize="@dimen/expense_amount_txt_dim"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:gravity="start"
         android:paddingStart="@dimen/expense_txt_end_padding"
         android:paddingEnd="@dimen/expense_txt_end_padding"
-        android:ellipsize="end"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textSize="@dimen/expense_amount_txt_dim" />
 
     <TextView
         android:id="@+id/transactionAmountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:layout_gravity="center_vertical"
+        android:gravity="end"
         android:paddingStart="@dimen/expense_txt_start_padding"
         android:paddingEnd="@dimen/expense_txt_end_padding"
         android:textSize="@dimen/expense_amount_txt_dim" />
