@@ -13,7 +13,7 @@ import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
-import com.example.expensetracker.shared.service.GlobalService;
+import com.example.expensetracker.shared.service.GlobalSelections;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class ListTransactionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        GlobalService.updateSelectedTransactionType(
+        GlobalSelections.updateSelectedTransactionType(
                 getApplication(),
                 viewModel.expenseBackground,
                 viewModel.incomeBackground
@@ -88,7 +88,7 @@ public class ListTransactionActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         List<Transaction> transactions = new ArrayList<>(
-                dbHelper.retrieveAllTransactionsOfType(GlobalService.selectedTransactionType)
+                dbHelper.retrieveAllTransactionsOfType(GlobalSelections.selectedTransactionType)
         );
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

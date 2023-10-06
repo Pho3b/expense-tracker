@@ -16,7 +16,7 @@ import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.ui.model.CategoryIcon;
-import com.example.expensetracker.shared.service.GlobalService;
+import com.example.expensetracker.shared.service.GlobalSelections;
 
 import java.util.Objects;
 
@@ -42,7 +42,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        GlobalService.updateSelectedTransactionType(
+        GlobalSelections.updateSelectedTransactionType(
                 getApplication(),
                 viewModel.expenseBackground,
                 viewModel.incomeBackground
@@ -85,7 +85,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
                                 viewModel.comment.getValue(),
                                 viewModel.categoryId,
                                 viewModel.date,
-                                GlobalService.selectedTransactionType
+                                GlobalSelections.selectedTransactionType
                         );
 
                         dbHelper.insertNewTransaction(transaction);

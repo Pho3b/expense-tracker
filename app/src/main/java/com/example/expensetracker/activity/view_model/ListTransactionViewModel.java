@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.service.GlobalService;
+import com.example.expensetracker.shared.service.GlobalSelections;
 
 import java.time.LocalDate;
 
@@ -34,17 +34,16 @@ public class ListTransactionViewModel extends ViewModel {
     public ListTransactionViewModel(Application application) {
         this.application = application;
 
-        LocalDate currentDate = LocalDate.now();
         monthYearTxt.setValue(
                 application.getString(
                         R.string.month_year_title,
-                        currentDate.getMonth(),
-                        currentDate.getYear()
+                        GlobalSelections.selectedDate.getMonth(),
+                        GlobalSelections.selectedDate.getYear()
                 )
         );
         monthAmountTxt.setValue("222€");
 
-        GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     /**
@@ -62,8 +61,8 @@ public class ListTransactionViewModel extends ViewModel {
      * @param view current View instance.
      */
     public void expenseTypeBtnOnClick(View view) {
-        GlobalService.selectedTransactionType = TransactionType.Expense;
-        GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        GlobalSelections.selectedTransactionType = TransactionType.Expense;
+        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
     }
 
@@ -73,8 +72,8 @@ public class ListTransactionViewModel extends ViewModel {
      * @param view current View instance.
      */
     public void incomeTypeBtnOnClick(View view) {
-        GlobalService.selectedTransactionType = TransactionType.Income;
-        GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        GlobalSelections.selectedTransactionType = TransactionType.Income;
+        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
     }
 }

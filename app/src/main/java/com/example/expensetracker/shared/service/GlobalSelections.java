@@ -9,12 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.expensetracker.R;
 import com.example.expensetracker.shared.enums.TransactionType;
 
-public class GlobalService {
-    public static TransactionType selectedTransactionType = TransactionType.Expense;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
 
-    // TODO: Consider to use this booleans as flags for a caching system
-    public static boolean insertedNewExpense = false;
-    public static boolean insertedNewIncome = false;
+public class GlobalSelections {
+    public static TransactionType selectedTransactionType = TransactionType.Expense;
+    public static LocalDate selectedDate = LocalDate.now();
 
 
     /**

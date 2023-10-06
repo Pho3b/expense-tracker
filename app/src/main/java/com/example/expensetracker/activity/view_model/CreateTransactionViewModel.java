@@ -8,7 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.service.GlobalService;
+import com.example.expensetracker.shared.service.GlobalSelections;
 import com.example.expensetracker.ui.model.CategoryIcon;
 
 import java.time.LocalDate;
@@ -33,7 +33,7 @@ public class CreateTransactionViewModel extends ViewModel {
      */
     public CreateTransactionViewModel(Application application) {
         this.application = application;
-        GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     /**
@@ -42,8 +42,8 @@ public class CreateTransactionViewModel extends ViewModel {
      * @param view current View instance.
      */
     public void onExpenseTypeBtnClick(View view) {
-        GlobalService.selectedTransactionType = TransactionType.Expense;
-        GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        GlobalSelections.selectedTransactionType = TransactionType.Expense;
+        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     /**
@@ -52,8 +52,8 @@ public class CreateTransactionViewModel extends ViewModel {
      * @param view current View instance.
      */
     public void onIncomeTypeBtnClick(View view) {
-        GlobalService.selectedTransactionType = TransactionType.Income;
-        GlobalService.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        GlobalSelections.selectedTransactionType = TransactionType.Income;
+        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     public void onOpenDatePickerClick(View view) {

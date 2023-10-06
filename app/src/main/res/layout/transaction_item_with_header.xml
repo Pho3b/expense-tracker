@@ -16,41 +16,5 @@
         android:singleLine="true"
         android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_background"
-        android:orientation="horizontal"
-        android:layout_marginTop="4dp" >
-
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@mipmap/ic_restaurant"
-            android:contentDescription="Category Icon"
-            android:padding="3dp"/>
-
-        <TextView
-            android:id="@+id/transactionNameTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start"
-            android:layout_gravity="center_vertical"
-            android:textSize="@dimen/expense_amount_txt_dim"
-            android:paddingStart="@dimen/expense_txt_end_padding"
-            android:paddingEnd="@dimen/expense_txt_end_padding"
-            android:ellipsize="end"
-            android:singleLine="true" />
-
-        <TextView
-            android:id="@+id/transactionAmountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:layout_gravity="center_vertical"
-            android:paddingStart="@dimen/expense_txt_start_padding"
-            android:paddingEnd="@dimen/expense_txt_end_padding"
-            android:textSize="@dimen/expense_amount_txt_dim" />
-    </LinearLayout>
+    <include layout="@layout/transaction_item" />
 </LinearLayout>
