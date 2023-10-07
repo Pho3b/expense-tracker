@@ -23,6 +23,8 @@ public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
 
+    public MutableLiveData<String> monthTimeSpan = new MutableLiveData<>();
+
     private final Application application;
 
 
@@ -42,6 +44,7 @@ public class ListTransactionViewModel extends ViewModel {
                 )
         );
         monthAmountTxt.setValue("222€");
+        monthTimeSpan.setValue("October");
 
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
