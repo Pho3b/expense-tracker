@@ -14,4 +14,11 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="transaction_amount">Transaction Amount</string>
+
+    <!--  Time Span Selection Bar  -->
+    <string name="year_sel">Year</string>
+    <string name="month_sel">Month</string>
+    <string name="week_sel">Week</string>
+    <string name="day_sel">Day</string>
+    <string name="custom_sel">Custom</string>
 </resources>
