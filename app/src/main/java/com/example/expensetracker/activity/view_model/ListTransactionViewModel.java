@@ -12,6 +12,8 @@ import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalSelections;
 
 import java.time.LocalDate;
+import java.util.Locale;
+import java.util.Objects;
 
 public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
@@ -22,7 +24,6 @@ public class ListTransactionViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
-
     public MutableLiveData<String> monthTimeSpan = new MutableLiveData<>();
 
     private final Application application;
@@ -36,13 +37,7 @@ public class ListTransactionViewModel extends ViewModel {
     public ListTransactionViewModel(Application application) {
         this.application = application;
 
-        monthYearTxt.setValue(
-                application.getString(
-                        R.string.month_year_title,
-                        GlobalSelections.selectedDate.getMonth(),
-                        GlobalSelections.selectedDate.getYear()
-                )
-        );
+        this.updateSelectedDateTxt();
         monthAmountTxt.setValue("222€");
         monthTimeSpan.setValue("October");
 
@@ -78,5 +73,25 @@ public class ListTransactionViewModel extends ViewModel {
         GlobalSelections.selectedTransactionType = TransactionType.Income;
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
+    }
+
+    public void updateSelectedDateTxt() {
+        monthYearTxt.setValue(
+                application.getString(
+                        R.string.month_year_title,
+                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getMonth(),
+                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getYear()
+                )
+        );
+    }
+
+    public void rightArrowOnClick(View view) {
+        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
+        GlobalSelections.selectedDate.setValue(selectedDate.plusMonths(1));
+    }
+
+    public void leftArrowOnClick(View view) {
+        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
+        GlobalSelections.selectedDate.setValue(selectedDate.minusMonths(1));
     }
 }

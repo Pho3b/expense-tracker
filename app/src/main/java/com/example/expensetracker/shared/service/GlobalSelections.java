@@ -10,16 +10,14 @@ import com.example.expensetracker.R;
 import com.example.expensetracker.shared.enums.TransactionType;
 
 import java.time.LocalDate;
-import java.time.Month;
-import java.util.Date;
 
 public class GlobalSelections {
     public static TransactionType selectedTransactionType = TransactionType.Expense;
-    public static LocalDate selectedDate = LocalDate.now();
+    public static MutableLiveData<LocalDate> selectedDate = new MutableLiveData<>(LocalDate.now());
 
 
     /**
-     * Visually updates the transaction type buttons on top of the view.
+     * Visually updates the transaction type buttons on top of the 'ListTransactionView'.
      * They are updated based on the 'selectedTransactionType' current value.
      */
     public static void updateSelectedTransactionType(

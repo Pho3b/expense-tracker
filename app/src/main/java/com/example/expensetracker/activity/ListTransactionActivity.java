@@ -2,6 +2,7 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -13,9 +14,11 @@ import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
+import com.example.expensetracker.shared.Constants;
 import com.example.expensetracker.shared.service.GlobalSelections;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,6 +85,15 @@ public class ListTransactionActivity extends AppCompatActivity {
                     if (clicked) {
                         setupRecyclerView();
                     }
+                }
+        );
+
+        GlobalSelections.selectedDate.observe(
+                this,
+                (LocalDate selectedDate) -> {
+                    Log.d(Constants.MY_DEBUG_LOG_TAG, "Updating Selected Text!");
+                    viewModel.updateSelectedDateTxt();
+                    setupRecyclerView();
                 }
         );
     }

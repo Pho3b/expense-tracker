@@ -19,17 +19,18 @@
             android:layout_width="@dimen/arrow_size"
             android:layout_height="@dimen/arrow_size"
             android:layout_gravity="start"
+            android:onClick="@{viewModel.leftArrowOnClick}"
             android:src="@drawable/arrow_left" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/day_time_span"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_marginStart="90dp"-->
-<!--            android:layout_weight="0.5"-->
-<!--            android:text="@string/day_sel"-->
-<!--            android:textSize="@dimen/sel_txt_size" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/day_time_span"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:layout_marginStart="90dp"-->
+        <!--            android:layout_weight="0.5"-->
+        <!--            android:text="@string/day_sel"-->
+        <!--            android:textSize="@dimen/sel_txt_size" />-->
 
         <TextView
             android:id="@+id/week_time_span"
@@ -50,28 +51,29 @@
             android:text="@string/month_sel"
             android:textSize="@dimen/sel_txt_size" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/year_time_span"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="@string/year_sel"-->
-<!--            android:textSize="@dimen/sel_txt_size" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/year_time_span"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="@string/year_sel"-->
+        <!--            android:textSize="@dimen/sel_txt_size" />-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/custom_time_span"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="@string/custom_sel"-->
-<!--            android:textSize="@dimen/sel_txt_size" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/custom_time_span"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center_horizontal"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="@string/custom_sel"-->
+        <!--            android:textSize="@dimen/sel_txt_size" />-->
 
         <ImageView
             android:layout_width="@dimen/arrow_size"
             android:layout_height="@dimen/arrow_size"
             android:layout_gravity="end"
+            android:onClick="@{viewModel.rightArrowOnClick}"
             android:src="@drawable/arrow_right" />
     </LinearLayout>
 

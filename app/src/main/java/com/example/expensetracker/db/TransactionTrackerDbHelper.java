@@ -99,7 +99,6 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
                     idColumnIndex >= 0 && commentColumnIndex >= 0 && amountColumnIndex >= 0 &&
                             categoryIdColumnIndex >= 0 && dateColumnIndex >= 0
             ) {
-                int id = cursor.getInt(idColumnIndex);
                 String comment = cursor.getString(commentColumnIndex);
                 double amount = cursor.getDouble(amountColumnIndex);
                 int categoryId = cursor.getInt(amountColumnIndex);
