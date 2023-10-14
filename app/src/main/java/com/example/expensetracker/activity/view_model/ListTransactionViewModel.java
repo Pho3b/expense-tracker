@@ -9,14 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.shared.enums.TimeSpanBtnBackground;
+import com.example.expensetracker.shared.enums.TimeSpanSelection;
 import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalSelections;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ListTransactionViewModel extends ViewModel {
@@ -28,9 +25,14 @@ public class ListTransactionViewModel extends ViewModel {
 
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
-    public List<MutableLiveData<Drawable>> timeSpanBtnBackgrounds = new ArrayList<>(3);
+
+    // TimeSpan selection bar related properties
+    public MutableLiveData<Drawable> customBtnBackground = new MutableLiveData<>(null);
+    public MutableLiveData<Drawable> monthBtnBackground = new MutableLiveData<>(null);
+    public MutableLiveData<Drawable> yearBtnBackground = new MutableLiveData<>(null);
 
     private final Application application;
+    private Drawable grey2Background;
 
 
     /**
@@ -40,15 +42,14 @@ public class ListTransactionViewModel extends ViewModel {
      */
     public ListTransactionViewModel(Application application) {
         this.application = application;
+        this.grey2Background = ContextCompat.getDrawable(
+                application,
+                R.drawable.rounded_grey_2_background
+        );
+        monthBtnBackground.setValue(this.grey2Background);
 
         this.updateSelectedDateTxt();
         monthAmountTxt.setValue("222€");
-
-        // Init time span backgrounds list
-        timeSpanBtnBackgrounds.add(new MutableLiveData<>(null));
-        timeSpanBtnBackgrounds.add(new MutableLiveData<>(null));
-        timeSpanBtnBackgrounds.add(new MutableLiveData<>(null));
-
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
@@ -84,32 +85,58 @@ public class ListTransactionViewModel extends ViewModel {
     }
 
     public void updateSelectedDateTxt() {
-        monthYearTxt.setValue(
-                application.getString(
-                        R.string.month_year_title,
-                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getMonth(),
-                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getYear()
-                )
-        );
+        monthYearTxt.setValue(application.getString(R.string.month_year_title, Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getMonth(), Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getYear()));
     }
 
     public void rightArrowOnClick(View view) {
         LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
-        GlobalSelections.selectedDate.setValue(selectedDate.plusMonths(1));
+
+        switch (GlobalSelections.selectedTimeSpan) {
+            case Month:
+                GlobalSelections.selectedDate.setValue(selectedDate.plusMonths(1));
+                break;
+            case Year:
+                GlobalSelections.selectedDate.setValue(selectedDate.plusYears(1));
+                break;
+            case Custom:
+                break;
+        }
     }
 
     public void leftArrowOnClick(View view) {
         LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
-        GlobalSelections.selectedDate.setValue(selectedDate.minusMonths(1));
+
+        switch (GlobalSelections.selectedTimeSpan) {
+            case Month:
+                GlobalSelections.selectedDate.setValue(selectedDate.minusMonths(1));
+                break;
+            case Year:
+                GlobalSelections.selectedDate.setValue(selectedDate.minusYears(1));
+                break;
+            case Custom:
+                break;
+        }
     }
 
     public void timeSpanBtnOnClick(View view) {
-        for (MutableLiveData<Drawable> background : timeSpanBtnBackgrounds) {
-            background.setValue(null);
-        }
+        String viewIdName = this.application.getResources().getResourceEntryName(view.getId());
+        customBtnBackground.setValue(null);
+        monthBtnBackground.setValue(null);
+        yearBtnBackground.setValue(null);
 
-        timeSpanBtnBackgrounds.get(TimeSpanBtnBackground.Month.ordinal()).setValue(
-                ContextCompat.getDrawable(application, R.drawable.rounded_blue_background)
-        );
+        switch (viewIdName) {
+            case "custom_time_span":
+                customBtnBackground.setValue(this.grey2Background);
+                GlobalSelections.selectedTimeSpan = TimeSpanSelection.Custom;
+                break;
+            case "month_time_span":
+                monthBtnBackground.setValue(this.grey2Background);
+                GlobalSelections.selectedTimeSpan = TimeSpanSelection.Month;
+                break;
+            case "year_time_span":
+                yearBtnBackground.setValue(this.grey2Background);
+                GlobalSelections.selectedTimeSpan = TimeSpanSelection.Year;
+                break;
+        }
     }
 }

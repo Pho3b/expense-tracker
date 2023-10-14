@@ -1,6 +1,6 @@
 package com.example.expensetracker.shared.enums;
 
-public enum TimeSpanBtnBackground {
+public enum TimeSpanSelection {
     Custom,
     Month,
     Year

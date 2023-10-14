@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.shared.enums.TimeSpanSelection;
 import com.example.expensetracker.shared.enums.TransactionType;
 
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 public class GlobalSelections {
     public static TransactionType selectedTransactionType = TransactionType.Expense;
     public static MutableLiveData<LocalDate> selectedDate = new MutableLiveData<>(LocalDate.now());
+    public static TimeSpanSelection selectedTimeSpan = TimeSpanSelection.Month;
 
 
     /**
