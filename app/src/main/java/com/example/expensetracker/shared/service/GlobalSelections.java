@@ -27,11 +27,11 @@ public class GlobalSelections {
     ) {
         switch (selectedTransactionType) {
             case Expense:
-                expenseBg.setValue(ContextCompat.getDrawable(application, R.drawable.rounded_background));
+                expenseBg.setValue(ContextCompat.getDrawable(application, R.drawable.rounded_grey_background));
                 incomeBg.setValue(null);
                 break;
             case Income:
-                incomeBg.setValue(ContextCompat.getDrawable(application, R.drawable.rounded_background));
+                incomeBg.setValue(ContextCompat.getDrawable(application, R.drawable.rounded_grey_background));
                 expenseBg.setValue(null);
                 break;
             default:
