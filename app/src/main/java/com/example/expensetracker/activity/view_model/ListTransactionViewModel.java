@@ -1,10 +1,10 @@
 package com.example.expensetracker.activity.view_model;
 
 import android.app.Application;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -27,12 +27,11 @@ public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
 
     // TimeSpan selection bar related properties
-    public MutableLiveData<Drawable> customBtnBackground = new MutableLiveData<>(null);
-    public MutableLiveData<Drawable> monthBtnBackground = new MutableLiveData<>(null);
-    public MutableLiveData<Drawable> yearBtnBackground = new MutableLiveData<>(null);
+    public MutableLiveData<Integer> customBtnTextColor = new MutableLiveData<>(Color.WHITE);
+    public MutableLiveData<Integer> monthBtnTextColor = new MutableLiveData<>(Color.BLACK);
+    public MutableLiveData<Integer> yearBtnTextColor = new MutableLiveData<>(Color.WHITE);
 
     private final Application application;
-    private Drawable grey2Background;
 
 
     /**
@@ -42,11 +41,6 @@ public class ListTransactionViewModel extends ViewModel {
      */
     public ListTransactionViewModel(Application application) {
         this.application = application;
-        this.grey2Background = ContextCompat.getDrawable(
-                application,
-                R.drawable.rounded_grey_2_background
-        );
-        monthBtnBackground.setValue(this.grey2Background);
 
         this.updateSelectedDateTxt();
         monthAmountTxt.setValue("222€");
@@ -120,21 +114,21 @@ public class ListTransactionViewModel extends ViewModel {
 
     public void timeSpanBtnOnClick(View view) {
         String viewIdName = this.application.getResources().getResourceEntryName(view.getId());
-        customBtnBackground.setValue(null);
-        monthBtnBackground.setValue(null);
-        yearBtnBackground.setValue(null);
+        customBtnTextColor.setValue(Color.WHITE);
+        monthBtnTextColor.setValue(Color.WHITE);
+        yearBtnTextColor.setValue(Color.WHITE);
 
         switch (viewIdName) {
             case "custom_time_span":
-                customBtnBackground.setValue(this.grey2Background);
+                customBtnTextColor.setValue(Color.BLACK);
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Custom;
                 break;
             case "month_time_span":
-                monthBtnBackground.setValue(this.grey2Background);
+                monthBtnTextColor.setValue(Color.BLACK);
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Month;
                 break;
             case "year_time_span":
-                yearBtnBackground.setValue(this.grey2Background);
+                yearBtnTextColor.setValue(Color.BLACK);
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Year;
                 break;
         }

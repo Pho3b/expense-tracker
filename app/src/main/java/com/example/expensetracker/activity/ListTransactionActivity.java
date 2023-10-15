@@ -2,7 +2,6 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -14,13 +13,15 @@ import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
-import com.example.expensetracker.shared.Constants;
+import com.example.expensetracker.shared.enums.TimeSpanSelection;
+import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalSelections;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class ListTransactionActivity extends AppCompatActivity {
 
@@ -37,7 +38,6 @@ public class ListTransactionActivity extends AppCompatActivity {
         setupDbConnection();
         bindViewModel();
         setupObservers();
-        setupRecyclerView();
     }
 
     @Override
@@ -49,8 +49,6 @@ public class ListTransactionActivity extends AppCompatActivity {
                 viewModel.expenseBackground,
                 viewModel.incomeBackground
         );
-
-        setupRecyclerView();
     }
 
     /**
@@ -83,7 +81,13 @@ public class ListTransactionActivity extends AppCompatActivity {
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        setupRecyclerView();
+                        setupRecyclerView(
+                                retrieveTransactions(
+                                        GlobalSelections.selectedTransactionType,
+                                        GlobalSelections.selectedTimeSpan,
+                                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
+                                )
+                        );
                     }
                 }
         );
@@ -91,20 +95,41 @@ public class ListTransactionActivity extends AppCompatActivity {
         GlobalSelections.selectedDate.observe(
                 this,
                 (LocalDate selectedDate) -> {
-                    Log.d(Constants.MY_DEBUG_LOG_TAG, "Updating Selected Text!");
                     viewModel.updateSelectedDateTxt();
-                    setupRecyclerView();
+                    setupRecyclerView(
+                            retrieveTransactions(
+                                    GlobalSelections.selectedTransactionType,
+                                    GlobalSelections.selectedTimeSpan,
+                                    Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
+                            )
+                    );
                 }
         );
     }
 
-    private void setupRecyclerView() {
-        List<Transaction> transactions = new ArrayList<>(
-                dbHelper.retrieveAllTransactionsOfType(GlobalSelections.selectedTransactionType)
-        );
-
+    private void setupRecyclerView(ArrayList<Transaction> transactions) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new TransactionAdapter(transactions));
+    }
+
+    private ArrayList<Transaction> retrieveTransactions(
+            TransactionType selectedType,
+            TimeSpanSelection selectedTimeSpan,
+            LocalDate selectedDate
+    ) {
+        LocalDate startDate = LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1);
+        LocalDate endDate = selectedTimeSpan == TimeSpanSelection.Month ?
+                startDate.plusMonths(1).minusDays(1) :
+                startDate.plusYears(1).minusDays(1);
+
+        startDate = LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        endDate = LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        return dbHelper.queryReadTransactions(
+                selectedType,
+                startDate,
+                endDate
+        );
     }
 
     private void setupDbConnection() {

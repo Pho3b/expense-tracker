@@ -12,7 +12,6 @@ import com.example.expensetracker.shared.enums.TransactionType;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
 
@@ -62,30 +61,28 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         values.put(TransactionEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
         return dbWrite.insert(
-                transaction.type.toString().toLowerCase() + "s",
+                formatTableName(transaction.type),
                 null,
                 values
         ) != -1;
     }
 
-    public boolean readExpense() {
+    public ArrayList<Transaction> queryReadTransactions(
+            TransactionType type,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
         checkReadDbInstance();
 
-        return true;
-    }
-
-    public List<Transaction> retrieveAllTransactionsOfType(TransactionType type) {
-        checkReadDbInstance();
-        List<Transaction> transactionsList = new ArrayList<>();
-
+        ArrayList<Transaction> res = new ArrayList<>();
         Cursor cursor = dbRead.query(
-                type.toString().toLowerCase() + "s", // Table name
-                null,       // Columns (null to retrieve all columns)
-                null,       // Selection (null to retrieve all rows)
-                null,       // SelectionArgs
-                null,       // GroupBy
-                null,       // Having
-                "date DESC" // OrderBy
+                formatTableName(type),
+                null,
+                "date BETWEEN ? AND ?",
+                new String[]{startDate.toString(), endDate.toString()},
+                null,
+                null,
+                "date DESC"
         );
 
         int idColumnIndex = cursor.getColumnIndex(TransactionEntry._ID);
@@ -95,9 +92,8 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         int dateColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_DATE);
 
         while (cursor.moveToNext()) {
-            if (
-                    idColumnIndex >= 0 && commentColumnIndex >= 0 && amountColumnIndex >= 0 &&
-                            categoryIdColumnIndex >= 0 && dateColumnIndex >= 0
+            if (idColumnIndex >= 0 && commentColumnIndex >= 0 && amountColumnIndex >= 0 &&
+                    categoryIdColumnIndex >= 0 && dateColumnIndex >= 0
             ) {
                 String comment = cursor.getString(commentColumnIndex);
                 double amount = cursor.getDouble(amountColumnIndex);
@@ -107,13 +103,12 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
                         DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 );
 
-                Transaction transaction = new Transaction(amount, comment, categoryId, date, type);
-                transactionsList.add(transaction);
+                res.add(new Transaction(amount, comment, categoryId, date, type));
             }
         }
 
         cursor.close();
-        return transactionsList;
+        return res;
     }
 
     private void initWriteDbInstanceIfNeeded() {
@@ -126,5 +121,15 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         if (dbRead == null) {
             dbRead = this.getWritableDatabase();
         }
+    }
+
+    /**
+     * Given a TransactionType returns its Database table name correctly formatted.
+     *
+     * @param type The transaction type for which to retrieve the Table name.
+     * @return The correctly formatted DB table name
+     */
+    private String formatTableName(TransactionType type) {
+        return type.toString().toLowerCase() + "s";
     }
 }
