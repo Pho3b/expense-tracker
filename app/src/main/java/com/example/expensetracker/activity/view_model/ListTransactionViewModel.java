@@ -79,7 +79,12 @@ public class ListTransactionViewModel extends ViewModel {
     }
 
     public void updateSelectedDateTxt() {
-        monthYearTxt.setValue(application.getString(R.string.month_year_title, Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getMonth(), Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getYear()));
+        monthYearTxt.setValue(
+                application.getString(R.string.month_year_title,
+                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getMonth(),
+                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getYear()
+                )
+        );
     }
 
     public void rightArrowOnClick(View view) {

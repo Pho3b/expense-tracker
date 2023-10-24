@@ -117,7 +117,9 @@ public class ListTransactionActivity extends AppCompatActivity {
             TimeSpanSelection selectedTimeSpan,
             LocalDate selectedDate
     ) {
-        LocalDate startDate = LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1);
+        LocalDate startDate = selectedTimeSpan == TimeSpanSelection.Month ?
+                LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1) :
+                LocalDate.of(selectedDate.getYear(), 1, 1);
         LocalDate endDate = selectedTimeSpan == TimeSpanSelection.Month ?
                 startDate.plusMonths(1).minusDays(1) :
                 startDate.plusYears(1).minusDays(1);
