@@ -100,7 +100,7 @@ public class ListTransactionActivity extends AppCompatActivity {
                             retrieveTransactions(
                                     GlobalSelections.selectedTransactionType,
                                     GlobalSelections.selectedTimeSpan,
-                                    Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
+                                    selectedDate
                             )
                     );
                 }

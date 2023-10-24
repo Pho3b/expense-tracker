@@ -137,5 +137,7 @@ public class ListTransactionViewModel extends ViewModel {
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Year;
                 break;
         }
+
+        GlobalSelections.selectedDate.setValue(GlobalSelections.selectedDate.getValue());
     }
 }
