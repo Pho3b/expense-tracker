@@ -1,5 +1,6 @@
 package com.example.expensetracker.db;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -67,7 +68,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         ) != -1;
     }
 
-    public ArrayList<Transaction> queryReadTransactions(
+    public ArrayList<Transaction> retrieveTransactions(
             TransactionType type,
             LocalDate startDate,
             LocalDate endDate
@@ -108,6 +109,31 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        return res;
+    }
+
+    public Integer retrieveTransactionsAmountSum(
+            TransactionType type,
+            LocalDate startDate,
+            LocalDate endDate
+    ) {
+        checkReadDbInstance();
+
+        Cursor cursor = dbRead.query(
+                formatTableName(type),
+                new String[]{"SUM(amount) as sum"},
+                "date BETWEEN ? AND ?",
+                new String[]{startDate.toString(), endDate.toString()},
+                null,
+                null,
+                null
+        );
+
+
+        @SuppressLint("Range")
+        int res = cursor.getInt(cursor.getColumnIndex("sum"));
+        cursor.close();
+
         return res;
     }
 

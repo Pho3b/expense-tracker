@@ -20,7 +20,7 @@ public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
 
-    public MutableLiveData<String> monthAmountTxt = new MutableLiveData<>();
+    public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
 
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
@@ -43,7 +43,6 @@ public class ListTransactionViewModel extends ViewModel {
         this.application = application;
 
         this.updateSelectedDateTxt();
-        monthAmountTxt.setValue("222€");
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
@@ -78,13 +77,24 @@ public class ListTransactionViewModel extends ViewModel {
         transactionTypeBtnClicked.setValue(true);
     }
 
+    /**
+     * Updates the selected dates displayed text.
+     * If the selected TimeSpan is 'month' a '{month} {year}' text will be displayed,
+     * otherwise if 'year' is selected, the text will display only the '{year}'.
+     */
     public void updateSelectedDateTxt() {
-        monthYearTxt.setValue(
-                application.getString(R.string.month_year_title,
-                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getMonth(),
-                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue()).getYear()
-                )
+        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
+        String displayTxt = application.getString(
+                R.string.month_year_title,
+                selectedDate.getMonth(),
+                selectedDate.getYear()
         );
+
+        if (GlobalSelections.selectedTimeSpan == TimeSpanSelection.Year) {
+            displayTxt = application.getString(R.string.year_title, selectedDate.getYear());
+        }
+
+        monthYearTxt.setValue(displayTxt);
     }
 
     public void rightArrowOnClick(View view) {

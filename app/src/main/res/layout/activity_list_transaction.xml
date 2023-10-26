@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal"
                 android:padding="5dp"
-                android:text="@{viewModel.monthAmountTxt}"
+                android:text="@{viewModel.transactionTotalAmountTxt}"
                 android:textSize="24sp" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

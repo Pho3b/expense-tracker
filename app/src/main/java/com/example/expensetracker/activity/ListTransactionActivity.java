@@ -15,6 +15,7 @@ import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.shared.enums.TimeSpanSelection;
 import com.example.expensetracker.shared.enums.TransactionType;
+import com.example.expensetracker.shared.model.ListActivityDbResult;
 import com.example.expensetracker.shared.service.GlobalSelections;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
@@ -81,13 +82,18 @@ public class ListTransactionActivity extends AppCompatActivity {
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        setupRecyclerView(
-                                retrieveTransactions(
-                                        GlobalSelections.selectedTransactionType,
-                                        GlobalSelections.selectedTimeSpan,
-                                        Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
-                                )
+                        ArrayList<Transaction> transactions = retrieveTransactions(
+                                GlobalSelections.selectedTransactionType,
+                                GlobalSelections.selectedTimeSpan,
+                                Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
                         );
+                        Integer amountsSum = retrieveTransactionsAmountSum(
+                                GlobalSelections.selectedTransactionType,
+                                GlobalSelections.selectedTimeSpan,
+                                Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
+                        );
+
+                        updateUI(new ListActivityDbResult(transactions, amountsSum));
                     }
                 }
         );
@@ -96,20 +102,25 @@ public class ListTransactionActivity extends AppCompatActivity {
                 this,
                 (LocalDate selectedDate) -> {
                     viewModel.updateSelectedDateTxt();
-                    setupRecyclerView(
-                            retrieveTransactions(
-                                    GlobalSelections.selectedTransactionType,
-                                    GlobalSelections.selectedTimeSpan,
-                                    selectedDate
-                            )
+                    ArrayList<Transaction> transactions = retrieveTransactions(
+                            GlobalSelections.selectedTransactionType,
+                            GlobalSelections.selectedTimeSpan,
+                            selectedDate
                     );
+                    Integer amountsSum = retrieveTransactionsAmountSum(
+                            GlobalSelections.selectedTransactionType,
+                            GlobalSelections.selectedTimeSpan,
+                            selectedDate
+                    );
+
+                    updateUI(new ListActivityDbResult(transactions, amountsSum));
                 }
         );
     }
 
-    private void setupRecyclerView(ArrayList<Transaction> transactions) {
+    private void updateUI(ListActivityDbResult dbResult) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TransactionAdapter(transactions));
+        recyclerView.setAdapter(new TransactionAdapter(dbResult.transactions));
     }
 
     private ArrayList<Transaction> retrieveTransactions(
@@ -124,13 +135,29 @@ public class ListTransactionActivity extends AppCompatActivity {
                 startDate.plusMonths(1).minusDays(1) :
                 startDate.plusYears(1).minusDays(1);
 
-        startDate = LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        endDate = LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        return dbHelper.queryReadTransactions(
+        return dbHelper.retrieveTransactions(
                 selectedType,
-                startDate,
-                endDate
+                LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        );
+    }
+
+    private Integer retrieveTransactionsAmountSum(
+            TransactionType selectedType,
+            TimeSpanSelection selectedTimeSpan,
+            LocalDate selectedDate
+    ) {
+        LocalDate startDate = selectedTimeSpan == TimeSpanSelection.Month ?
+                LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1) :
+                LocalDate.of(selectedDate.getYear(), 1, 1);
+        LocalDate endDate = selectedTimeSpan == TimeSpanSelection.Month ?
+                startDate.plusMonths(1).minusDays(1) :
+                startDate.plusYears(1).minusDays(1);
+
+        return dbHelper.retrieveTransactionsAmountSum(
+                selectedType,
+                LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
+                LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
     }
 
