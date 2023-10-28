@@ -14,7 +14,8 @@
     <string name="year_title">%1d</string>
     <string name="expense">Expense</string>
     <string name="income">Income</string>
-    <string name="transaction_amount">Transaction Amount</string>
+    <string name="transaction_amount_hint">Amount</string>
+    <string name="transaction_descr_hint">Description</string>
 
     <!--  Time Span Selection Bar  -->
     <string name="year_sel">Year</string>

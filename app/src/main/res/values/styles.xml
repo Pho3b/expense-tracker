@@ -8,4 +8,10 @@
         <item name="strokeWidth">@dimen/stroke_width</item>
         <item name="rippleColor">@color/floating_blue</item>
     </style>
+
+    <style name="DarkEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHighlight">#5263C6</item>
+        <item name="android:textColorLink">@color/floating_blue</item>
+        <item name="android:textCursorDrawable">@color/floating_blue</item>
+    </style>
 </resources>
