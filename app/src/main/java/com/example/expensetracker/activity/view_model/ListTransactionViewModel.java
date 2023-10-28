@@ -14,6 +14,7 @@ import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalSelections;
 
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ListTransactionViewModel extends ViewModel {
@@ -95,6 +96,10 @@ public class ListTransactionViewModel extends ViewModel {
         }
 
         monthYearTxt.setValue(displayTxt);
+    }
+
+    public void updateAmountsTexts(Integer amount) {
+        transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "€ %d", amount));
     }
 
     public void rightArrowOnClick(View view) {

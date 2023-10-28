@@ -68,6 +68,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         ) != -1;
     }
 
+    @SuppressLint("Range")
     public ArrayList<Transaction> retrieveTransactions(
             TransactionType type,
             LocalDate startDate,
@@ -76,42 +77,29 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         checkReadDbInstance();
 
         ArrayList<Transaction> res = new ArrayList<>();
-        Cursor cursor = dbRead.query(
-                formatTableName(type),
-                null,
-                "date BETWEEN ? AND ?",
-                new String[]{startDate.toString(), endDate.toString()},
-                null,
-                null,
-                "date DESC"
+        String query = String.format(
+                "SELECT * FROM '%s' WHERE date BETWEEN ? AND ? ORDER BY date DESC",
+                formatTableName(type)
         );
-
-        int idColumnIndex = cursor.getColumnIndex(TransactionEntry._ID);
-        int commentColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_COMMENT);
-        int amountColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT);
-        int categoryIdColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_CATEGORY_ID);
-        int dateColumnIndex = cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_DATE);
+        Cursor cursor = dbRead.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
 
         while (cursor.moveToNext()) {
-            if (idColumnIndex >= 0 && commentColumnIndex >= 0 && amountColumnIndex >= 0 &&
-                    categoryIdColumnIndex >= 0 && dateColumnIndex >= 0
-            ) {
-                String comment = cursor.getString(commentColumnIndex);
-                double amount = cursor.getDouble(amountColumnIndex);
-                int categoryId = cursor.getInt(amountColumnIndex);
-                LocalDate date = LocalDate.parse(
-                        cursor.getString(dateColumnIndex),
-                        DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                );
+            String comment = cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_COMMENT));
+            double amount = cursor.getDouble(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT));
+            int categoryId = cursor.getInt(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT));
+            LocalDate date = LocalDate.parse(
+                    cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_DATE)),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            );
 
-                res.add(new Transaction(amount, comment, categoryId, date, type));
-            }
+            res.add(new Transaction(amount, comment, categoryId, date, type));
         }
 
         cursor.close();
         return res;
     }
 
+    @SuppressLint("Range")
     public Integer retrieveTransactionsAmountSum(
             TransactionType type,
             LocalDate startDate,
@@ -119,21 +107,18 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     ) {
         checkReadDbInstance();
 
-        Cursor cursor = dbRead.query(
-                formatTableName(type),
-                new String[]{"SUM(amount) as sum"},
-                "date BETWEEN ? AND ?",
-                new String[]{startDate.toString(), endDate.toString()},
-                null,
-                null,
-                null
+        int res = 0;
+        String query = String.format(
+                "SELECT SUM(amount) AS sum FROM '%s' WHERE date BETWEEN ? AND ?",
+                formatTableName(type)
         );
+        Cursor cursor = dbRead.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
 
+        while (cursor.moveToNext()) {
+            res = cursor.getInt(cursor.getColumnIndex("sum"));
+        }
 
-        @SuppressLint("Range")
-        int res = cursor.getInt(cursor.getColumnIndex("sum"));
         cursor.close();
-
         return res;
     }
 

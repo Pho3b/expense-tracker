@@ -15,14 +15,12 @@ import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
 import com.example.expensetracker.shared.enums.TimeSpanSelection;
 import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.model.ListActivityDbResult;
 import com.example.expensetracker.shared.service.GlobalSelections;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class ListTransactionActivity extends AppCompatActivity {
 
@@ -82,18 +80,21 @@ public class ListTransactionActivity extends AppCompatActivity {
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        ArrayList<Transaction> transactions = retrieveTransactions(
-                                GlobalSelections.selectedTransactionType,
-                                GlobalSelections.selectedTimeSpan,
-                                Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
-                        );
-                        Integer amountsSum = retrieveTransactionsAmountSum(
-                                GlobalSelections.selectedTransactionType,
-                                GlobalSelections.selectedTimeSpan,
-                                Objects.requireNonNull(GlobalSelections.selectedDate.getValue())
+                        viewModel.updateAmountsTexts(
+                                retrieveTransactionsAmountSum(
+                                        GlobalSelections.selectedTransactionType,
+                                        GlobalSelections.selectedTimeSpan,
+                                        GlobalSelections.selectedDate.getValue()
+                                )
                         );
 
-                        updateUI(new ListActivityDbResult(transactions, amountsSum));
+                        updateRecyclerView(
+                                retrieveTransactions(
+                                        GlobalSelections.selectedTransactionType,
+                                        GlobalSelections.selectedTimeSpan,
+                                        GlobalSelections.selectedDate.getValue()
+                                )
+                        );
                     }
                 }
         );
@@ -102,25 +103,28 @@ public class ListTransactionActivity extends AppCompatActivity {
                 this,
                 (LocalDate selectedDate) -> {
                     viewModel.updateSelectedDateTxt();
-                    ArrayList<Transaction> transactions = retrieveTransactions(
-                            GlobalSelections.selectedTransactionType,
-                            GlobalSelections.selectedTimeSpan,
-                            selectedDate
-                    );
-                    Integer amountsSum = retrieveTransactionsAmountSum(
-                            GlobalSelections.selectedTransactionType,
-                            GlobalSelections.selectedTimeSpan,
-                            selectedDate
+                    viewModel.updateAmountsTexts(
+                            retrieveTransactionsAmountSum(
+                                    GlobalSelections.selectedTransactionType,
+                                    GlobalSelections.selectedTimeSpan,
+                                    selectedDate
+                            )
                     );
 
-                    updateUI(new ListActivityDbResult(transactions, amountsSum));
+                    updateRecyclerView(
+                            retrieveTransactions(
+                                    GlobalSelections.selectedTransactionType,
+                                    GlobalSelections.selectedTimeSpan,
+                                    selectedDate
+                            )
+                    );
                 }
         );
     }
 
-    private void updateUI(ListActivityDbResult dbResult) {
+    private void updateRecyclerView(ArrayList<Transaction> transactions) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new TransactionAdapter(dbResult.transactions));
+        recyclerView.setAdapter(new TransactionAdapter(transactions));
     }
 
     private ArrayList<Transaction> retrieveTransactions(
