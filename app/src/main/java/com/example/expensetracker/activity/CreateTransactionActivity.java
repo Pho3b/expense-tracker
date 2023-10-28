@@ -34,7 +34,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
         bindViewModel();
         setupObservers();
-        setupViews();
+        setupCategoryIconsUI();
         setupDbConnection();
     }
 
@@ -95,22 +95,22 @@ public class CreateTransactionActivity extends AppCompatActivity {
         );
     }
 
-    private void setupViews() {
+    private void setupCategoryIconsUI() {
         LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
-        LinearLayout linearLayout = getNewLinearLayout();
+        LinearLayout linearLayout = newLinearLayout();
         int test = 22;
 
         for (int i = 0; i < test; i++) {
             if (i > 0 && i % 3 == 0) {
                 wrapper.addView(linearLayout);
-                linearLayout = getNewLinearLayout();
+                linearLayout = newLinearLayout();
             }
 
             linearLayout.addView(new CategoryIcon(this, viewModel, i));
         }
     }
 
-    private LinearLayout getNewLinearLayout() {
+    private LinearLayout newLinearLayout() {
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(

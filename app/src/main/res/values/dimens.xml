@@ -14,4 +14,8 @@
     <!--  Time Span Selection Bar  -->
     <dimen name="sel_txt_size">20sp</dimen>
     <dimen name="arrow_size">35dp</dimen>
+
+    <!-- Outlined Button -->
+    <dimen name="stroke_width">1dp</dimen>
+    <dimen name="btn_padding">16dp</dimen>
 </resources>

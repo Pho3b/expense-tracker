@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ThickOutlinedButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:paddingLeft">@dimen/btn_padding</item>
+        <item name="android:paddingRight">@dimen/btn_padding</item>
+        <item name="strokeColor">@color/white</item>
+        <item name="strokeWidth">@dimen/stroke_width</item>
+        <item name="rippleColor">@color/floating_blue</item>
+    </style>
+</resources>
