@@ -16,14 +16,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class CreateTransactionViewModel extends ViewModel {
-    public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
-    public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
+    public LocalDate date = LocalDate.now();
+    public Integer categoryId = 0;
+    public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>();
+    public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>();
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> addTransactionClicked = new MutableLiveData<>(false);
-    public MutableLiveData<String> amount = new MutableLiveData<>(null);
+    public MutableLiveData<String> uiDate = new MutableLiveData<>();
+    public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
-    public Integer categoryId = 0;
-    public LocalDate date = LocalDate.now();
     private final Application application;
 
     /**
@@ -34,6 +35,10 @@ public class CreateTransactionViewModel extends ViewModel {
     public CreateTransactionViewModel(Application application) {
         this.application = application;
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+
+        uiDate.setValue(String.format(
+                Locale.ITALIAN, "%d-%d-%d", date.getDayOfMonth(), date.getMonthValue(), date.getYear())
+        );
     }
 
     /**
@@ -69,8 +74,10 @@ public class CreateTransactionViewModel extends ViewModel {
     }
 
     public void onDateSelected(int year, int month, int day) {
+        uiDate.setValue(String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year));
+
         this.date = LocalDate.parse(
-                String.format(Locale.ITALIAN,"%d-%d-%d", day, month, year),
+                String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year),
                 DateTimeFormatter.ofPattern("d-M-yyyy")
         );
     }

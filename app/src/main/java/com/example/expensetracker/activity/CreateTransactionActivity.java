@@ -98,9 +98,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private void setupCategoryIconsUI() {
         LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
         LinearLayout linearLayout = newLinearLayout();
-        int test = 22;
 
-        for (int i = 0; i < test; i++) {
+        for (int i = 0; i < CategoryIcon.expenseIconsDrawable.length; i++) {
             if (i > 0 && i % 3 == 0) {
                 wrapper.addView(linearLayout);
                 linearLayout = newLinearLayout();

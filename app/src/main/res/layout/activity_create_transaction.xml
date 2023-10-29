@@ -58,7 +58,7 @@
         <!-- Amount Text Input -->
         <EditText
             style="@style/DarkEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -94,22 +94,37 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
-                <!-- List of Category Icons will be loaded here dynamically onCreate-->
+                <!-- List of Category Icons is loaded here onCreate-->
             </LinearLayout>
 
         </HorizontalScrollView>
 
-        <!-- Custom-Date Dialog Opening Button -->
+        <!-- Selected Date Readonly Text -->
+        <EditText
+            style="@style/DarkEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="false"
+            android:longClickable="false"
+            android:text="@={viewModel.uiDate}"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
+
+        <!-- Customize-Date Dialog Opening Button -->
         <Button
             android:id="@+id/custom_date_btn"
             style="@style/ThickOutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/expense_txt_end_padding"
             android:onClick="@{viewModel.onOpenDatePickerClick}"
             android:outlineProvider="none"
-            android:text="Custom Date"
+            android:text="Customize Date"
             android:textColor="@android:color/white" />
 
         <!-- Add Transaction Button -->
@@ -124,11 +139,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="15dp"
-                android:elevation="4dp"
                 android:onClick="@{viewModel.onAddTransactionClick}"
                 android:outlineProvider="paddedBounds"
                 android:padding="12dp"
-                android:text="Add Transaction"
+                android:text="ADD"
+                android:textStyle="bold"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

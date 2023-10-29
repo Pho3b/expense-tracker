@@ -13,6 +13,15 @@ import com.example.expensetracker.activity.view_model.CreateTransactionViewModel
 
 public class CategoryIcon extends androidx.appcompat.widget.AppCompatImageView {
     public int categoryId;
+    public static final int[] expenseIconsDrawable = new int[] {
+            R.drawable.ic_menu_slideshow,
+            R.drawable.ic_menu_slideshow,
+            R.drawable.ic_menu_slideshow,
+            R.drawable.ic_menu_slideshow,
+            R.drawable.ic_menu_slideshow,
+            R.drawable.ic_menu_slideshow,
+            R.drawable.ic_menu_slideshow,
+    };
 
     public CategoryIcon(
             @NonNull Context context,
@@ -28,7 +37,7 @@ public class CategoryIcon extends androidx.appcompat.widget.AppCompatImageView {
 
         setLayoutParams(lp);
         setPadding(dpPadding, dpPadding, dpPadding, dpPadding);
-        setImageResource(R.drawable.ic_menu_slideshow);
+        setImageResource(expenseIconsDrawable[categoryId]);
         setOnClickListener(viewModel::onIconClicked);
     }
 

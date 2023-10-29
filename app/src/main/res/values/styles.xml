@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--  Text Button Style  -->
     <style name="ThickOutlinedButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:paddingLeft">@dimen/btn_padding</item>
         <item name="android:paddingRight">@dimen/btn_padding</item>
@@ -9,10 +10,25 @@
         <item name="rippleColor">@color/floating_blue</item>
     </style>
 
+    <!--  Edit Text Style  -->
     <style name="DarkEditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColorHighlight">#5263C6</item>
         <item name="android:textColorLink">@color/floating_blue</item>
         <item name="android:textCursorDrawable">@color/white</item>
         <item name="backgroundTint">@color/floating_blue</item>
     </style>
+
+    <!--  Date Picker Dialog Style  -->
+    <style name="DarkDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Customize the background color -->
+        <item name="android:windowBackground">@color/grey_2</item>
+        <!-- Customize the text color -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <!-- Customize the accent color for selected items -->
+        <item name="colorAccent">@color/floating_blue</item>
+        <!-- Customize the calendar header background color -->
+        <item name="colorPrimary">@color/floating_blue</item>
+        <item name="android:textColorSecondary">@color/black</item>
+    </style>
+
 </resources>

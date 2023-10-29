@@ -10,11 +10,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
 
 public class DatePickerFragment extends DialogFragment {
-    public CreateTransactionViewModel datePickerListener = null;
-    private final DatePickerDialog.OnDateSetListener onSelectListener  = new OnSelectListener();
+    public CreateTransactionViewModel datePickerListener;
+    private final DatePickerDialog.OnDateSetListener onSelectListener;
+
+
+    public DatePickerFragment() {
+        this.onSelectListener = new OnSelectListener();
+    }
 
     @NonNull
     @Override
@@ -23,6 +29,7 @@ public class DatePickerFragment extends DialogFragment {
 
         return new DatePickerDialog(
                 requireContext(),
+                R.style.DarkDatePickerDialogTheme,
                 onSelectListener,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -38,12 +45,6 @@ public class DatePickerFragment extends DialogFragment {
             if (datePickerListener != null) {
                 datePickerListener.onDateSelected(year, month, dayOfMonth);
             }
-
-            Toast.makeText(
-                    view.getContext(),
-                    String.format("%s : %s : %s", dayOfMonth, month, year),
-                    Toast.LENGTH_SHORT
-            ).show();
         }
     }
 }
