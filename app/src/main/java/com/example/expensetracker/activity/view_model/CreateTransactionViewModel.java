@@ -20,7 +20,7 @@ public class CreateTransactionViewModel extends ViewModel {
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> addTransactionClicked = new MutableLiveData<>(false);
-    public MutableLiveData<String> amount = new MutableLiveData<>("0");
+    public MutableLiveData<String> amount = new MutableLiveData<>(null);
     public MutableLiveData<String> comment = new MutableLiveData<>();
     public Integer categoryId = 0;
     public LocalDate date = LocalDate.now();
