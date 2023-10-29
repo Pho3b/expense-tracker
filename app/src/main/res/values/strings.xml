@@ -15,7 +15,7 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="transaction_amount_hint">Amount</string>
-    <string name="transaction_descr_hint">Description</string>
+    <string name="transaction_comment_hint">Comment</string>
 
     <!--  Time Span Selection Bar  -->
     <string name="year_sel">Year</string>

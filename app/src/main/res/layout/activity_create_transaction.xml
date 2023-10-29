@@ -69,14 +69,14 @@
             android:textAlignment="center"
             android:textColor="@color/white" />
 
-        <!-- Description Text Input -->
+        <!-- Comment Text Input -->
         <EditText
             style="@style/DarkEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:hint="@string/transaction_descr_hint"
+            android:hint="@string/transaction_comment_hint"
             android:inputType="textAutoComplete"
             android:maxLines="1"
             android:text="@={viewModel.comment}"
