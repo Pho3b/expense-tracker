@@ -1,9 +1,13 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.shared.Constants.EXPENSE_CATEGORY_ICON_MODELS;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +19,7 @@ import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
-import com.example.expensetracker.ui.model.CategoryIcon;
+import com.example.expensetracker.ui.model.CategoryIconImageView;
 import com.example.expensetracker.shared.service.GlobalSelections;
 
 import java.util.Objects;
@@ -99,13 +103,24 @@ public class CreateTransactionActivity extends AppCompatActivity {
         LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
         LinearLayout linearLayout = newLinearLayout();
 
-        for (int i = 0; i < CategoryIcon.expenseIconsDrawable.length; i++) {
+        for (int i = 0; i < EXPENSE_CATEGORY_ICON_MODELS.length; i++) {
             if (i > 0 && i % 3 == 0) {
                 wrapper.addView(linearLayout);
                 linearLayout = newLinearLayout();
             }
 
-            linearLayout.addView(new CategoryIcon(this, viewModel, i));
+            linearLayout.addView(
+                    new CategoryIconImageView(
+                            this,
+                            viewModel,
+                            i,
+                            EXPENSE_CATEGORY_ICON_MODELS[i].iconDrawableId
+                    )
+            );
+            TextView tv = new TextView(this);
+            tv.setText(EXPENSE_CATEGORY_ICON_MODELS[i].description);
+            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            linearLayout.addView(tv);
         }
     }
 

@@ -10,7 +10,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:contentDescription="Category Icon"
-        android:src="@mipmap/ic_restaurant"
+        android:src="@drawable/ci_groceries"
         android:padding="3dp"/>
 
     <TextView

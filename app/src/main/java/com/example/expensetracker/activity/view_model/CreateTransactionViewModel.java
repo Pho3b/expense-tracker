@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.shared.enums.TransactionType;
 import com.example.expensetracker.shared.service.GlobalSelections;
-import com.example.expensetracker.ui.model.CategoryIcon;
+import com.example.expensetracker.ui.model.CategoryIconImageView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -70,7 +70,7 @@ public class CreateTransactionViewModel extends ViewModel {
     }
 
     public void onIconClicked(View categoryIcon) {
-        categoryId = ((CategoryIcon) categoryIcon).categoryId;
+        categoryId = ((CategoryIconImageView) categoryIcon).categoryId;
     }
 
     public void onDateSelected(int year, int month, int day) {
