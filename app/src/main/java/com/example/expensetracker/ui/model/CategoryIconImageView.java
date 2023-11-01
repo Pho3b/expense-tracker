@@ -16,10 +16,7 @@ import com.example.expensetracker.activity.view_model.CreateTransactionViewModel
 
 public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatImageView {
     public int categoryId;
-
-    private final int dpPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics());
-    private final int  dpIconSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics());
-    private final int  dpMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+    private static int[] dpMeasures = null;
 
     public CategoryIconImageView(
             @NonNull Context context,
@@ -28,21 +25,21 @@ public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatIm
             int iconDrawableId
     ) {
         super(context);
-
         this.categoryId = categoryId;
+        initDensityPixelMeasures();
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpIconSize, dpIconSize);
-
-        layoutParams.setMargins(dpMargin, dpMargin, dpMargin, 2);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpMeasures[1], dpMeasures[1]);
+        layoutParams.setMargins(dpMeasures[2], dpMeasures[2], dpMeasures[2], 2);
         setLayoutParams(layoutParams);
-        setPadding(dpPadding, dpPadding, dpPadding, dpPadding);
 
         Drawable bg = ContextCompat.getDrawable(context, R.drawable.ci_rounded_background);
         assert bg != null;
         bg.setColorFilter(ContextCompat.getColor(context, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
+
+        setPadding(dpMeasures[0], dpMeasures[0], dpMeasures[0], dpMeasures[0]);
         setBackgroundDrawable(bg);
         setImageResource(iconDrawableId);
-        setOnClickListener(viewModel::onIconClicked);
+        setOnClickListener(viewModel::onCategoryIconClick);
     }
 
     public CategoryIconImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
@@ -51,5 +48,18 @@ public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatIm
 
     public CategoryIconImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    /**
+     * Singleton method that initializes the density pixel measures used by the CategoryIconImageView instances.
+     */
+    private void initDensityPixelMeasures() {
+        if (dpMeasures == null) {
+            dpMeasures = new int[]{
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()), // Padding
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics()), // Icon Size
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()) // Margin
+            };
+        }
     }
 }

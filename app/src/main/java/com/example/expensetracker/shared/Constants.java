@@ -8,13 +8,13 @@ public class Constants {
     public static final String MY_DEBUG_LOG_TAG = "MY_LOGS_TAG";
 
     public static final CategoryIcon[] EXPENSE_CATEGORY_ICON_MODELS = new CategoryIcon[]{
-            new CategoryIcon(R.drawable.ci_groceries, 0, "groceries"),
-            new CategoryIcon(R.drawable.ci_technology, 1, "groceries"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
+            new CategoryIcon(R.drawable.ci_groceries, 0, "Groceries"),
+            new CategoryIcon(R.drawable.ci_electronics, 1, "Electronics"),
+            new CategoryIcon(R.drawable.ci_trip,2, "Trip"),
+            new CategoryIcon(R.drawable.ci_leisure, 3, "Leisure"),
+            new CategoryIcon(R.drawable.ci_car, 4, "Car"),
+            new CategoryIcon(R.drawable.ci_drinks, 5, "Drinks"),
+            new CategoryIcon(R.drawable.ci_gifts, 6, "Gifts"),
             new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
             new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
             new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),

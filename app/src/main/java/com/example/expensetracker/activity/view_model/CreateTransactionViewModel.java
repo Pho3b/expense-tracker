@@ -1,6 +1,7 @@
 package com.example.expensetracker.activity.view_model;
 
 import android.app.Application;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -69,8 +70,11 @@ public class CreateTransactionViewModel extends ViewModel {
         addTransactionClicked.setValue(true);
     }
 
-    public void onIconClicked(View categoryIcon) {
-        categoryId = ((CategoryIconImageView) categoryIcon).categoryId;
+    public void onCategoryIconClick(View categoryIcon) {
+        CategoryIconImageView iconImageView = (CategoryIconImageView) categoryIcon;
+
+        categoryId = iconImageView.categoryId;
+        iconImageView.setBackgroundColor(Color.WHITE);
     }
 
     public void onDateSelected(int year, int month, int day) {

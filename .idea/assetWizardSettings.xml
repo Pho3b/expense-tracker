@@ -357,7 +357,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/restaurant_menu/baseline_restaurant_menu_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/card_giftcard/baseline_card_giftcard_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -367,7 +367,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ci_groceries" />
+                            <entry key="outputName" value="ci_gifts" />
                           </map>
                         </option>
                       </PersistentState>
