@@ -4,6 +4,7 @@ import static com.example.expensetracker.shared.Constants.EXPENSE_CATEGORY_ICON_
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
+import com.example.expensetracker.shared.Constants;
 import com.example.expensetracker.ui.model.CategoryIconImageView;
 import com.example.expensetracker.shared.service.GlobalSelections;
 
@@ -102,25 +104,30 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private void setupCategoryIconsUI() {
         LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
         LinearLayout linearLayout = newLinearLayout();
+        wrapper.addView(linearLayout);
 
-        for (int i = 0; i < EXPENSE_CATEGORY_ICON_MODELS.length; i++) {
-            if (i > 0 && i % 3 == 0) {
-                wrapper.addView(linearLayout);
-                linearLayout = newLinearLayout();
-            }
+        for (int i = 1; i <= EXPENSE_CATEGORY_ICON_MODELS.length; i++) {
+            int categoryId = i - 1;
 
             linearLayout.addView(
                     new CategoryIconImageView(
                             this,
                             viewModel,
-                            i,
-                            EXPENSE_CATEGORY_ICON_MODELS[i].iconDrawableId
+                            EXPENSE_CATEGORY_ICON_MODELS[categoryId].categoryId,
+                            EXPENSE_CATEGORY_ICON_MODELS[categoryId].iconDrawableId
                     )
             );
+
             TextView tv = new TextView(this);
-            tv.setText(EXPENSE_CATEGORY_ICON_MODELS[i].description);
+            tv.setText(EXPENSE_CATEGORY_ICON_MODELS[categoryId].description);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             linearLayout.addView(tv);
+
+            if (i % 3 == 0) {
+                linearLayout = newLinearLayout();
+                wrapper.addView(linearLayout);
+            }
+
         }
     }
 

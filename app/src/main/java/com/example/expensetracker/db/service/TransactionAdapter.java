@@ -1,8 +1,11 @@
 package com.example.expensetracker.db.service;
 
+import static com.example.expensetracker.shared.Constants.EXPENSE_CATEGORY_ICON_MODELS;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,14 +66,20 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Transaction currentTransaction = transactions.get(position);
 
         if (holder instanceof TransactionViewHolder) {
-            TransactionViewHolder transactionHolder = (TransactionViewHolder) holder;
-            transactionHolder.transactionNameTextView.setText(currentTransaction.comment);
-            transactionHolder.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
+            TransactionViewHolder transaction = (TransactionViewHolder) holder;
+            transaction.transactionNameTextView.setText(currentTransaction.comment);
+            transaction.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
+            transaction.iconImageView.setImageResource(
+                    EXPENSE_CATEGORY_ICON_MODELS[currentTransaction.category_id].iconDrawableId
+            );
         } else {
-            TransactionWithHeaderViewHolder transactionHolder = (TransactionWithHeaderViewHolder) holder;
-            transactionHolder.transactionNameTextView.setText(currentTransaction.comment);
-            transactionHolder.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
-            transactionHolder.transactionHeaderTextView.setText(currentTransaction.date.toString());
+            TransactionWithHeaderViewHolder transaction = (TransactionWithHeaderViewHolder) holder;
+            transaction.transactionNameTextView.setText(currentTransaction.comment);
+            transaction.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
+            transaction.transactionHeaderTextView.setText(currentTransaction.date.toString());
+            transaction.iconImageView.setImageResource(
+                    EXPENSE_CATEGORY_ICON_MODELS[currentTransaction.category_id].iconDrawableId
+            );
         }
     }
 
@@ -82,11 +91,13 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     static class TransactionViewHolder extends RecyclerView.ViewHolder {
         TextView transactionNameTextView;
         TextView transactionAmountTextView;
+        ImageView iconImageView;
 
         TransactionViewHolder(View itemView) {
             super(itemView);
             transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
             transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
+            iconImageView = itemView.findViewById(R.id.iconImageView);
         }
     }
 
@@ -94,12 +105,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView transactionNameTextView;
         TextView transactionAmountTextView;
         TextView transactionHeaderTextView;
+        ImageView iconImageView;
 
         TransactionWithHeaderViewHolder(View itemView) {
             super(itemView);
             transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
             transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
             transactionHeaderTextView = itemView.findViewById(R.id.transaction_header);
+            iconImageView = itemView.findViewById(R.id.iconImageView);
         }
 
     }

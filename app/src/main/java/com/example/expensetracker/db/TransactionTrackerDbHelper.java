@@ -86,7 +86,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             String comment = cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_COMMENT));
             double amount = cursor.getDouble(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT));
-            int categoryId = cursor.getInt(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT));
+            int categoryId = cursor.getInt(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_CATEGORY_ID));
             LocalDate date = LocalDate.parse(
                     cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_DATE)),
                     DateTimeFormatter.ofPattern("yyyy-MM-dd")

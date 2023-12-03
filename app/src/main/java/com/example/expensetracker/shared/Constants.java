@@ -15,9 +15,9 @@ public class Constants {
             new CategoryIcon(R.drawable.ci_car, 4, "Car"),
             new CategoryIcon(R.drawable.ci_drinks, 5, "Drinks"),
             new CategoryIcon(R.drawable.ci_gifts, 6, "Gifts"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 2, "test"),
+            new CategoryIcon(R.drawable.ci_fitness, 7, "Fitness"),
+            new CategoryIcon(R.drawable.ci_education, 8, "Education"),
+            new CategoryIcon(R.drawable.ci_dresses, 9, "Dresses"),
+            new CategoryIcon(R.drawable.ic_menu_slideshow, 10, "TEST"),
     };
 }

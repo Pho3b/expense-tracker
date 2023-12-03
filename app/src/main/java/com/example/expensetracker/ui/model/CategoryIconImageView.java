@@ -18,6 +18,7 @@ public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatIm
     public int categoryId;
     private static int[] dpMeasures = null;
 
+
     public CategoryIconImageView(
             @NonNull Context context,
             CreateTransactionViewModel viewModel,
@@ -56,9 +57,12 @@ public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatIm
     private void initDensityPixelMeasures() {
         if (dpMeasures == null) {
             dpMeasures = new int[]{
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()), // Padding
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics()), // Icon Size
-                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources().getDisplayMetrics()) // Margin
+                    // Padding
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()),
+                    // Icon Size
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics()),
+                    // Margin
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 14, getResources().getDisplayMetrics())
             };
         }
     }
