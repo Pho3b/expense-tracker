@@ -1,4 +1,4 @@
-package com.example.expensetracker.shared.service;
+package com.example.expensetracker.service;
 
 import android.app.Application;
 import android.graphics.drawable.Drawable;
@@ -7,8 +7,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.shared.enums.TimeSpanSelection;
-import com.example.expensetracker.shared.enums.TransactionType;
+import com.example.expensetracker.enums.TimeSpanSelection;
+import com.example.expensetracker.enums.TransactionType;
 
 import java.time.LocalDate;
 

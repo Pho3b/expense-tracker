@@ -1,6 +1,6 @@
 package com.example.expensetracker.db.model;
 
-import com.example.expensetracker.shared.enums.TransactionType;
+import com.example.expensetracker.enums.TransactionType;
 
 import java.time.LocalDate;
 

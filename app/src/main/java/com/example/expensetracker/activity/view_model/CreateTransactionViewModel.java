@@ -8,8 +8,8 @@ import android.view.View;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.service.GlobalSelections;
+import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.ui.model.CategoryIconImageView;
 
 import java.time.LocalDate;
@@ -26,6 +26,8 @@ public class CreateTransactionViewModel extends ViewModel {
     public MutableLiveData<String> uiDate = new MutableLiveData<>();
     public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
+    public MutableLiveData<TransactionType> transactionTypeBtnClicked =
+            new MutableLiveData<>(GlobalSelections.selectedTransactionType);
     private final Application application;
 
     /**
@@ -48,6 +50,7 @@ public class CreateTransactionViewModel extends ViewModel {
      * @param view current View instance.
      */
     public void onExpenseTypeBtnClick(View view) {
+        transactionTypeBtnClicked.setValue(TransactionType.Expense);
         GlobalSelections.selectedTransactionType = TransactionType.Expense;
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
@@ -58,6 +61,7 @@ public class CreateTransactionViewModel extends ViewModel {
      * @param view current View instance.
      */
     public void onIncomeTypeBtnClick(View view) {
+        transactionTypeBtnClicked.setValue(TransactionType.Income);
         GlobalSelections.selectedTransactionType = TransactionType.Income;
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }

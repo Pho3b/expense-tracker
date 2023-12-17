@@ -13,9 +13,9 @@ import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.db.model.Transaction;
-import com.example.expensetracker.shared.enums.TimeSpanSelection;
-import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.service.GlobalSelections;
+import com.example.expensetracker.enums.TimeSpanSelection;
+import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.db.service.TransactionAdapter;
 
 import java.time.LocalDate;
@@ -23,7 +23,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ListTransactionActivity extends AppCompatActivity {
-
     protected ListTransactionViewModel viewModel;
     private TransactionTrackerDbHelper dbHelper;
     private RecyclerView recyclerView;

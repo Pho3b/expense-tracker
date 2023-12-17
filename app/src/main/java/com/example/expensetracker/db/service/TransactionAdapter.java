@@ -1,6 +1,7 @@
 package com.example.expensetracker.db.service;
 
-import static com.example.expensetracker.shared.Constants.EXPENSE_CATEGORY_ICON_MODELS;
+import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
+import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,9 @@ import java.util.List;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.db.model.Transaction;
+import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.model.CategoryIcon;
+import com.example.expensetracker.service.GlobalSelections;
 
 public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final List<Transaction> transactions;
@@ -64,13 +68,17 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Transaction currentTransaction = transactions.get(position);
+        CategoryIcon[] iconModels = GlobalSelections.selectedTransactionType == TransactionType.Expense ?
+                EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
+
 
         if (holder instanceof TransactionViewHolder) {
+
             TransactionViewHolder transaction = (TransactionViewHolder) holder;
             transaction.transactionNameTextView.setText(currentTransaction.comment);
             transaction.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
             transaction.iconImageView.setImageResource(
-                    EXPENSE_CATEGORY_ICON_MODELS[currentTransaction.category_id].iconDrawableId
+                    iconModels[currentTransaction.category_id].iconDrawableId
             );
         } else {
             TransactionWithHeaderViewHolder transaction = (TransactionWithHeaderViewHolder) holder;
@@ -78,7 +86,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             transaction.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
             transaction.transactionHeaderTextView.setText(currentTransaction.date.toString());
             transaction.iconImageView.setImageResource(
-                    EXPENSE_CATEGORY_ICON_MODELS[currentTransaction.category_id].iconDrawableId
+                    iconModels[currentTransaction.category_id].iconDrawableId
             );
         }
     }

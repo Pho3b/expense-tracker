@@ -67,7 +67,6 @@
 
             <include
                 layout="@layout/time_span_selection_bar"
-                android:layout_gravity="center_horizontal"
                 app:viewModel="@{viewModel}" />
 
             <TextView

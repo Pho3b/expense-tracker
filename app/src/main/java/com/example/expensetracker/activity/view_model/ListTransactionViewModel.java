@@ -9,9 +9,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.shared.enums.TimeSpanSelection;
-import com.example.expensetracker.shared.enums.TransactionType;
-import com.example.expensetracker.shared.service.GlobalSelections;
+import com.example.expensetracker.enums.TimeSpanSelection;
+import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.service.GlobalSelections;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -20,10 +20,8 @@ import java.util.Objects;
 public class ListTransactionViewModel extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
-
     public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
-
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
 
