@@ -91,7 +91,7 @@
             <LinearLayout
                 android:id="@+id/category_ids_wrapper"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
                 <!-- List of Category Icons is loaded here onCreate-->
@@ -138,18 +138,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:onClick="@{viewModel.onAddTransactionClick}"
                 android:outlineProvider="paddedBounds"
                 android:padding="12dp"
                 android:text="ADD"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.9" />
+                app:layout_constraintVertical_bias="0.428" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
