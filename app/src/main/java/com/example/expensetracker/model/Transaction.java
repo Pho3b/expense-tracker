@@ -1,4 +1,4 @@
-package com.example.expensetracker.db.model;
+package com.example.expensetracker.model;
 
 import com.example.expensetracker.enums.TransactionType;
 

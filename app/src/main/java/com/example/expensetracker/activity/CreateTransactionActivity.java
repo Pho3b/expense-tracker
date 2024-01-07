@@ -20,7 +20,7 @@ import com.example.expensetracker.activity.view_model.CreateTransactionViewModel
 import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
-import com.example.expensetracker.db.model.Transaction;
+import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.model.CategoryIcon;
 import com.example.expensetracker.model.Constants;
 import com.example.expensetracker.enums.TransactionType;

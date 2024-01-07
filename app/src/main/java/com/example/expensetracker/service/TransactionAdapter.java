@@ -1,4 +1,4 @@
-package com.example.expensetracker.db.service;
+package com.example.expensetracker.service;
 
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,17 +16,54 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.db.model.Transaction;
+import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enums.TransactionType;
 import com.example.expensetracker.model.CategoryIcon;
-import com.example.expensetracker.service.GlobalSelections;
 
 public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final List<Transaction> transactions;
     private static final int TRANSACTION = 0;
     private static final int TRANSACTION_WITH_HEADER = 1;
-
+    private final List<Transaction> transactions;
     private String lastDate = "";
+
+
+    static class TransactionViewHolder extends RecyclerView.ViewHolder {
+        TextView transactionNameTextView;
+        TextView transactionAmountTextView;
+        ImageView iconImageView;
+        int categoryId;
+
+        TransactionViewHolder(View itemView) {
+            super(itemView);
+            transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
+            transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
+            iconImageView = itemView.findViewById(R.id.iconImageView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(iconImageView.getContext(), Integer.toString(categoryId), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+    }
+
+    static class TransactionWithHeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView transactionNameTextView;
+        TextView transactionAmountTextView;
+        TextView transactionHeaderTextView;
+        ImageView iconImageView;
+
+        TransactionWithHeaderViewHolder(View itemView) {
+            super(itemView);
+            transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
+            transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
+            transactionHeaderTextView = itemView.findViewById(R.id.transaction_header);
+            iconImageView = itemView.findViewById(R.id.iconImageView);
+        }
+
+    }
 
     public TransactionAdapter(List<Transaction> transactions) {
         this.transactions = transactions;
@@ -80,6 +118,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             transaction.iconImageView.setImageResource(
                     iconModels[currentTransaction.category_id].iconDrawableId
             );
+            transaction.categoryId = currentTransaction.category_id;
         } else {
             TransactionWithHeaderViewHolder transaction = (TransactionWithHeaderViewHolder) holder;
             transaction.transactionNameTextView.setText(currentTransaction.comment);
@@ -94,34 +133,5 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemCount() {
         return transactions.size();
-    }
-
-    static class TransactionViewHolder extends RecyclerView.ViewHolder {
-        TextView transactionNameTextView;
-        TextView transactionAmountTextView;
-        ImageView iconImageView;
-
-        TransactionViewHolder(View itemView) {
-            super(itemView);
-            transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
-            transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
-            iconImageView = itemView.findViewById(R.id.iconImageView);
-        }
-    }
-
-    static class TransactionWithHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView transactionNameTextView;
-        TextView transactionAmountTextView;
-        TextView transactionHeaderTextView;
-        ImageView iconImageView;
-
-        TransactionWithHeaderViewHolder(View itemView) {
-            super(itemView);
-            transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
-            transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
-            transactionHeaderTextView = itemView.findViewById(R.id.transaction_header);
-            iconImageView = itemView.findViewById(R.id.iconImageView);
-        }
-
     }
 }

@@ -12,11 +12,11 @@ import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
-import com.example.expensetracker.db.model.Transaction;
+import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enums.TimeSpanSelection;
 import com.example.expensetracker.enums.TransactionType;
 import com.example.expensetracker.service.GlobalSelections;
-import com.example.expensetracker.db.service.TransactionAdapter;
+import com.example.expensetracker.service.TransactionAdapter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
