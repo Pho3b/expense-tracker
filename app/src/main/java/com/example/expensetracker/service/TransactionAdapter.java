@@ -3,6 +3,8 @@ package com.example.expensetracker.service;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.activity.CreateTransactionActivity;
+import com.example.expensetracker.activity.EditTransactionActivity;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enums.TransactionType;
 import com.example.expensetracker.model.CategoryIcon;
@@ -42,8 +46,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(iconImageView.getContext(), Integer.toString(categoryId), Toast.LENGTH_SHORT).show();
+                    Context itemCtx = itemView.getContext();
+                    Intent intent = new Intent(itemCtx, EditTransactionActivity.class);
+                    intent.putExtra("categoryId", categoryId);
 
+                    itemCtx.startActivity(intent);
                 }
             });
         }
