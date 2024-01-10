@@ -13,7 +13,6 @@ import com.example.expensetracker.R;
  * Class representing the ViewHolder for the plain Transaction item showed in the main view list.
  */
 public class TransactionVH extends RecyclerView.ViewHolder {
-    protected int categoryId = -1;
     public TextView transactionNameTextView;
     public TextView transactionAmountTextView;
     public ImageView iconImageView;
