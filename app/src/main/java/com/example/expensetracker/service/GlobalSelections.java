@@ -7,8 +7,8 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.enums.TimeSpanSelection;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TimeSpanSelection;
+import com.example.expensetracker.enumerator.TransactionType;
 
 import java.time.LocalDate;
 

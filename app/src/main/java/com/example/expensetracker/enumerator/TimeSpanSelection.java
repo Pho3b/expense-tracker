@@ -1,4 +1,4 @@
-package com.example.expensetracker.enums;
+package com.example.expensetracker.enumerator;
 
 public enum TimeSpanSelection {
     Custom,

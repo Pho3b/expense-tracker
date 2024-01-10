@@ -9,8 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.enums.TimeSpanSelection;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TimeSpanSelection;
+import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.service.GlobalSelections;
 
 import java.time.LocalDate;

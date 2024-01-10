@@ -1,6 +1,6 @@
 package com.example.expensetracker.model;
 
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TransactionType;
 
 import java.time.LocalDate;
 

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,11 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.CreateTransactionActivity;
 import com.example.expensetracker.activity.EditTransactionActivity;
 import com.example.expensetracker.model.Transaction;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.CategoryIcon;
+import com.example.expensetracker.model.view_holder.HeaderTransactionVH;
+import com.example.expensetracker.model.view_holder.TransactionVH;
+import com.example.expensetracker.model.view_holder.TransactionViewHolder;
 
 public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TRANSACTION = 0;
@@ -30,50 +31,25 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final List<Transaction> transactions;
     private String lastDate = "";
 
-
-    static class TransactionViewHolder extends RecyclerView.ViewHolder {
-        TextView transactionNameTextView;
-        TextView transactionAmountTextView;
-        ImageView iconImageView;
-        int categoryId;
-
-        TransactionViewHolder(View itemView) {
-            super(itemView);
-            transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
-            transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
-            iconImageView = itemView.findViewById(R.id.iconImageView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context itemCtx = itemView.getContext();
-                    Intent intent = new Intent(itemCtx, EditTransactionActivity.class);
-                    intent.putExtra("categoryId", categoryId);
-
-                    itemCtx.startActivity(intent);
-                }
-            });
-        }
-    }
-
-    static class TransactionWithHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView transactionNameTextView;
-        TextView transactionAmountTextView;
-        TextView transactionHeaderTextView;
-        ImageView iconImageView;
-
-        TransactionWithHeaderViewHolder(View itemView) {
-            super(itemView);
-            transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
-            transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
-            transactionHeaderTextView = itemView.findViewById(R.id.transaction_header);
-            iconImageView = itemView.findViewById(R.id.iconImageView);
-        }
-
-    }
-
     public TransactionAdapter(List<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    private static class ItemOnClick implements View.OnClickListener {
+        int categoryId;
+
+        protected ItemOnClick(int categoryId) {
+            this.categoryId = categoryId;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Context itemCtx = v.getContext();
+            Intent intent = new Intent(itemCtx, EditTransactionActivity.class);
+            intent.putExtra("categoryId", this.categoryId);
+
+            itemCtx.startActivity(intent);
+        }
     }
 
     @Override
@@ -92,7 +68,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TRANSACTION_WITH_HEADER) {
-            return new TransactionWithHeaderViewHolder(
+            return new HeaderTransactionVH(
                     LayoutInflater.from(parent.getContext()).inflate(
                             R.layout.transaction_item_with_header,
                             parent,
@@ -101,7 +77,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             );
         }
 
-        return new TransactionViewHolder(
+        return new TransactionVH(
                 LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.transaction_item,
                         parent,
@@ -112,29 +88,24 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        TransactionViewHolder transactionVH;
         Transaction currentTransaction = transactions.get(position);
         CategoryIcon[] iconModels = GlobalSelections.selectedTransactionType == TransactionType.Expense ?
                 EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
 
-
-        if (holder instanceof TransactionViewHolder) {
-
-            TransactionViewHolder transaction = (TransactionViewHolder) holder;
-            transaction.transactionNameTextView.setText(currentTransaction.comment);
-            transaction.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
-            transaction.iconImageView.setImageResource(
-                    iconModels[currentTransaction.category_id].iconDrawableId
-            );
-            transaction.categoryId = currentTransaction.category_id;
+        if (holder instanceof HeaderTransactionVH) {
+            transactionVH = (HeaderTransactionVH) holder;
+            transactionVH.transactionHeaderTextView.setText(currentTransaction.date.toString());
         } else {
-            TransactionWithHeaderViewHolder transaction = (TransactionWithHeaderViewHolder) holder;
-            transaction.transactionNameTextView.setText(currentTransaction.comment);
-            transaction.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
-            transaction.transactionHeaderTextView.setText(currentTransaction.date.toString());
-            transaction.iconImageView.setImageResource(
-                    iconModels[currentTransaction.category_id].iconDrawableId
-            );
+            transactionVH = (TransactionVH) holder;
         }
+
+        transactionVH.categoryId = currentTransaction.category_id;
+        transactionVH.transactionNameTextView.setText(currentTransaction.comment);
+        transactionVH.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
+        transactionVH.iconImageView.setImageResource(
+                iconModels[currentTransaction.category_id].iconDrawableId
+        );
     }
 
     @Override

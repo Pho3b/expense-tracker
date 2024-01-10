@@ -8,7 +8,7 @@ import android.view.View;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.ui.model.CategoryIconImageView;
 

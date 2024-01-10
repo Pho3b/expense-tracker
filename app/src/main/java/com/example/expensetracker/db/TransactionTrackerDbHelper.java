@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.expensetracker.model.Transaction;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TransactionType;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

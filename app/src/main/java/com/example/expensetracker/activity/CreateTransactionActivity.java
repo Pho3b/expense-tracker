@@ -23,7 +23,7 @@ import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.model.CategoryIcon;
 import com.example.expensetracker.model.Constants;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.ui.model.CategoryIconImageView;
 import com.example.expensetracker.service.GlobalSelections;
 

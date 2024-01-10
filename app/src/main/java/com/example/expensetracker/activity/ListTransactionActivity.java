@@ -13,8 +13,8 @@ import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
-import com.example.expensetracker.enums.TimeSpanSelection;
-import com.example.expensetracker.enums.TransactionType;
+import com.example.expensetracker.enumerator.TimeSpanSelection;
+import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.service.TransactionAdapter;
 
