@@ -7,7 +7,7 @@ import android.view.View;
 import com.example.expensetracker.activity.EditTransactionActivity;
 
 public class TransactionOnClick implements View.OnClickListener {
-    int categoryId;
+    private final int categoryId;
 
     protected TransactionOnClick(int categoryId) {
         this.categoryId = categoryId;

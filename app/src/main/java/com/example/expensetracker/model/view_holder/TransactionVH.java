@@ -13,7 +13,7 @@ import com.example.expensetracker.R;
  * Class representing the ViewHolder for the plain Transaction item showed in the main view list.
  */
 public class TransactionVH extends RecyclerView.ViewHolder {
-    public int categoryId = -1;
+    protected int categoryId = -1;
     public TextView transactionNameTextView;
     public TextView transactionAmountTextView;
     public ImageView iconImageView;
@@ -30,6 +30,10 @@ public class TransactionVH extends RecyclerView.ViewHolder {
         transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
         iconImageView = itemView.findViewById(R.id.iconImageView);
 
-        itemView.setOnClickListener(new TransactionOnClick(this.categoryId));
+
+    }
+
+    public void setOnClickListener(int categoryId) {
+        itemView.setOnClickListener(new TransactionOnClick(categoryId));
     }
 }
