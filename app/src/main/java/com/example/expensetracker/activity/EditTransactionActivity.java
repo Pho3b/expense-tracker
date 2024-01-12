@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.expensetracker.R;
 
-public class EditTransactionActivity extends AppCompatActivity {
+public class EditTransactionActivity extends CreateTransactionActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
