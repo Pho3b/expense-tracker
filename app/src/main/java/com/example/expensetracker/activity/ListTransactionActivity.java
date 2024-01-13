@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.ListTransactionViewModel;
+import com.example.expensetracker.activity.view_model.ListTransactionVM;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ListTransactionActivity extends AppCompatActivity {
-    protected ListTransactionViewModel viewModel;
+    protected ListTransactionVM viewModel;
     private TransactionTrackerDbHelper dbHelper;
     private RecyclerView recyclerView;
 
@@ -53,7 +53,7 @@ public class ListTransactionActivity extends AppCompatActivity {
      * Binds the current Activity to its ViewModel
      */
     private void bindViewModel() {
-        viewModel = new ListTransactionViewModel(getApplication());
+        viewModel = new ListTransactionVM(getApplication());
         ActivityListTransactionBinding binding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_list_transaction

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class CreateTransactionViewModel extends ViewModel {
+public class CreateTransactionVM extends ViewModel {
     public LocalDate date = LocalDate.now();
     public Integer categoryId = 0;
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>();
@@ -35,7 +35,7 @@ public class CreateTransactionViewModel extends ViewModel {
      *
      * @param application the current application context instance.
      */
-    public CreateTransactionViewModel(Application application) {
+    public CreateTransactionVM(Application application) {
         this.application = application;
         GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
 

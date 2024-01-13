@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
+import com.example.expensetracker.activity.view_model.CreateTransactionVM;
 
 public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatImageView {
     public int categoryId;
@@ -21,7 +21,7 @@ public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatIm
 
     public CategoryIconImageView(
             @NonNull Context context,
-            CreateTransactionViewModel viewModel,
+            CreateTransactionVM viewModel,
             int categoryId,
             int iconDrawableId
     ) {

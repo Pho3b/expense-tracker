@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ListTransactionViewModel extends ViewModel {
+public class ListTransactionVM extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
     public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
@@ -38,7 +38,7 @@ public class ListTransactionViewModel extends ViewModel {
      *
      * @param application the current application context instance.
      */
-    public ListTransactionViewModel(Application application) {
+    public ListTransactionVM(Application application) {
         this.application = application;
 
         this.updateSelectedDateTxt();

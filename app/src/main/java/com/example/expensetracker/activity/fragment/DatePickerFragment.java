@@ -5,16 +5,15 @@ import android.app.Dialog;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
+import com.example.expensetracker.activity.view_model.CreateTransactionVM;
 
 public class DatePickerFragment extends DialogFragment {
-    public CreateTransactionViewModel datePickerListener;
+    public CreateTransactionVM datePickerListener;
     private final DatePickerDialog.OnDateSetListener onSelectListener;
 
 

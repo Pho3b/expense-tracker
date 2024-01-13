@@ -16,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.CreateTransactionViewModel;
+import com.example.expensetracker.activity.view_model.CreateTransactionVM;
 import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
@@ -31,7 +31,7 @@ import java.util.Objects;
 
 public class CreateTransactionActivity extends AppCompatActivity {
 
-    protected CreateTransactionViewModel viewModel;
+    protected CreateTransactionVM viewModel;
     private static final String DATE_PICKER_TAG = "datePicker";
     private TransactionTrackerDbHelper dbHelper;
 
@@ -61,7 +61,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
      * Binds the current Activity to its ViewModel
      */
     private void bindViewModel() {
-        viewModel = new CreateTransactionViewModel(getApplication());
+        viewModel = new CreateTransactionVM(getApplication());
         ActivityCreateTransactionBinding binding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_create_transaction
