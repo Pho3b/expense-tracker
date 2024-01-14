@@ -22,7 +22,7 @@ public class TransactionTypeSelectionFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        vm = new ViewModelProvider(this).get(TransactionTypeSelectionVM.class);
+        // vm = new ViewModelProvider(this).get(TransactionTypeSelectionVM.class);
     }
 
     @Nullable
