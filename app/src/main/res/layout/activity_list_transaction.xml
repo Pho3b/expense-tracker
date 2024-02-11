@@ -24,7 +24,9 @@
             android:id="@+id/fragment_container"
             android:name="com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
             app:layout_behavior="com.google.android.material.bottom-sheet.BottomSheetBehavior" />
 
 
