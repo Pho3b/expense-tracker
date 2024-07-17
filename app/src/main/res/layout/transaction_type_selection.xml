@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
@@ -16,8 +17,10 @@
             android:id="@+id/expense_type_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@{viewModel.expenseBackground}"
             android:clickable="true"
             android:gravity="start"
+            android:onClick="@{viewModel.expenseTypeBtnOnClick}"
             android:padding="8dp"
             android:text="@string/expense"
             android:textSize="20sp"
@@ -27,9 +30,11 @@
             android:id="@+id/income_type_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@{viewModel.incomeBackground}"
             android:layout_marginStart="165dp"
             android:clickable="true"
             android:gravity="end"
+            android:onClick="@{viewModel.incomeTypeBtnOnClick}"
             android:padding="8dp"
             android:text="@string/income"
             android:textSize="20sp"

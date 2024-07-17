@@ -20,53 +20,15 @@
         android:paddingBottom="25dp"
         tools:context=".activity.ListTransactionActivity">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container"
-            android:name="com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            app:layout_behavior="com.google.android.material.bottom-sheet.BottomSheetBehavior" />
+        <include
+            layout="@layout/transaction_type_selection"
+            app:viewModel="@{viewModel}"/>
 
-
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            android:padding="10dp">-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/expense_type_btn"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:background="@{viewModel.expenseBackground}"-->
-        <!--                android:clickable="true"-->
-        <!--                android:gravity="start"-->
-        <!--                android:onClick="@{viewModel.expenseTypeBtnOnClick}"-->
-        <!--                android:padding="8dp"-->
-        <!--                android:text="@string/expense"-->
-        <!--                android:textSize="20sp"-->
-        <!--                android:textStyle="bold" />-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/income_type_btn"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginStart="165dp"-->
-        <!--                android:background="@{viewModel.incomeBackground}"-->
-        <!--                android:clickable="true"-->
-        <!--                android:gravity="end"-->
-        <!--                android:onClick="@{viewModel.incomeTypeBtnOnClick}"-->
-        <!--                android:padding="8dp"-->
-        <!--                android:text="@string/income"-->
-        <!--                android:textSize="20sp"-->
-        <!--                android:textStyle="bold" />-->
-        <!--        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/rounded_grey_background"
             android:orientation="vertical"
