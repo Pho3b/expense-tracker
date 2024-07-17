@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,9 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
+import com.example.expensetracker.databinding.TransactionTypeSelectionBinding;
 
 
 public class TransactionTypeSelectionFragment extends Fragment {
+    private TransactionTypeSelectionBinding binding;
     private TransactionTypeSelectionVM vm;
 
 
@@ -32,6 +35,15 @@ public class TransactionTypeSelectionFragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        return inflater.inflate(R.layout.transaction_type_selection, container, false);
+        binding = TransactionTypeSelectionBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        vm = new ViewModelProvider(this).get(TransactionTypeSelectionVM.class);
+
+        Toast.makeText(requireContext(), "Fragment view created", Toast.LENGTH_SHORT).show();
     }
 }

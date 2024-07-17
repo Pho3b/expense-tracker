@@ -15,19 +15,19 @@ public class TransactionTypeSelectionVM extends ViewModel {
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
-    private final Application application;
-
-
-    /**
-     * Constructor with given Application.
-     *
-     * @param application the current application context instance.
-     */
-    public TransactionTypeSelectionVM(Application application) {
-        this.application = application;
-
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
-    }
+    private final Application application = null;
+//
+//
+//    /**
+//     * Constructor with given Application.
+//     *
+//     * @param application the current application context instance.
+//     */
+//    public TransactionTypeSelectionVM(Application application) {
+//        this.application = application;
+//
+//        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+//    }
 
     /**
      * Handles the onClick event for the view button with ID 'expense_type_btn'.

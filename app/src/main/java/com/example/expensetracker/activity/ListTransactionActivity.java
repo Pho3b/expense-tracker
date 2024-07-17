@@ -5,10 +5,13 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.ListTransactionVM;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
@@ -36,6 +39,12 @@ public class ListTransactionActivity extends AppCompatActivity {
         setupDbConnection();
         bindViewModel();
         setupObservers();
+
+        // In your Activity or another Fragment's Java code:
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
+        transaction.commit();
     }
 
     @Override

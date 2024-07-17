@@ -1,8 +1,12 @@
 package com.example.expensetracker.service;
 
 import android.app.Application;
+import android.app.Service;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.IBinder;
 
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 
@@ -12,7 +16,7 @@ import com.example.expensetracker.enumerator.TransactionType;
 
 import java.time.LocalDate;
 
-public class GlobalSelections {
+public class GlobalSelections extends Service {
     public static TransactionType selectedTransactionType = TransactionType.Expense;
     public static MutableLiveData<LocalDate> selectedDate = new MutableLiveData<>(LocalDate.now());
     public static TimeSpanSelection selectedTimeSpan = TimeSpanSelection.Month;
@@ -39,5 +43,11 @@ public class GlobalSelections {
             default:
                 break;
         }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 }
