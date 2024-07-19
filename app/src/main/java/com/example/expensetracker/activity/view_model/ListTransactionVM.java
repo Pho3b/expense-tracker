@@ -55,28 +55,6 @@ public class ListTransactionVM extends ViewModel {
     }
 
     /**
-     * Handles the onClick event for the view button with ID 'expense_type_btn'.
-     *
-     * @param view current View instance.
-     */
-    public void expenseTypeBtnOnClick(View view) {
-        GlobalSelections.selectedTransactionType = TransactionType.Expense;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
-        transactionTypeBtnClicked.setValue(true);
-    }
-
-    /**
-     * Handles the onClick event for the view button with ID 'income_type_btn'.
-     *
-     * @param view current View instance.
-     */
-    public void incomeTypeBtnOnClick(View view) {
-        GlobalSelections.selectedTransactionType = TransactionType.Income;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
-        transactionTypeBtnClicked.setValue(true);
-    }
-
-    /**
      * Updates the selected dates displayed text.
      * If the selected TimeSpan is 'month' a '{month} {year}' text will be displayed,
      * otherwise if 'year' is selected, the text will display only the '{year}'.
@@ -94,10 +72,6 @@ public class ListTransactionVM extends ViewModel {
         }
 
         monthYearTxt.setValue(displayTxt);
-    }
-
-    public void updateAmountsTexts(Integer amount) {
-        transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "€ %d", amount));
     }
 
     public void rightArrowOnClick(View view) {

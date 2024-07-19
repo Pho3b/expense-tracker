@@ -2,17 +2,19 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.ListTransactionVM;
+import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
+import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVMFactory;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 
 public class ListTransactionActivity extends AppCompatActivity {
     protected ListTransactionVM viewModel;
+    protected TransactionTypeSelectionVM transactionTypeSelectionVM;
     private TransactionTrackerDbHelper dbHelper;
     private RecyclerView recyclerView;
 
@@ -34,17 +37,22 @@ public class ListTransactionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_list_transaction);
+        dbHelper = new TransactionTrackerDbHelper(this);
 
-        setupDbConnection();
-        bindViewModel();
-        setupObservers();
-
-        // In your Activity or another Fragment's Java code:
+        // Adds the TransactionTypeSelectionFragment to the activity
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
         transaction.commit();
+
+        transactionTypeSelectionVM = new ViewModelProvider(
+                this, new TransactionTypeSelectionVMFactory(getApplication())
+        ).get(TransactionTypeSelectionVM.class);
+
+        bindViewModel();
+        setupObservers();
     }
 
     @Override
@@ -74,7 +82,6 @@ public class ListTransactionActivity extends AppCompatActivity {
     }
 
     private void setupObservers() {
-        // Button responsible to start the 'CreateTransactionActivity'
         viewModel.startCreateTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
@@ -84,18 +91,10 @@ public class ListTransactionActivity extends AppCompatActivity {
                 }
         );
 
-        viewModel.transactionTypeBtnClicked.observe(
+        transactionTypeSelectionVM.transactionTypeBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        viewModel.updateAmountsTexts(
-                                retrieveTransactionsAmountSum(
-                                        GlobalSelections.selectedTransactionType,
-                                        GlobalSelections.selectedTimeSpan,
-                                        GlobalSelections.selectedDate.getValue()
-                                )
-                        );
-
                         updateRecyclerView(
                                 retrieveTransactions(
                                         GlobalSelections.selectedTransactionType,
@@ -109,24 +108,13 @@ public class ListTransactionActivity extends AppCompatActivity {
 
         GlobalSelections.selectedDate.observe(
                 this,
-                (LocalDate selectedDate) -> {
-                    viewModel.updateSelectedDateTxt();
-                    viewModel.updateAmountsTexts(
-                            retrieveTransactionsAmountSum(
-                                    GlobalSelections.selectedTransactionType,
-                                    GlobalSelections.selectedTimeSpan,
-                                    selectedDate
-                            )
-                    );
-
-                    updateRecyclerView(
-                            retrieveTransactions(
-                                    GlobalSelections.selectedTransactionType,
-                                    GlobalSelections.selectedTimeSpan,
-                                    selectedDate
-                            )
-                    );
-                }
+                (LocalDate selectedDate) -> updateRecyclerView(
+                        retrieveTransactions(
+                                GlobalSelections.selectedTransactionType,
+                                GlobalSelections.selectedTimeSpan,
+                                selectedDate
+                        )
+                )
         );
     }
 
@@ -152,28 +140,5 @@ public class ListTransactionActivity extends AppCompatActivity {
                 LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
-    }
-
-    private Integer retrieveTransactionsAmountSum(
-            TransactionType selectedType,
-            TimeSpanSelection selectedTimeSpan,
-            LocalDate selectedDate
-    ) {
-        LocalDate startDate = selectedTimeSpan == TimeSpanSelection.Month ?
-                LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1) :
-                LocalDate.of(selectedDate.getYear(), 1, 1);
-        LocalDate endDate = selectedTimeSpan == TimeSpanSelection.Month ?
-                startDate.plusMonths(1).minusDays(1) :
-                startDate.plusYears(1).minusDays(1);
-
-        return dbHelper.retrieveTransactionsAmountSum(
-                selectedType,
-                LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-        );
-    }
-
-    private void setupDbConnection() {
-        dbHelper = new TransactionTrackerDbHelper(this);
     }
 }

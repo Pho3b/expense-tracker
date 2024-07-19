@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 public class TransactionTypeSelectionVMFactory implements ViewModelProvider.Factory {
     private final Application application;
+    private static TransactionTypeSelectionVM instance;
 
     public TransactionTypeSelectionVMFactory(Application application) {
         this.application = application;
@@ -17,7 +18,11 @@ public class TransactionTypeSelectionVMFactory implements ViewModelProvider.Fact
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(TransactionTypeSelectionVM.class)) {
-            return (T) new TransactionTypeSelectionVM(application);
+            if (instance == null) {
+                instance = new TransactionTypeSelectionVM(application);
+            }
+
+            return (T) instance;
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
