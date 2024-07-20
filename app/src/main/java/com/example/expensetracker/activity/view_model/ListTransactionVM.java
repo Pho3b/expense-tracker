@@ -10,11 +10,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.enumerator.TimeSpanSelection;
-import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.service.GlobalSelections;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ListTransactionVM extends ViewModel {
@@ -23,7 +21,6 @@ public class ListTransactionVM extends ViewModel {
     public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
-    public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
 
     // TimeSpan selection bar related properties
     public MutableLiveData<Integer> customBtnTextColor = new MutableLiveData<>(Color.WHITE);
@@ -42,7 +39,6 @@ public class ListTransactionVM extends ViewModel {
         this.application = application;
 
         this.updateSelectedDateTxt();
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     /**
@@ -52,28 +48,6 @@ public class ListTransactionVM extends ViewModel {
      */
     public void initCreateTransactionActivityBtnOnClick() {
         startCreateTransactionClicked.setValue(true);
-    }
-
-    /**
-     * Handles the onClick event for the view button with ID 'expense_type_btn'.
-     *
-     * @param view current View instance.
-     */
-    public void expenseTypeBtnOnClick(View view) {
-        GlobalSelections.selectedTransactionType = TransactionType.Expense;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
-        transactionTypeBtnClicked.setValue(true);
-    }
-
-    /**
-     * Handles the onClick event for the view button with ID 'income_type_btn'.
-     *
-     * @param view current View instance.
-     */
-    public void incomeTypeBtnOnClick(View view) {
-        GlobalSelections.selectedTransactionType = TransactionType.Income;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
-        transactionTypeBtnClicked.setValue(true);
     }
 
     /**
@@ -94,10 +68,6 @@ public class ListTransactionVM extends ViewModel {
         }
 
         monthYearTxt.setValue(displayTxt);
-    }
-
-    public void updateAmountsTexts(Integer amount) {
-        transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "€ %d", amount));
     }
 
     public void rightArrowOnClick(View view) {

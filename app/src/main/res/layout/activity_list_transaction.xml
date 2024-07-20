@@ -20,10 +20,10 @@
         android:paddingBottom="25dp"
         tools:context=".activity.ListTransactionActivity">
 
-        <include
-            layout="@layout/transaction_type_selection"
-            app:viewModel="@{viewModel}"/>
-
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/type_selection_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:clickable="true"
+                android:contentDescription="@string/add_transaction_desc"
                 android:onClick="@{() -> viewModel.initCreateTransactionActivityBtnOnClick()}"
                 android:src="@android:drawable/ic_input_add"
                 app:backgroundTint="#5D6ECF" />

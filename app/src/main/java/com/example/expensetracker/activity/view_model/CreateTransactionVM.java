@@ -1,6 +1,5 @@
 package com.example.expensetracker.activity.view_model;
 
-import android.app.Application;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -8,8 +7,6 @@ import android.view.View;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.expensetracker.enumerator.TransactionType;
-import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.ui.model.CategoryIconImageView;
 
 import java.time.LocalDate;
@@ -26,44 +23,12 @@ public class CreateTransactionVM extends ViewModel {
     public MutableLiveData<String> uiDate = new MutableLiveData<>();
     public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
-    public MutableLiveData<TransactionType> transactionTypeBtnClicked =
-            new MutableLiveData<>(GlobalSelections.selectedTransactionType);
-    private final Application application;
 
-    /**
-     * Constructor
-     *
-     * @param application the current application context instance.
-     */
-    public CreateTransactionVM(Application application) {
-        this.application = application;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
 
+    public void setupUI() {
         uiDate.setValue(String.format(
                 Locale.ITALIAN, "%d-%d-%d", date.getDayOfMonth(), date.getMonthValue(), date.getYear())
         );
-    }
-
-    /**
-     * Handles the onClick event for the view button with ID 'expense_type_btn'.
-     *
-     * @param view current View instance.
-     */
-    public void onExpenseTypeBtnClick(View view) {
-        transactionTypeBtnClicked.setValue(TransactionType.Expense);
-        GlobalSelections.selectedTransactionType = TransactionType.Expense;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
-    }
-
-    /**
-     * Handles the onClick event for the view button with ID 'income_type_btn'.
-     *
-     * @param view current View instance.
-     */
-    public void onIncomeTypeBtnClick(View view) {
-        transactionTypeBtnClicked.setValue(TransactionType.Income);
-        GlobalSelections.selectedTransactionType = TransactionType.Income;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     public void onOpenDatePickerClick(View view) {
