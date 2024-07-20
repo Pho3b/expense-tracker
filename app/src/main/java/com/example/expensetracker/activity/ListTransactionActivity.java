@@ -2,6 +2,7 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
@@ -28,7 +29,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ListTransactionActivity extends AppCompatActivity {
-    protected ListTransactionVM viewModel;
+    protected ListTransactionVM vm;
     protected TransactionTypeSelectionVM transactionTypeSelectionVM;
     private TransactionTrackerDbHelper dbHelper;
     private RecyclerView recyclerView;
@@ -47,10 +48,7 @@ public class ListTransactionActivity extends AppCompatActivity {
         transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
         transaction.commit();
 
-        transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
-                get(TransactionTypeSelectionVM.class);
-
-        bindViewModel();
+        initViewModels();
         setupObservers();
     }
 
@@ -60,28 +58,30 @@ public class ListTransactionActivity extends AppCompatActivity {
 
         GlobalSelections.updateSelectedTransactionType(
                 getApplication(),
-                viewModel.expenseBackground,
-                viewModel.incomeBackground
+                vm.expenseBackground,
+                vm.incomeBackground
         );
     }
 
     /**
      * Binds the current Activity to its ViewModel
      */
-    private void bindViewModel() {
-        viewModel = new ListTransactionVM(getApplication());
+    private void initViewModels() {
+        transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
+                get(TransactionTypeSelectionVM.class);
+        vm = new ListTransactionVM(getApplication());
         ActivityListTransactionBinding binding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_list_transaction
         );
-        binding.setViewModel(viewModel);
+        binding.setViewModel(vm);
         binding.setLifecycleOwner(this);
 
         recyclerView = findViewById(R.id.recyclerView);
     }
 
     private void setupObservers() {
-        viewModel.startCreateTransactionClicked.observe(
+        vm.startCreateTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
