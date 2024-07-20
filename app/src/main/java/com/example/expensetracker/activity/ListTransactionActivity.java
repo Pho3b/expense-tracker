@@ -14,7 +14,7 @@ import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.ListTransactionVM;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
-import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVMFactory;
+import com.example.expensetracker.activity.view_model.ViewModelsFactory;
 import com.example.expensetracker.databinding.ActivityListTransactionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
@@ -47,9 +47,8 @@ public class ListTransactionActivity extends AppCompatActivity {
         transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
         transaction.commit();
 
-        transactionTypeSelectionVM = new ViewModelProvider(
-                this, new TransactionTypeSelectionVMFactory(getApplication())
-        ).get(TransactionTypeSelectionVM.class);
+        transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
+                get(TransactionTypeSelectionVM.class);
 
         bindViewModel();
         setupObservers();

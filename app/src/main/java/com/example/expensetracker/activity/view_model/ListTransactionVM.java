@@ -10,11 +10,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.enumerator.TimeSpanSelection;
-import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.service.GlobalSelections;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ListTransactionVM extends ViewModel {
@@ -23,7 +21,6 @@ public class ListTransactionVM extends ViewModel {
     public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
-    public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
 
     // TimeSpan selection bar related properties
     public MutableLiveData<Integer> customBtnTextColor = new MutableLiveData<>(Color.WHITE);
@@ -42,7 +39,6 @@ public class ListTransactionVM extends ViewModel {
         this.application = application;
 
         this.updateSelectedDateTxt();
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     /**

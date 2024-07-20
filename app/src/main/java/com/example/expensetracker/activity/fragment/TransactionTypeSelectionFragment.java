@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
-import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVMFactory;
+import com.example.expensetracker.activity.view_model.ViewModelsFactory;
 import com.example.expensetracker.databinding.TransactionTypeSelectionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.enumerator.TimeSpanSelection;
@@ -37,7 +37,7 @@ public class TransactionTypeSelectionFragment extends Fragment {
         assert getActivity() != null;
         db = new TransactionTrackerDbHelper(getActivity().getApplicationContext());
         vm = new ViewModelProvider(
-                this, new TransactionTypeSelectionVMFactory(getActivity().getApplication())
+                this, new ViewModelsFactory(getActivity().getApplication())
         ).get(TransactionTypeSelectionVM.class);
     }
 

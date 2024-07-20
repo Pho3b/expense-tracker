@@ -5,7 +5,6 @@ import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -14,15 +13,20 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.CreateTransactionVM;
+import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
+import com.example.expensetracker.activity.view_model.ViewModelsFactory;
 import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.model.CategoryIcon;
-import com.example.expensetracker.model.Constants;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.ui.model.CategoryIconImageView;
 import com.example.expensetracker.service.GlobalSelections;
@@ -30,8 +34,8 @@ import com.example.expensetracker.service.GlobalSelections;
 import java.util.Objects;
 
 public class CreateTransactionActivity extends AppCompatActivity {
-
-    protected CreateTransactionVM viewModel;
+    protected TransactionTypeSelectionVM transactionTypeSelectionVM;
+    protected CreateTransactionVM vm;
     private static final String DATE_PICKER_TAG = "datePicker";
     private TransactionTrackerDbHelper dbHelper;
 
@@ -41,9 +45,16 @@ public class CreateTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
 
-        bindViewModel();
+        // Adds the TransactionTypeSelectionFragment to the activity
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
+        transaction.commit();
+
+        initViewModels();
         setupObservers();
         setupDbConnection();
+        setupCategoryIconsUI(GlobalSelections.selectedTransactionType);
     }
 
     @Override
@@ -52,47 +63,47 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
         GlobalSelections.updateSelectedTransactionType(
                 getApplication(),
-                viewModel.expenseBackground,
-                viewModel.incomeBackground
+                vm.expenseBackground,
+                vm.incomeBackground
         );
     }
 
     /**
      * Binds the current Activity to its ViewModel
      */
-    private void bindViewModel() {
-        viewModel = new CreateTransactionVM(getApplication());
-        ActivityCreateTransactionBinding binding = DataBindingUtil.setContentView(
-                this,
-                R.layout.activity_create_transaction
-        );
-        binding.setViewModel(viewModel);
+    private void initViewModels() {
+        vm = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).get(CreateTransactionVM.class);
+        transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
+                get(TransactionTypeSelectionVM.class);
+
+        ActivityCreateTransactionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_transaction);
+        binding.setViewModel(vm);
         binding.setLifecycleOwner(this);
     }
 
     private void setupObservers() {
         // Opens the date-picker Fragment
-        viewModel.openDatePickerFragmentClicked.observe(
+        vm.openDatePickerFragmentClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
                         DatePickerFragment datePickerFragment = new DatePickerFragment();
-                        datePickerFragment.datePickerListener = viewModel;
+                        datePickerFragment.datePickerListener = vm;
                         datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
                     }
                 }
         );
 
         // Insert a new Transaction into the Database
-        viewModel.addTransactionClicked.observe(
+        vm.addTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
                         Transaction transaction = new Transaction(
-                                Double.parseDouble(Objects.requireNonNull(viewModel.amount.getValue())),
-                                viewModel.comment.getValue(),
-                                viewModel.categoryId,
-                                viewModel.date,
+                                Double.parseDouble(Objects.requireNonNull(vm.amount.getValue())),
+                                vm.comment.getValue(),
+                                vm.categoryId,
+                                vm.date,
                                 GlobalSelections.selectedTransactionType
                         );
 
@@ -103,10 +114,11 @@ public class CreateTransactionActivity extends AppCompatActivity {
         );
 
         // Transactions Type buttons are clicked
-        viewModel.transactionTypeBtnClicked.observe(
-                this, (TransactionType selectedType) -> {
-                    Log.d(Constants.MY_DEBUG_LOG_TAG, String.format("Watch this %s", selectedType));
-                    setupCategoryIconsUI(selectedType);
+        transactionTypeSelectionVM.transactionTypeBtnClicked.observe(
+                this, (Boolean clicked) -> {
+                    if (clicked) {
+                        setupCategoryIconsUI(GlobalSelections.selectedTransactionType);
+                    }
                 }
         );
     }
@@ -126,7 +138,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
             linearLayout.addView(
                     new CategoryIconImageView(this,
-                            viewModel,
+                            vm,
                             iconModels[categoryId].categoryId,
                             iconModels[categoryId].iconDrawableId
                     )
