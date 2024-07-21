@@ -7,17 +7,17 @@ import android.view.View;
 import com.example.expensetracker.activity.EditTransactionActivity;
 
 public class TransactionOnClick implements View.OnClickListener {
-    private final int categoryId;
+    public int id;
 
-    protected TransactionOnClick(int categoryId) {
-        this.categoryId = categoryId;
+    protected TransactionOnClick(int id) {
+        this.id = id;
     }
 
     @Override
     public void onClick(View v) {
         Context itemCtx = v.getContext();
         Intent intent = new Intent(itemCtx, EditTransactionActivity.class);
-        intent.putExtra("categoryId", this.categoryId);
+        intent.putExtra("_id", this.id);
 
         itemCtx.startActivity(intent);
     }

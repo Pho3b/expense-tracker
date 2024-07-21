@@ -6,7 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import com.example.expensetracker.model.Constants;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enumerator.TransactionType;
 
@@ -69,6 +71,30 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
+    public Transaction retrieveTransaction(int id, TransactionType type) {
+        checkReadDbInstance();
+
+        String query = String.format("SELECT * FROM '%s' WHERE _id = ?", formatTableName(type));
+        Cursor cursor = dbRead.rawQuery(query, new String[]{String.valueOf(id)});
+
+        if (cursor.moveToFirst()) {
+            int _id = cursor.getInt(cursor.getColumnIndex(TransactionEntry._ID));
+            String comment = cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_COMMENT));
+            double amount = cursor.getDouble(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT));
+            int categoryId = cursor.getInt(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_CATEGORY_ID));
+            LocalDate date = LocalDate.parse(
+                    cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_DATE)),
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            );
+
+            return new Transaction(_id, amount, comment, categoryId, date, type);
+        }
+
+        cursor.close();
+        return null;
+    }
+
+    @SuppressLint("Range")
     public ArrayList<Transaction> retrieveTransactions(
             TransactionType type,
             LocalDate startDate,
@@ -84,6 +110,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         Cursor cursor = dbRead.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
 
         while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndex(TransactionEntry._ID));
             String comment = cursor.getString(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_COMMENT));
             double amount = cursor.getDouble(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_AMOUNT));
             int categoryId = cursor.getInt(cursor.getColumnIndex(TransactionEntry.COLUMN_NAME_CATEGORY_ID));
@@ -92,7 +119,8 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
                     DateTimeFormatter.ofPattern("yyyy-MM-dd")
             );
 
-            res.add(new Transaction(amount, comment, categoryId, date, type));
+
+            res.add(new Transaction(id, amount, comment, categoryId, date, type));
         }
 
         cursor.close();

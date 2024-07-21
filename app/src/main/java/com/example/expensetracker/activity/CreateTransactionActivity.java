@@ -1,5 +1,6 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
@@ -22,7 +23,7 @@ import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFrag
 import com.example.expensetracker.activity.view_model.CreateTransactionVM;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
 import com.example.expensetracker.activity.view_model.ViewModelsFactory;
-import com.example.expensetracker.databinding.ActivityCreateTransactionBinding;
+import com.example.expensetracker.databinding.ActivityCreateEditTransactionBinding;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
@@ -36,14 +37,13 @@ import java.util.Objects;
 public class CreateTransactionActivity extends AppCompatActivity {
     protected TransactionTypeSelectionVM transactionTypeSelectionVM;
     protected CreateTransactionVM vm;
-    private static final String DATE_PICKER_TAG = "datePicker";
-    private TransactionTrackerDbHelper dbHelper;
+    protected TransactionTrackerDbHelper dbHelper;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_transaction);
+        setContentView(R.layout.activity_create_edit_transaction);
 
         // Adds the TransactionTypeSelectionFragment to the activity
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -71,17 +71,17 @@ public class CreateTransactionActivity extends AppCompatActivity {
     /**
      * Binds the current Activity to its ViewModel
      */
-    private void initViewModels() {
+    protected void initViewModels() {
         vm = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).get(CreateTransactionVM.class);
         transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
                 get(TransactionTypeSelectionVM.class);
 
-        ActivityCreateTransactionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_transaction);
+        ActivityCreateEditTransactionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_edit_transaction);
         binding.setViewModel(vm);
         binding.setLifecycleOwner(this);
     }
 
-    private void setupObservers() {
+    protected void setupObservers() {
         // Opens the date-picker Fragment
         vm.openDatePickerFragmentClicked.observe(
                 this,
@@ -123,7 +123,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         );
     }
 
-    private void setupCategoryIconsUI(TransactionType selectedType) {
+    protected void setupCategoryIconsUI(TransactionType selectedType) {
         CategoryIcon[] iconModels = selectedType == TransactionType.Expense ?
                 EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
 
@@ -157,7 +157,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         }
     }
 
-    private LinearLayout newLinearLayout() {
+    protected LinearLayout newLinearLayout() {
         LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(
@@ -170,7 +170,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         return linearLayout;
     }
 
-    private void setupDbConnection() {
+    protected void setupDbConnection() {
         dbHelper = new TransactionTrackerDbHelper(this);
     }
 }

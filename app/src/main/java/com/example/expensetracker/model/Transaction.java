@@ -5,6 +5,7 @@ import com.example.expensetracker.enumerator.TransactionType;
 import java.time.LocalDate;
 
 public class Transaction {
+    public int id = -1;
     public double amount;
     public String comment;
     public int category_id;
@@ -26,11 +27,14 @@ public class Transaction {
     }
 
     public Transaction(
+            int id,
             double amount,
             String comment,
             int categoryId,
-            LocalDate date
+            LocalDate date,
+            TransactionType type
     ) {
-        this(amount, comment, categoryId, date, TransactionType.Expense);
+        this(amount, comment, categoryId, date, type);
+        this.id = id;
     }
 }
