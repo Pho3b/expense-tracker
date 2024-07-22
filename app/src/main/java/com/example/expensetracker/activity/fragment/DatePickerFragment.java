@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.CreateTransactionVM;
+import com.example.expensetracker.activity.view_model.CreateEditTransactionVM;
 
 public class DatePickerFragment extends DialogFragment {
-    public CreateTransactionVM datePickerListener;
+    public CreateEditTransactionVM datePickerListener;
     private final DatePickerDialog.OnDateSetListener onSelectListener;
 
 

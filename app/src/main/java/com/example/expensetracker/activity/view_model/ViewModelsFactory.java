@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 public class ViewModelsFactory implements ViewModelProvider.Factory {
     private final Application application;
     private static TransactionTypeSelectionVM transactionTypeSelectionInstance;
-    private static CreateTransactionVM createTransactionInstance;
+    private static CreateEditTransactionVM createTransactionInstance;
 
 
     public ViewModelsFactory(Application application) {
@@ -29,9 +29,9 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
         }
 
         // CreateTransactionVM
-        if (modelClass.isAssignableFrom(CreateTransactionVM.class)) {
+        if (modelClass.isAssignableFrom(CreateEditTransactionVM.class)) {
             if (createTransactionInstance == null) {
-                createTransactionInstance = new CreateTransactionVM();
+                createTransactionInstance = new CreateEditTransactionVM();
             }
 
             createTransactionInstance.setupUI();

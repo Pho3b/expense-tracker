@@ -63,11 +63,24 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
         values.put(TransactionEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
         values.put(TransactionEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
-        return dbWrite.insert(
+        return dbWrite.insert(formatTableName(transaction.type), null, values) != -1;
+    }
+
+    public boolean updateTransaction(Transaction transaction) {
+        initWriteDbInstanceIfNeeded();
+
+        ContentValues values = new ContentValues();
+        values.put(TransactionEntry.COLUMN_NAME_COMMENT, transaction.comment);
+        values.put(TransactionEntry.COLUMN_NAME_AMOUNT, transaction.amount);
+        values.put(TransactionEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
+        values.put(TransactionEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
+
+        return dbWrite.update(
                 formatTableName(transaction.type),
-                null,
-                values
-        ) != -1;
+                values,
+                String.format("%s = ?", TransactionEntry._ID),
+                new String[]{String.valueOf(transaction.id)}
+        ) > 0;
     }
 
     @SuppressLint("Range")

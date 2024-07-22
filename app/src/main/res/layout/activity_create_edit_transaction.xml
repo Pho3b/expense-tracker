@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.expensetracker.activity.view_model.CreateTransactionVM" />
+            type="com.example.expensetracker.activity.view_model.CreateEditTransactionVM" />
     </data>
 
     <!-- Transaction Type Buttons -->
@@ -34,6 +34,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:digits="0123456789."
+            android:autofillHints="How much the transaction is worth..."
             android:hint="@string/transaction_amount_hint"
             android:inputType="numberDecimal"
             android:text="@={viewModel.amount}"
@@ -47,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:autofillHints="What the transaction is about..."
             android:hint="@string/transaction_comment_hint"
             android:inputType="textAutoComplete"
             android:maxLines="1"
