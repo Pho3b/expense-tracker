@@ -26,10 +26,12 @@
         <activity
             android:name=".activity.CreateTransactionActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
         <activity
             android:name=".activity.EditTransactionActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
     </application>
 

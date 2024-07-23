@@ -10,8 +10,7 @@
             type="com.example.expensetracker.activity.view_model.CreateEditTransactionVM" />
     </data>
 
-    <!-- Transaction Type Buttons -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -24,42 +23,58 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/type_selection_fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="35dp" />
 
-        <!-- Amount Text Input -->
         <EditText
+            android:id="@+id/amount_edit_text"
             style="@style/DarkEditText"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:digits="0123456789."
             android:autofillHints="How much the transaction is worth..."
+            android:digits="0123456789."
             android:hint="@string/transaction_amount_hint"
             android:inputType="numberDecimal"
             android:text="@={viewModel.amount}"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/comment_edit_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_selection_fragment_container"
+            app:layout_constraintVertical_bias="0.77" />
 
-        <!-- Comment Text Input -->
         <EditText
+            android:id="@+id/comment_edit_text"
             style="@style/DarkEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="20dp"
             android:autofillHints="What the transaction is about..."
             android:hint="@string/transaction_comment_hint"
             android:inputType="textAutoComplete"
             android:maxLines="1"
             android:text="@={viewModel.comment}"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/categories_scroll_view"
+            tools:layout_editor_absoluteX="16dp" />
 
         <HorizontalScrollView
+            android:id="@+id/categories_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/date_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/type_selection_fragment_container"
+            app:layout_constraintVertical_bias="0.79">
 
             <LinearLayout
                 android:id="@+id/category_ids_wrapper"
@@ -72,59 +87,61 @@
 
         </HorizontalScrollView>
 
-        <!-- Selected Date Readonly Text -->
         <EditText
+            android:id="@+id/date_text"
             style="@style/DarkEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:inputType="none"
-            android:focusable="false"
             android:clickable="false"
+            android:focusable="false"
+            android:inputType="date"
             android:longClickable="false"
             android:text="@={viewModel.uiDate}"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/custom_date_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.991" />
 
-        <!-- Customize-Date Dialog Opening Button -->
         <Button
             android:id="@+id/custom_date_btn"
             style="@style/ThickOutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/expense_txt_end_padding"
             android:onClick="@{viewModel.onOpenDatePickerClick}"
             android:outlineProvider="none"
-            android:text="Customize Date"
-            android:textColor="@android:color/white" />
+            android:text="@string/edit_date"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.832" />
 
-        <!-- Add Transaction Button -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:id="@+id/add_edit_transaction_btn"
+            style="@style/ThickOutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="@{viewModel.onAddEditTransactionClick}"
+            android:outlineProvider="paddedBounds"
+            android:text="@={viewModel.editBtnText}"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
-                android:id="@+id/add_transaction_btn"
-                style="@style/ThickOutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="8dp"
-                android:onClick="@{viewModel.onAddEditTransactionClick}"
-                android:outlineProvider="paddedBounds"
-                android:padding="12dp"
-                android:text="@={viewModel.editBtnText}"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.428" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
 </layout>

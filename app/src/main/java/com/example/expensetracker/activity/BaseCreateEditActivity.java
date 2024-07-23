@@ -4,14 +4,17 @@ import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -31,11 +34,11 @@ import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.ui.model.CategoryIconView;
 
 
-
 public class BaseCreateEditActivity extends AppCompatActivity {
     protected TransactionTypeSelectionVM transactionTypeSelectionVM;
     protected TransactionTrackerDbHelper db;
     protected CreateEditTransactionVM vm;
+    protected Button addEditBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         initViewModels();
         setupObservers();
         setupCategoryIconsUI(GlobalSelections.selectedTransactionType);
+        setUpLayoutChangeListener();
     }
 
     @Override
@@ -74,6 +78,8 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         ActivityCreateEditTransactionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_edit_transaction);
         binding.setViewModel(vm);
         binding.setLifecycleOwner(this);
+
+        addEditBtn = findViewById(R.id.add_edit_transaction_btn);
     }
 
     protected LinearLayout newLinearLayout() {
@@ -137,6 +143,29 @@ public class BaseCreateEditActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void setUpLayoutChangeListener() {
+        final View rootLayout = findViewById(android.R.id.content);
+
+        rootLayout.getViewTreeObserver().addOnGlobalLayoutListener(
+                () -> {
+                    Rect r = new Rect();
+                    rootLayout.getWindowVisibleDisplayFrame(r);
+                    int screenHeight = rootLayout.getRootView().getHeight();
+                    int keypadHeight = (screenHeight - r.bottom) - 100;
+                    ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) addEditBtn.getLayoutParams();
+
+                    if (keypadHeight > screenHeight * 0.15) {
+                        params.bottomMargin = keypadHeight;
+                    } else {
+                        params.bottomMargin = 0;
+                    }
+
+                    addEditBtn.setLayoutParams(params);
+                    addEditBtn.bringToFront();
+                }
+        );
     }
 
 }
