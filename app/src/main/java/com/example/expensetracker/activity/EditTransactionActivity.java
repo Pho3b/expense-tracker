@@ -8,18 +8,18 @@ import androidx.annotation.Nullable;
 
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.Transaction;
-import com.example.expensetracker.service.GlobalSelections;
 import com.example.expensetracker.ui.model.CategoryIconView;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class EditTransactionActivity extends BaseCreateEditActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        vm.editBtnText.setValue("Update");
 
         // Retrieve transaction data from the DB
         Transaction transaction = db.retrieveTransaction(
@@ -42,7 +42,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                 Toast.LENGTH_SHORT
         ).show();
 
-        vm.addTransactionClicked.observe(
+        vm.addEditBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
@@ -53,7 +53,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                         db.updateTransaction(transaction);
 
                         startActivity(new Intent(this, ListTransactionActivity.class));
-                        vm.addTransactionClicked.setValue(false);
+                        vm.addEditBtnClicked.setValue(false);
                     }
                 }
         );

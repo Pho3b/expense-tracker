@@ -3,7 +3,6 @@ package com.example.expensetracker.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-
 import androidx.annotation.Nullable;
 
 import com.example.expensetracker.model.Transaction;
@@ -17,7 +16,7 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        vm.addTransactionClicked.observe(
+        vm.addEditBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
@@ -32,7 +31,7 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                         );
 
                         startActivity(new Intent(this, ListTransactionActivity.class));
-                        vm.addTransactionClicked.setValue(false);
+                        vm.addEditBtnClicked.setValue(false);
                     }
                 }
         );
