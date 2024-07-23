@@ -81,8 +81,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         CategoryIcon[] iconModels = GlobalSelections.selectedTransactionType == TransactionType.Expense ?
                 EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
 
-        Log.d(Constants.MY_DEBUG_LOG_TAG, String.format("Current item category id: %s", currentTransaction.category_id));
-        transactionVH.setOnClickListener(currentTransaction.category_id);
+        transactionVH.setOnClickListener(currentTransaction.id);
         transactionVH.transactionNameTextView.setText(currentTransaction.comment);
         transactionVH.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
         transactionVH.iconImageView.setImageResource(

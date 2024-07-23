@@ -28,11 +28,9 @@ public class TransactionVH extends RecyclerView.ViewHolder {
         transactionNameTextView = itemView.findViewById(R.id.transactionNameTextView);
         transactionAmountTextView = itemView.findViewById(R.id.transactionAmountTextView);
         iconImageView = itemView.findViewById(R.id.iconImageView);
-
-
     }
 
-    public void setOnClickListener(int categoryId) {
-        itemView.setOnClickListener(new TransactionOnClick(categoryId));
+    public void setOnClickListener(int id) {
+        itemView.setOnClickListener(new TransactionOnClick(id));
     }
 }

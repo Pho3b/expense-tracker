@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.expensetracker.activity.view_model.CreateTransactionVM" />
+            type="com.example.expensetracker.activity.view_model.CreateEditTransactionVM" />
     </data>
 
     <!-- Transaction Type Buttons -->
@@ -26,40 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:padding="10dp">-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/expense_type_btn"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@{viewModel.expenseBackground}"-->
-<!--                android:clickable="true"-->
-<!--                android:gravity="start"-->
-<!--                android:onClick="@{viewModel.onExpenseTypeBtnClick}"-->
-<!--                android:padding="8dp"-->
-<!--                android:text="@string/expense"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textStyle="bold" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/income_type_btn"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="165dp"-->
-<!--                android:background="@{viewModel.incomeBackground}"-->
-<!--                android:clickable="true"-->
-<!--                android:gravity="end"-->
-<!--                android:onClick="@{viewModel.onIncomeTypeBtnClick}"-->
-<!--                android:padding="8dp"-->
-<!--                android:text="@string/income"-->
-<!--                android:textSize="20sp"-->
-<!--                android:textStyle="bold" />-->
-<!--        </LinearLayout>-->
-
         <!-- Amount Text Input -->
         <EditText
             style="@style/DarkEditText"
@@ -68,6 +34,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:digits="0123456789."
+            android:autofillHints="How much the transaction is worth..."
             android:hint="@string/transaction_amount_hint"
             android:inputType="numberDecimal"
             android:text="@={viewModel.amount}"
@@ -81,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:autofillHints="What the transaction is about..."
             android:hint="@string/transaction_comment_hint"
             android:inputType="textAutoComplete"
             android:maxLines="1"
@@ -144,10 +112,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:onClick="@{viewModel.onAddTransactionClick}"
+                android:onClick="@{viewModel.onAddEditTransactionClick}"
                 android:outlineProvider="paddedBounds"
                 android:padding="12dp"
-                android:text="ADD"
+                android:text="@={viewModel.editBtnText}"
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"

@@ -12,16 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.view_model.CreateTransactionVM;
+import com.example.expensetracker.activity.view_model.CreateEditTransactionVM;
 
-public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatImageView {
+public class CategoryIconView extends androidx.appcompat.widget.AppCompatImageView {
     public int categoryId;
     private static int[] dpMeasures = null;
 
 
-    public CategoryIconImageView(
+    public CategoryIconView(
             @NonNull Context context,
-            CreateTransactionVM viewModel,
+            CreateEditTransactionVM viewModel,
             int categoryId,
             int iconDrawableId
     ) {
@@ -37,17 +37,18 @@ public class CategoryIconImageView extends androidx.appcompat.widget.AppCompatIm
         assert bg != null;
         bg.setColorFilter(ContextCompat.getColor(context, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
 
+        setId(this.categoryId);
         setPadding(dpMeasures[0], dpMeasures[0], dpMeasures[0], dpMeasures[0]);
         setBackgroundDrawable(bg);
         setImageResource(iconDrawableId);
         setOnClickListener(viewModel::onCategoryIconClick);
     }
 
-    public CategoryIconImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CategoryIconView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CategoryIconImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CategoryIconView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
