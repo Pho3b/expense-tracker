@@ -34,7 +34,6 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
                 createTransactionInstance = new CreateEditTransactionVM();
             }
 
-            createTransactionInstance.setupUI();
             return (T) createTransactionInstance;
         }
 

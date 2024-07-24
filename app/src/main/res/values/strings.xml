@@ -24,4 +24,5 @@
     <string name="week_sel">Week</string>
     <string name="day_sel">Day</string>
     <string name="custom_sel">Custom</string>
+    <string name="edit_date">Edit</string>
 </resources>

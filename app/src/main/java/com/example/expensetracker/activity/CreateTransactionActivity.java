@@ -16,6 +16,12 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        vm.editBtnText.setValue("Create");
+        vm.amount.setValue("");
+        vm.comment.setValue("");
+        vm.categoryId = 0;
+        vm.setupUI();
+
         vm.addEditBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {

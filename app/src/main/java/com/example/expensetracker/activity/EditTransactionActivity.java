@@ -2,7 +2,6 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -35,12 +34,6 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
 
         CategoryIconView categoryIcon = findViewById(transaction.category_id);
         categoryIcon.callOnClick();
-
-        Toast.makeText(
-                this,
-                String.format("ID is: %s", transaction.id),
-                Toast.LENGTH_SHORT
-        ).show();
 
         vm.addEditBtnClicked.observe(
                 this,
