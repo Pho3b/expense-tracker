@@ -74,7 +74,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/type_selection_fragment_container"
-            app:layout_constraintVertical_bias="0.79">
+            app:layout_constraintVertical_bias="1.0">
 
             <LinearLayout
                 android:id="@+id/category_ids_wrapper"
@@ -122,20 +122,21 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.832" />
+            app:layout_constraintVertical_bias="0.774" />
 
         <Button
             android:id="@+id/add_edit_transaction_btn"
-            style="@style/ThickOutlinedButton"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:onClick="@{viewModel.onAddEditTransactionClick}"
             android:outlineProvider="paddedBounds"
             android:text="@={viewModel.editBtnText}"
-            android:textColor="@android:color/white"
+            android:background="@drawable/ci_rounded_background"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintLeft_toLeftOf="parent"
