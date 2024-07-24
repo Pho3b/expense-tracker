@@ -113,6 +113,8 @@ public class BaseCreateEditActivity extends AppCompatActivity {
                     }
                 }
         );
+
+        vm.amount.observe(this, (String value) -> addEditBtn.setEnabled(!value.isEmpty()));
     }
 
     protected void setupCategoryIconsUI(TransactionType selectedType) {
