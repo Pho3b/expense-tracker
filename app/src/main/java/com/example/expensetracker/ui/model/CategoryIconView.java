@@ -1,5 +1,7 @@
 package com.example.expensetracker.ui.model;
 
+import static com.example.expensetracker.model.Constants.CATEGORY_ICON_LABEL;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -38,8 +40,9 @@ public class CategoryIconView extends androidx.appcompat.widget.AppCompatImageVi
         bg.setColorFilter(ContextCompat.getColor(context, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
 
         setId(this.categoryId);
+        setTag(CATEGORY_ICON_LABEL);
         setPadding(dpMeasures[0], dpMeasures[0], dpMeasures[0], dpMeasures[0]);
-        setBackgroundDrawable(bg);
+        setBackground(bg);
         setImageResource(iconDrawableId);
         setOnClickListener(viewModel::onCategoryIconClick);
     }

@@ -31,7 +31,7 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
         // CreateTransactionVM
         if (modelClass.isAssignableFrom(CreateEditTransactionVM.class)) {
             if (createTransactionInstance == null) {
-                createTransactionInstance = new CreateEditTransactionVM();
+                createTransactionInstance = new CreateEditTransactionVM(application.getApplicationContext());
             }
 
             return (T) createTransactionInstance;

@@ -1,14 +1,18 @@
 package com.example.expensetracker.activity.view_model;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
+import static com.example.expensetracker.model.Constants.CATEGORY_ICON_LABEL;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.expensetracker.model.Constants;
+import com.example.expensetracker.R;
 import com.example.expensetracker.ui.model.CategoryIconView;
 
 import java.time.LocalDate;
@@ -17,7 +21,7 @@ import java.util.Locale;
 
 public class CreateEditTransactionVM extends ViewModel {
     public LocalDate date = LocalDate.now();
-    public Integer categoryId = 0;
+    public MutableLiveData<Integer> selectedCategoryId = new MutableLiveData<>(0);
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>();
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>();
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
@@ -26,7 +30,17 @@ public class CreateEditTransactionVM extends ViewModel {
     public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
     public MutableLiveData<String> editBtnText = new MutableLiveData<>();
+    public Drawable ciWhiteBg;
+    public Drawable ciBlueBg;
 
+
+    public CreateEditTransactionVM(Context ctx) {
+        this.ciWhiteBg = ContextCompat.getDrawable(ctx, R.drawable.ci_rounded_background);
+        ciWhiteBg.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.MULTIPLY);
+
+        this.ciBlueBg = ContextCompat.getDrawable(ctx, R.drawable.ci_rounded_background);
+        ciBlueBg.setColorFilter(ContextCompat.getColor(ctx, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
+    }
 
     public void setupUI() {
         uiDate.setValue(String.format(
@@ -44,9 +58,7 @@ public class CreateEditTransactionVM extends ViewModel {
 
     public void onCategoryIconClick(View categoryIcon) {
         CategoryIconView iconImageView = (CategoryIconView) categoryIcon;
-
-        categoryId = iconImageView.categoryId;
-        iconImageView.setBackgroundColor(Color.WHITE);
+        selectedCategoryId.setValue(iconImageView.categoryId);
     }
 
     public void onDateSelected(int year, int month, int day) {
@@ -56,5 +68,24 @@ public class CreateEditTransactionVM extends ViewModel {
                 String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year),
                 DateTimeFormatter.ofPattern("d-M-yyyy")
         );
+    }
+
+    public void updateCategoryIconsBackground(ViewGroup categoriesScrollView) {
+        for (int i = 0; i < categoriesScrollView.getChildCount(); i++) {
+            ViewGroup wrapperChild = (ViewGroup) categoriesScrollView.getChildAt(i);
+
+            for (int j = 0; j < wrapperChild.getChildCount(); j++) {
+                View categoryIconView = wrapperChild.getChildAt(j);
+
+                if (CATEGORY_ICON_LABEL.equals(categoryIconView.getTag())) {
+                    Drawable bg = ciBlueBg;
+
+                    if (categoryIconView.getId() == (selectedCategoryId.getValue() == null ? 0 : selectedCategoryId.getValue()))
+                        bg = ciWhiteBg;
+
+                    categoryIconView.setBackground(bg);
+                }
+            }
+        }
     }
 }

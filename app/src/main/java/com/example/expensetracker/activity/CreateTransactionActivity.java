@@ -19,7 +19,7 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
         vm.editBtnText.setValue("Create");
         vm.amount.setValue("");
         vm.comment.setValue("");
-        vm.categoryId = 0;
+        vm.selectedCategoryId.setValue(0);
         vm.setupUI();
 
         vm.addEditBtnClicked.observe(
@@ -30,7 +30,7 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                                 new Transaction(
                                         Double.parseDouble(Objects.requireNonNull(vm.amount.getValue())),
                                         vm.comment.getValue(),
-                                        vm.categoryId,
+                                        vm.selectedCategoryId.getValue(),
                                         vm.date,
                                         GlobalSelections.selectedTransactionType
                                 )
