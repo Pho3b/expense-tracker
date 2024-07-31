@@ -6,6 +6,7 @@ import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,6 +40,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     protected TransactionTrackerDbHelper db;
     protected CreateEditTransactionVM vm;
     protected Button addEditBtn;
+    protected ViewGroup categoryIdsWrapper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         binding.setLifecycleOwner(this);
 
         addEditBtn = findViewById(R.id.add_edit_transaction_btn);
+        categoryIdsWrapper = findViewById(R.id.category_ids_wrapper);
     }
 
     protected LinearLayout newLinearLayout() {
@@ -98,6 +101,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
                 this, (Boolean clicked) -> {
                     if (clicked) {
                         setupCategoryIconsUI(GlobalSelections.selectedTransactionType);
+                        vm.selectedCategoryId.setValue(0);
                     }
                 }
         );
@@ -115,6 +119,13 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         );
 
         vm.amount.observe(this, (String value) -> addEditBtn.setEnabled(!value.isEmpty()));
+
+        vm.selectedCategoryId.observe(
+                this,
+                (Integer categoryId) -> {
+                    vm.updateCategoryIconsBackground(categoryIdsWrapper);
+                }
+        );
     }
 
     protected void setupCategoryIconsUI(TransactionType selectedType) {

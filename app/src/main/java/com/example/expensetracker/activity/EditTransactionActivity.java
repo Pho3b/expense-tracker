@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.Transaction;
-import com.example.expensetracker.ui.model.CategoryIconView;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -17,7 +16,16 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActivity();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupActivity();
+    }
+
+    private void setupActivity() {
         vm.editBtnText.setValue("Update");
 
         // Retrieve transaction data from the DB
@@ -30,10 +38,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         vm.amount.setValue(df.format(transaction.amount));
         vm.comment.setValue(transaction.comment);
         vm.uiDate.setValue(String.valueOf(transaction.date));
-        vm.categoryId = transaction.category_id;
-
-        CategoryIconView categoryIcon = findViewById(transaction.category_id);
-        categoryIcon.callOnClick();
+        vm.selectedCategoryId.setValue(transaction.category_id);
 
         vm.addEditBtnClicked.observe(
                 this,
@@ -42,7 +47,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                         transaction.amount = Double.parseDouble(vm.amount.getValue());
                         transaction.comment = vm.comment.getValue();
                         transaction.date = LocalDate.parse(vm.uiDate.getValue());
-                        transaction.category_id = vm.categoryId;
+                        transaction.category_id = vm.selectedCategoryId.getValue();
                         db.updateTransaction(transaction);
 
                         startActivity(new Intent(this, ListTransactionActivity.class));
