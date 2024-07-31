@@ -108,11 +108,7 @@ public class ListTransactionActivity extends AppCompatActivity {
         GlobalSelections.selectedDate.observe(
                 this,
                 (LocalDate selectedDate) -> updateRecyclerView(
-                        retrieveTransactions(
-                                GlobalSelections.selectedTransactionType,
-                                GlobalSelections.selectedTimeSpan,
-                                selectedDate
-                        )
+                        retrieveTransactions(GlobalSelections.selectedTransactionType, GlobalSelections.selectedTimeSpan, selectedDate)
                 )
         );
     }
