@@ -16,7 +16,16 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupActivity();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupActivity();
+    }
+
+    private void setupActivity() {
         vm.editBtnText.setValue("Update");
 
         // Retrieve transaction data from the DB
