@@ -18,16 +18,10 @@ import java.util.Objects;
 
 
 public class TransactionTypeSelectionVM extends ViewModel {
-    // Buttons
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
-
-    // Background Images
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
-
-    // Text fields
     public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
-    public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
 
     private final Application application;
 
@@ -68,23 +62,4 @@ public class TransactionTypeSelectionVM extends ViewModel {
         transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "€ %d", amount));
     }
 
-    /**
-     * Updates the selected dates displayed text.
-     * If the selected TimeSpan is 'month' a '{month} {year}' text will be displayed,
-     * otherwise if 'year' is selected, the text will display only the '{year}'.
-     */
-    public void updateSelectedDateTxt() {
-        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
-        String displayTxt = application.getString(
-                R.string.month_year_title,
-                selectedDate.getMonth(),
-                selectedDate.getYear()
-        );
-
-        if (GlobalSelections.selectedTimeSpan == TimeSpanSelection.Year) {
-            displayTxt = application.getString(R.string.year_title, selectedDate.getYear());
-        }
-
-        monthYearTxt.setValue(displayTxt);
-    }
 }

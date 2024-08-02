@@ -3,6 +3,7 @@ package com.example.expensetracker.activity.view_model;
 import android.app.Application;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
@@ -24,8 +25,8 @@ public class ListTransactionVM extends ViewModel {
 
     // TimeSpan selection bar related properties
     public MutableLiveData<Integer> customBtnTextColor = new MutableLiveData<>(Color.WHITE);
-    public MutableLiveData<Integer> monthBtnTextColor = new MutableLiveData<>(Color.BLACK);
-    public MutableLiveData<Integer> yearBtnTextColor = new MutableLiveData<>(Color.WHITE);
+    public MutableLiveData<Integer> monthBtnTextColor = new MutableLiveData<>(Color.WHITE);
+    public MutableLiveData<Integer> yearBtnTextColor = new MutableLiveData<>(Color.BLACK);
 
     private final Application application;
 
@@ -102,21 +103,21 @@ public class ListTransactionVM extends ViewModel {
 
     public void timeSpanBtnOnClick(View view) {
         String viewIdName = this.application.getResources().getResourceEntryName(view.getId());
-        customBtnTextColor.setValue(Color.WHITE);
-        monthBtnTextColor.setValue(Color.WHITE);
-        yearBtnTextColor.setValue(Color.WHITE);
+        customBtnTextColor.setValue(Color.BLACK);
+        monthBtnTextColor.setValue(Color.BLACK);
+        yearBtnTextColor.setValue(Color.BLACK);
 
         switch (viewIdName) {
             case "custom_time_span":
-                customBtnTextColor.setValue(Color.BLACK);
+                customBtnTextColor.setValue(Color.WHITE);
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Custom;
                 break;
             case "month_time_span":
-                monthBtnTextColor.setValue(Color.BLACK);
+                monthBtnTextColor.setValue(Color.WHITE);
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Month;
                 break;
             case "year_time_span":
-                yearBtnTextColor.setValue(Color.BLACK);
+                yearBtnTextColor.setValue(Color.WHITE);
                 GlobalSelections.selectedTimeSpan = TimeSpanSelection.Year;
                 break;
         }

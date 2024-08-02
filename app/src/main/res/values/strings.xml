@@ -25,4 +25,6 @@
     <string name="day_sel">Day</string>
     <string name="custom_sel">Custom</string>
     <string name="edit_date">Edit</string>
+    <string name="subtract_selected_time_span">Subtract selected time span</string>
+    <string name="add_selected_time_span">Add selected time span</string>
 </resources>

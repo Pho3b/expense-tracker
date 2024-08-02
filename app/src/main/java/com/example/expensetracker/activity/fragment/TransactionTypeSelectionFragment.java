@@ -1,6 +1,7 @@
 package com.example.expensetracker.activity.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,7 +83,8 @@ public class TransactionTypeSelectionFragment extends Fragment {
         GlobalSelections.selectedDate.observe(
                 getViewLifecycleOwner(),
                 (LocalDate selectedDate) -> {
-                    vm.updateSelectedDateTxt();
+                    Log.d("selectedDate", selectedDate.toString());
+
                     vm.updateAmountsTexts(
                             retrieveTransactionsAmountSum(
                                     GlobalSelections.selectedTransactionType,
