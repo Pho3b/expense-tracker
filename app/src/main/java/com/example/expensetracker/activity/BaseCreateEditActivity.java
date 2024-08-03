@@ -6,7 +6,6 @@ import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -69,6 +68,12 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         GlobalSelections.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        vm.openDatePickerFragmentClicked.setValue(false);
     }
 
     /**

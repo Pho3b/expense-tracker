@@ -66,21 +66,23 @@
 
         <HorizontalScrollView
             android:id="@+id/categories_scroll_view"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/date_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/type_selection_fragment_container"
-            app:layout_constraintVertical_bias="0.826">
+            app:layout_constraintVertical_bias="0.86">
 
             <LinearLayout
                 android:id="@+id/category_ids_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
                 <!-- List of Category Icons is loaded here onCreate-->
             </LinearLayout>
@@ -139,14 +141,14 @@
             android:outlineProvider="paddedBounds"
             android:text="@={viewModel.editBtnText}"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="@dimen/expense_descr_txt_dim"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.976" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -10,6 +10,8 @@
     <dimen name="expense_amount_txt_dim">18sp</dimen>
     <dimen name="expense_descr_txt_dim">19sp</dimen>
     <dimen name="category_icon_size">60dp</dimen>
+    <dimen name="transaction_item_txt_size">18sp</dimen>"
+    <dimen name="transaction_item_img_size">38dp</dimen>"
 
     <!--  Time Span Selection Bar  -->
     <dimen name="sel_txt_size">30sp</dimen>

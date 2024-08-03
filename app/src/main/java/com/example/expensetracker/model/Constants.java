@@ -18,6 +18,10 @@ public class Constants {
             new CategoryIcon(R.drawable.ci_education, 8, "Education"),
             new CategoryIcon(R.drawable.ci_dresses, 9, "Dresses"),
             new CategoryIcon(R.drawable.ic_menu_slideshow, 10, "TEST"),
+            new CategoryIcon(R.drawable.ic_menu_slideshow, 11, "TEST"),
+            new CategoryIcon(R.drawable.ic_menu_slideshow, 12, "TEST"),
+            new CategoryIcon(R.drawable.ic_menu_slideshow, 13, "TEST"),
+            new CategoryIcon(R.drawable.ic_menu_slideshow, 14, "TEST"),
     };
 
     public static final CategoryIcon[] INCOME_ICON_MODELS = new CategoryIcon[]{
