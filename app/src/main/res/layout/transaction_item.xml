@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xmlexpense_amount_txt_dim version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/iconImageView"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:contentDescription="Category Icon"
+        android:layout_width="@dimen/transaction_item_img_size"
+        android:layout_height="@dimen/transaction_item_img_size"
+        android:contentDescription="@string/category_icon"
         android:src="@drawable/arrow_right"
         android:padding="3dp"/>
 
@@ -25,7 +25,7 @@
         android:paddingStart="@dimen/expense_txt_end_padding"
         android:paddingEnd="@dimen/expense_txt_end_padding"
         android:singleLine="true"
-        android:textSize="@dimen/expense_amount_txt_dim" />
+        android:textSize="@dimen/transaction_item_txt_size" />
 
     <TextView
         android:id="@+id/transactionAmountTextView"
@@ -35,5 +35,5 @@
         android:gravity="end"
         android:paddingStart="@dimen/expense_txt_start_padding"
         android:paddingEnd="@dimen/expense_txt_end_padding"
-        android:textSize="@dimen/expense_amount_txt_dim" />
+        android:textSize="@dimen/transaction_item_txt_size" />
 </LinearLayout>

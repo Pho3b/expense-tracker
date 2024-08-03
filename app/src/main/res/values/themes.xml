@@ -14,6 +14,9 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/grey_2</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.ExpenseTracker.NoActionBar">
@@ -26,6 +29,6 @@
     <style name="Theme.ExpenseTracker.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="DarkButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>
