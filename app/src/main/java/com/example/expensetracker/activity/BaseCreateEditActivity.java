@@ -148,6 +148,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
             TextView tv = new TextView(this);
             tv.setText(iconModels[categoryId].description);
             tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            tv.setTextSize(16);
             linearLayout.addView(tv);
 
             if (i % 3 == 0) {

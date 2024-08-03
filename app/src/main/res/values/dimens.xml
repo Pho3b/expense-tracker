@@ -7,8 +7,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="expense_txt_end_padding">5dp</dimen>
     <dimen name="expense_txt_start_padding">8dp</dimen>
-    <dimen name="expense_amount_txt_dim">16sp</dimen>
-    <dimen name="expense_descr_txt_dim">18sp</dimen>
+    <dimen name="expense_amount_txt_dim">18sp</dimen>
+    <dimen name="expense_descr_txt_dim">19sp</dimen>
     <dimen name="category_icon_size">60dp</dimen>
 
     <!--  Time Span Selection Bar  -->
