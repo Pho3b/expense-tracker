@@ -4,7 +4,7 @@ import com.example.expensetracker.R;
 
 public class Constants {
     public static final String DATE_PICKER_TAG = "datePicker";
-    public static final String CATEGORY_ICON_LABEL =  "category_icon";
+    public static final String CATEGORY_ICON_LABEL = "category_icon";
 
     public static final CategoryIcon[] EXPENSE_ICON_MODELS = new CategoryIcon[]{
             new CategoryIcon(R.drawable.ci_groceries, 0, "Groceries"),
@@ -17,15 +17,12 @@ public class Constants {
             new CategoryIcon(R.drawable.ci_fitness, 7, "Fitness"),
             new CategoryIcon(R.drawable.ci_education, 8, "Education"),
             new CategoryIcon(R.drawable.ci_dresses, 9, "Dresses"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 10, "TEST"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 11, "TEST"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 12, "TEST"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 13, "TEST"),
-            new CategoryIcon(R.drawable.ic_menu_slideshow, 14, "TEST"),
     };
 
     public static final CategoryIcon[] INCOME_ICON_MODELS = new CategoryIcon[]{
             new CategoryIcon(R.drawable.ci_paycheck, 0, "Paycheck"),
             new CategoryIcon(R.drawable.ci_ticket_restaurant, 1, "Ticket"),
+            new CategoryIcon(R.drawable.ci_reimbursement, 3, "Reimbursement"),
+            new CategoryIcon(R.drawable.ci_investement, 4, "Investment"),
     };
 }

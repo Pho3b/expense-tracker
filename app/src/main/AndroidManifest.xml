@@ -16,7 +16,7 @@
         <activity
             android:name=".activity.ListTransactionActivity"
             android:exported="true"
-            android:theme="@style/Theme.ExpenseTracker.NoActionBar">
+            android:theme="@style/Theme.ExpenseTracker">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

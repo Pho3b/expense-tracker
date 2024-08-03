@@ -36,9 +36,11 @@ public class CreateEditTransactionVM extends ViewModel {
 
     public CreateEditTransactionVM(Context ctx) {
         this.ciWhiteBg = ContextCompat.getDrawable(ctx, R.drawable.ci_rounded_background);
+        assert ciWhiteBg != null;
         ciWhiteBg.setColorFilter(ContextCompat.getColor(ctx, R.color.white), PorterDuff.Mode.MULTIPLY);
 
         this.ciBlueBg = ContextCompat.getDrawable(ctx, R.drawable.ci_rounded_background);
+        assert ciBlueBg != null;
         ciBlueBg.setColorFilter(ContextCompat.getColor(ctx, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
     }
 
