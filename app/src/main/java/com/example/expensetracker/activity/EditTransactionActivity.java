@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.Transaction;
+import com.example.expensetracker.service.GlobalSelections;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -31,7 +32,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         // Retrieve transaction data from the DB
         Transaction transaction = db.retrieveTransaction(
                 getIntent().getIntExtra("_id", -1),
-                TransactionType.Expense
+                GlobalSelections.selectedTransactionType
         );
 
         DecimalFormat df = new DecimalFormat("0.##");

@@ -25,7 +25,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int TRANSACTION = 0;
     private static final int HEADER_TRANSACTION = 1;
     private final List<Transaction> transactions;
-    private String lastDate = "";
+    private String lastDate;
 
     /**
      * Default constructor
@@ -34,6 +34,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      */
     public TransactionAdapter(List<Transaction> transactions) {
         this.transactions = transactions;
+        this.lastDate = "";
     }
 
     /**
@@ -80,17 +81,22 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         Transaction currentTransaction = transactions.get(position);
         CategoryIcon[] iconModels = GlobalSelections.selectedTransactionType == TransactionType.Expense ?
                 EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
+        int iconId = currentTransaction.category_id < iconModels.length ? currentTransaction.category_id : 0;
 
         transactionVH.setOnClickListener(currentTransaction.id);
         transactionVH.transactionNameTextView.setText(currentTransaction.comment);
         transactionVH.transactionAmountTextView.setText(String.format("€%.2f", currentTransaction.amount));
-        transactionVH.iconImageView.setImageResource(
-                iconModels[currentTransaction.category_id].iconDrawableId
-        );
+        transactionVH.iconImageView.setImageResource(iconModels[iconId].iconDrawableId);
 
         if (viewHolder instanceof HeaderTransactionVH) {
             ((HeaderTransactionVH) transactionVH).transactionHeaderTextView.setText(currentTransaction.date.toString());
         }
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        this.lastDate = "";
     }
 
     /**
