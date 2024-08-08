@@ -10,6 +10,7 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
     private final Application application;
     private static TransactionTypeSelectionVM transactionTypeSelectionInstance;
     private static CreateEditTransactionVM createTransactionInstance;
+    private static ListTransactionVM listTransactionInstance;
 
 
     public ViewModelsFactory(Application application) {
@@ -35,6 +36,15 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
             }
 
             return (T) createTransactionInstance;
+        }
+
+        // ListTransactionVM
+        if (modelClass.isAssignableFrom(ListTransactionVM.class)) {
+            if (listTransactionInstance == null) {
+                listTransactionInstance = new ListTransactionVM(application);
+            }
+
+            return (T) listTransactionInstance;
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class");

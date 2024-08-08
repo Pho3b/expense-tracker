@@ -3,7 +3,6 @@ package com.example.expensetracker.service;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.model.Constants;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.CategoryIcon;
@@ -78,7 +76,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         TransactionVH transactionVH = (TransactionVH) viewHolder;
         Transaction currentTransaction = transactions.get(position);
-        CategoryIcon[] iconModels = GlobalSelections.selectedTransactionType == TransactionType.Expense ?
+        CategoryIcon[] iconModels = Global.selectedTransactionType == TransactionType.Expense ?
                 EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
 
         transactionVH.setOnClickListener(currentTransaction.id);

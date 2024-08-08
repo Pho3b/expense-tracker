@@ -7,21 +7,14 @@ import android.view.View;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.expensetracker.R;
-import com.example.expensetracker.enumerator.TimeSpanSelection;
 import com.example.expensetracker.enumerator.TransactionType;
-import com.example.expensetracker.service.GlobalSelections;
-
-import java.time.LocalDate;
-import java.util.Locale;
-import java.util.Objects;
+import com.example.expensetracker.service.Global;
 
 
 public class TransactionTypeSelectionVM extends ViewModel {
     public MutableLiveData<Boolean> transactionTypeBtnClicked = new MutableLiveData<>(false);
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
-    public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
 
     private final Application application;
 
@@ -33,7 +26,7 @@ public class TransactionTypeSelectionVM extends ViewModel {
      */
     public TransactionTypeSelectionVM(Application application) {
         this.application = application;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        Global.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
     }
 
     /**
@@ -42,8 +35,8 @@ public class TransactionTypeSelectionVM extends ViewModel {
      * @param view current View instance.
      */
     public void expenseTypeBtnOnClick(View view) {
-        GlobalSelections.selectedTransactionType = TransactionType.Expense;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        Global.selectedTransactionType = TransactionType.Expense;
+        Global.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
     }
 
@@ -53,13 +46,11 @@ public class TransactionTypeSelectionVM extends ViewModel {
      * @param view current View instance.
      */
     public void incomeTypeBtnOnClick(View view) {
-        GlobalSelections.selectedTransactionType = TransactionType.Income;
-        GlobalSelections.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
+        Global.selectedTransactionType = TransactionType.Income;
+        Global.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
     }
 
-    public void updateAmountsTexts(Integer amount) {
-        transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "€ %d", amount));
-    }
+
 
 }
