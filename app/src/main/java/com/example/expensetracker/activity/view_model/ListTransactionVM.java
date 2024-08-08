@@ -3,7 +3,6 @@ package com.example.expensetracker.activity.view_model;
 import android.app.Application;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.View;
 
 import androidx.lifecycle.MutableLiveData;
@@ -11,7 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.enumerator.TimeSpanSelection;
-import com.example.expensetracker.service.GlobalSelections;
+import com.example.expensetracker.service.Global;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -20,6 +19,7 @@ public class ListTransactionVM extends ViewModel {
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>(null);
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>(null);
     public MutableLiveData<String> transactionTotalAmountTxt = new MutableLiveData<>();
+    public MutableLiveData<String> netAmountTxt = new MutableLiveData<>();
     public MutableLiveData<String> monthYearTxt = new MutableLiveData<>();
     public MutableLiveData<Boolean> startCreateTransactionClicked = new MutableLiveData<>(false);
 
@@ -57,14 +57,14 @@ public class ListTransactionVM extends ViewModel {
      * otherwise if 'year' is selected, the text will display only the '{year}'.
      */
     public void updateSelectedDateTxt() {
-        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
+        LocalDate selectedDate = Objects.requireNonNull(Global.selectedDate.getValue());
         String displayTxt = application.getString(
                 R.string.month_year_title,
                 selectedDate.getMonth(),
                 selectedDate.getYear()
         );
 
-        if (GlobalSelections.selectedTimeSpan == TimeSpanSelection.Year) {
+        if (Global.selectedTimeSpan == TimeSpanSelection.Year) {
             displayTxt = application.getString(R.string.year_title, selectedDate.getYear());
         }
 
@@ -72,14 +72,14 @@ public class ListTransactionVM extends ViewModel {
     }
 
     public void rightArrowOnClick(View view) {
-        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
+        LocalDate selectedDate = Objects.requireNonNull(Global.selectedDate.getValue());
 
-        switch (GlobalSelections.selectedTimeSpan) {
+        switch (Global.selectedTimeSpan) {
             case Month:
-                GlobalSelections.selectedDate.setValue(selectedDate.plusMonths(1));
+                Global.selectedDate.setValue(selectedDate.plusMonths(1));
                 break;
             case Year:
-                GlobalSelections.selectedDate.setValue(selectedDate.plusYears(1));
+                Global.selectedDate.setValue(selectedDate.plusYears(1));
                 break;
             case Custom:
                 break;
@@ -87,14 +87,14 @@ public class ListTransactionVM extends ViewModel {
     }
 
     public void leftArrowOnClick(View view) {
-        LocalDate selectedDate = Objects.requireNonNull(GlobalSelections.selectedDate.getValue());
+        LocalDate selectedDate = Objects.requireNonNull(Global.selectedDate.getValue());
 
-        switch (GlobalSelections.selectedTimeSpan) {
+        switch (Global.selectedTimeSpan) {
             case Month:
-                GlobalSelections.selectedDate.setValue(selectedDate.minusMonths(1));
+                Global.selectedDate.setValue(selectedDate.minusMonths(1));
                 break;
             case Year:
-                GlobalSelections.selectedDate.setValue(selectedDate.minusYears(1));
+                Global.selectedDate.setValue(selectedDate.minusYears(1));
                 break;
             case Custom:
                 break;
@@ -110,18 +110,18 @@ public class ListTransactionVM extends ViewModel {
         switch (viewIdName) {
             case "custom_time_span":
                 customBtnTextColor.setValue(Color.WHITE);
-                GlobalSelections.selectedTimeSpan = TimeSpanSelection.Custom;
+                Global.selectedTimeSpan = TimeSpanSelection.Custom;
                 break;
             case "month_time_span":
                 monthBtnTextColor.setValue(Color.WHITE);
-                GlobalSelections.selectedTimeSpan = TimeSpanSelection.Month;
+                Global.selectedTimeSpan = TimeSpanSelection.Month;
                 break;
             case "year_time_span":
                 yearBtnTextColor.setValue(Color.WHITE);
-                GlobalSelections.selectedTimeSpan = TimeSpanSelection.Year;
+                Global.selectedTimeSpan = TimeSpanSelection.Year;
                 break;
         }
 
-        GlobalSelections.selectedDate.setValue(GlobalSelections.selectedDate.getValue());
+        Global.selectedDate.setValue(Global.selectedDate.getValue());
     }
 }

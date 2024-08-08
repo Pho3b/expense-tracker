@@ -6,9 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
-import com.example.expensetracker.model.Constants;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enumerator.TransactionType;
 
@@ -84,7 +82,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public Transaction retrieveTransaction(int id, TransactionType type) {
+    public Transaction retrieveTransaction(int id, TransactionType type, TransactionType selectedTransactionType) {
         checkReadDbInstance();
 
         String query = String.format("SELECT * FROM '%s' WHERE _id = ?", formatTableName(type));

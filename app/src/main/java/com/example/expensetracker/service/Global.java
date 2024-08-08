@@ -16,7 +16,7 @@ import com.example.expensetracker.enumerator.TransactionType;
 
 import java.time.LocalDate;
 
-public class GlobalSelections extends Service {
+public class Global extends Service {
     public static TransactionType selectedTransactionType = TransactionType.Expense;
     public static MutableLiveData<LocalDate> selectedDate = new MutableLiveData<>(LocalDate.now());
     public static TimeSpanSelection selectedTimeSpan = TimeSpanSelection.Month;

@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">12dp</dimen>
     <dimen name="expense_txt_end_padding">5dp</dimen>
     <dimen name="expense_txt_start_padding">8dp</dimen>
     <dimen name="expense_amount_txt_dim">18sp</dimen>
@@ -15,7 +15,7 @@
     <dimen name="create_edit_transaction_txt_size">22sp</dimen>"
 
     <!--  Time Span Selection Bar  -->
-    <dimen name="sel_txt_size">30sp</dimen>
+    <dimen name="sel_txt_size">28sp</dimen>
     <dimen name="arrow_size">35dp</dimen>
 
     <!-- Outlined Button -->

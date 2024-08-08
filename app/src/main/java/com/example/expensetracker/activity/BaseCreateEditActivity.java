@@ -30,7 +30,7 @@ import com.example.expensetracker.databinding.ActivityCreateEditTransactionBindi
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.CategoryIcon;
-import com.example.expensetracker.service.GlobalSelections;
+import com.example.expensetracker.service.Global;
 import com.example.expensetracker.ui.model.CategoryIconView;
 
 
@@ -60,14 +60,14 @@ public class BaseCreateEditActivity extends AppCompatActivity {
 
         initViewModels();
         setupObservers();
-        setupCategoryIconsUI(GlobalSelections.selectedTransactionType);
+        setupCategoryIconsUI(Global.selectedTransactionType);
         setUpLayoutChangeListener();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        GlobalSelections.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
+        Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         transactionTypeSelectionVM.transactionTypeBtnClicked.observe(
                 this, (Boolean clicked) -> {
                     if (clicked) {
-                        setupCategoryIconsUI(GlobalSelections.selectedTransactionType);
+                        setupCategoryIconsUI(Global.selectedTransactionType);
                         vm.selectedCategoryId.setValue(0);
                     }
                 }
