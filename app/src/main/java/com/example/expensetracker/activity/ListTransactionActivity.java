@@ -2,6 +2,7 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
