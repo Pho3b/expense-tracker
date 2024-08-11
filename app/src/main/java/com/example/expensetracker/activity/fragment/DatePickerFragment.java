@@ -14,12 +14,15 @@ import com.example.expensetracker.activity.view_model.CreateEditTransactionVM;
 
 public class DatePickerFragment extends DialogFragment {
     public CreateEditTransactionVM datePickerListener;
-    private final DatePickerDialog.OnDateSetListener onSelectListener;
+    private DatePickerDialog.OnDateSetListener onSelectListener;
 
 
     public DatePickerFragment() {
-        this.onSelectListener = new OnSelectListener();
+        if (datePickerListener == null) {
+            this.onSelectListener = new OnSelectListener();
+        }
     }
+
 
     @NonNull
     @Override

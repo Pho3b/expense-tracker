@@ -22,7 +22,7 @@ import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enumerator.TimeSpanSelection;
 import com.example.expensetracker.enumerator.TransactionType;
-import com.example.expensetracker.service.GlobalSelections;
+import com.example.expensetracker.service.Global;
 import com.example.expensetracker.service.TransactionAdapter;
 
 import java.time.LocalDate;
@@ -57,7 +57,7 @@ public class ListTransactionActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        GlobalSelections.updateSelectedTransactionType(
+        Global.updateSelectedTransactionType(
                 getApplication(),
                 vm.expenseBackground,
                 vm.incomeBackground
@@ -68,9 +68,10 @@ public class ListTransactionActivity extends AppCompatActivity {
      * Binds the current Activity to its ViewModel
      */
     private void initViewModels() {
-        transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
-                get(TransactionTypeSelectionVM.class);
-        vm = new ListTransactionVM(getApplication());
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new ViewModelsFactory(getApplication()));
+        vm = viewModelProvider.get(ListTransactionVM.class);
+        transactionTypeSelectionVM = viewModelProvider.get(TransactionTypeSelectionVM.class);
+
         ActivityListTransactionBinding binding = DataBindingUtil.setContentView(
                 this,
                 R.layout.activity_list_transaction
@@ -91,28 +92,29 @@ public class ListTransactionActivity extends AppCompatActivity {
                 }
         );
 
+
         transactionTypeSelectionVM.transactionTypeBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
                         updateRecyclerView(
                                 retrieveTransactions(
-                                        GlobalSelections.selectedTransactionType,
-                                        GlobalSelections.selectedTimeSpan,
-                                        GlobalSelections.selectedDate.getValue()
+                                        Global.selectedTransactionType,
+                                        Global.selectedTimeSpan,
+                                        Global.selectedDate.getValue()
                                 )
                         );
                     }
                 }
         );
 
-        GlobalSelections.selectedDate.observe(
+        Global.selectedDate.observe(
                 this,
                 (LocalDate selectedDate) -> {
                     vm.updateSelectedDateTxt();
 
                     updateRecyclerView(
-                            retrieveTransactions(GlobalSelections.selectedTransactionType, GlobalSelections.selectedTimeSpan, selectedDate)
+                            retrieveTransactions(Global.selectedTransactionType, Global.selectedTimeSpan, selectedDate)
                     );
                 }
         );

@@ -3,7 +3,6 @@ package com.example.expensetracker.service;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -11,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.model.Constants;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.CategoryIcon;
@@ -50,21 +49,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER_TRANSACTION) {
             return new HeaderTransactionVH(
-                    LayoutInflater.from(parent.getContext()).inflate(
-                            R.layout.transaction_item_with_header,
-                            parent,
-                            false
-                    )
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item_with_header, parent, false)
             );
         }
 
-        return new TransactionVH(
-                LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.transaction_item,
-                        parent,
-                        false
-                )
-        );
+        return new TransactionVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item, parent, false));
     }
 
     /**
@@ -79,7 +68,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         TransactionVH transactionVH = (TransactionVH) viewHolder;
         Transaction currentTransaction = transactions.get(position);
-        CategoryIcon[] iconModels = GlobalSelections.selectedTransactionType == TransactionType.Expense ?
+        CategoryIcon[] iconModels = Global.selectedTransactionType == TransactionType.Expense ?
                 EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
         int iconId = currentTransaction.category_id < iconModels.length ? currentTransaction.category_id : 0;
 
@@ -89,7 +78,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         transactionVH.iconImageView.setImageResource(iconModels[iconId].iconDrawableId);
 
         if (viewHolder instanceof HeaderTransactionVH) {
-            ((HeaderTransactionVH) transactionVH).transactionHeaderTextView.setText(currentTransaction.date.toString());
+
+            String formattedDate = String.format(
+                    Locale.ITALIAN,
+                    "%d/%d/%d",
+                    currentTransaction.date.getDayOfMonth(),
+                    currentTransaction.date.getMonthValue(),
+                    currentTransaction.date.getYear()
+            );
+            ((HeaderTransactionVH) transactionVH).transactionHeaderTextView.setText(formattedDate);
         }
     }
 

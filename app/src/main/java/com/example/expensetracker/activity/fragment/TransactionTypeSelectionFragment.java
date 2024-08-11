@@ -13,20 +13,23 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.activity.view_model.ListTransactionVM;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
 import com.example.expensetracker.activity.view_model.ViewModelsFactory;
 import com.example.expensetracker.databinding.TransactionTypeSelectionBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.enumerator.TimeSpanSelection;
 import com.example.expensetracker.enumerator.TransactionType;
-import com.example.expensetracker.service.GlobalSelections;
+import com.example.expensetracker.service.Global;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 
 public class TransactionTypeSelectionFragment extends Fragment {
     public TransactionTypeSelectionVM vm;
+    public ListTransactionVM listTransactionVM;
 
     private TransactionTypeSelectionBinding binding;
     private TransactionTrackerDbHelper db;
@@ -36,10 +39,11 @@ public class TransactionTypeSelectionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         assert getActivity() != null;
+        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new ViewModelsFactory(getActivity().getApplication()));
+        vm = viewModelProvider.get(TransactionTypeSelectionVM.class);
+        listTransactionVM = viewModelProvider.get(ListTransactionVM.class);
+
         db = new TransactionTrackerDbHelper(getActivity().getApplicationContext());
-        vm = new ViewModelProvider(
-                this, new ViewModelsFactory(getActivity().getApplication())
-        ).get(TransactionTypeSelectionVM.class);
     }
 
     @Nullable
@@ -69,38 +73,20 @@ public class TransactionTypeSelectionFragment extends Fragment {
                 getViewLifecycleOwner(),
                 (Boolean clicked) -> {
                     if (clicked) {
-                        vm.updateAmountsTexts(
-                                retrieveTransactionsAmountSum(
-                                        GlobalSelections.selectedTransactionType,
-                                        GlobalSelections.selectedTimeSpan,
-                                        GlobalSelections.selectedDate.getValue()
-                                )
-                        );
+                        updateAmountsTexts();
                     }
                 }
         );
 
-        GlobalSelections.selectedDate.observe(
+        Global.selectedDate.observe(
                 getViewLifecycleOwner(),
                 (LocalDate selectedDate) -> {
-                    Log.d("selectedDate", selectedDate.toString());
-
-                    vm.updateAmountsTexts(
-                            retrieveTransactionsAmountSum(
-                                    GlobalSelections.selectedTransactionType,
-                                    GlobalSelections.selectedTimeSpan,
-                                    selectedDate
-                            )
-                    );
+                    updateAmountsTexts();
                 }
         );
     }
 
-    private Integer retrieveTransactionsAmountSum(
-            TransactionType selectedType,
-            TimeSpanSelection selectedTimeSpan,
-            LocalDate selectedDate
-    ) {
+    private Integer retrieveTransactionsAmountSum(TransactionType selectedType, TimeSpanSelection selectedTimeSpan, LocalDate selectedDate) {
         LocalDate startDate = selectedTimeSpan == TimeSpanSelection.Month ?
                 LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1) :
                 LocalDate.of(selectedDate.getYear(), 1, 1);
@@ -114,4 +100,22 @@ public class TransactionTypeSelectionFragment extends Fragment {
                 LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
     }
+
+    private void updateAmountsTexts() {
+        int expensesSum = retrieveTransactionsAmountSum(TransactionType.Expense, Global.selectedTimeSpan, Global.selectedDate.getValue());
+        int incomesSum = retrieveTransactionsAmountSum(TransactionType.Income, Global.selectedTimeSpan, Global.selectedDate.getValue());
+
+
+        if (Global.selectedTransactionType == TransactionType.Expense)
+            listTransactionVM.transactionTotalAmountTxt.setValue(
+                    String.format(Locale.getDefault(), "Expenses %d €", expensesSum)
+            );
+        else
+            listTransactionVM.transactionTotalAmountTxt.setValue(
+                    String.format(Locale.getDefault(), "Incomes %d €", incomesSum)
+            );
+
+        listTransactionVM.netAmountTxt.setValue(String.format(Locale.getDefault(), "Net Amount %d €", (incomesSum - expensesSum)));
+    }
+
 }
