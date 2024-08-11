@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.model.Transaction;
@@ -48,21 +49,11 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == HEADER_TRANSACTION) {
             return new HeaderTransactionVH(
-                    LayoutInflater.from(parent.getContext()).inflate(
-                            R.layout.transaction_item_with_header,
-                            parent,
-                            false
-                    )
+                    LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item_with_header, parent, false)
             );
         }
 
-        return new TransactionVH(
-                LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.transaction_item,
-                        parent,
-                        false
-                )
-        );
+        return new TransactionVH(LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_item, parent, false));
     }
 
     /**
@@ -87,7 +78,15 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         transactionVH.iconImageView.setImageResource(iconModels[iconId].iconDrawableId);
 
         if (viewHolder instanceof HeaderTransactionVH) {
-            ((HeaderTransactionVH) transactionVH).transactionHeaderTextView.setText(currentTransaction.date.toString());
+
+            String formattedDate = String.format(
+                    Locale.ITALIAN,
+                    "%d/%d/%d",
+                    currentTransaction.date.getDayOfMonth(),
+                    currentTransaction.date.getMonthValue(),
+                    currentTransaction.date.getYear()
+            );
+            ((HeaderTransactionVH) transactionVH).transactionHeaderTextView.setText(formattedDate);
         }
     }
 

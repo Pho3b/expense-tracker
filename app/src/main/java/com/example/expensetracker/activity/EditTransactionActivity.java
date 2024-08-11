@@ -46,10 +46,9 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        vm.addEditBtnClicked.setValue(false);
                         transaction.amount = Double.parseDouble(vm.amount.getValue());
                         transaction.comment = vm.comment.getValue();
-                        transaction.date = LocalDate.parse(vm.uiDate.getValue());
+                        transaction.date = vm.date;
                         transaction.category_id = vm.selectedCategoryId.getValue();
                         db.updateTransaction(transaction);
 

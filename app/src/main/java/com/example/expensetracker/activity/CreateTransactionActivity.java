@@ -26,7 +26,6 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                 this,
                 (Boolean clicked) -> {
                     if (clicked) {
-                        vm.addEditBtnClicked.setValue(false);
                         db.insertNewTransaction(
                                 new Transaction(
                                         Double.parseDouble(Objects.requireNonNull(vm.amount.getValue())),

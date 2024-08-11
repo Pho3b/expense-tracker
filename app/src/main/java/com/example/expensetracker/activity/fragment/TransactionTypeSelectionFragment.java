@@ -103,16 +103,19 @@ public class TransactionTypeSelectionFragment extends Fragment {
 
     private void updateAmountsTexts() {
         int expensesSum = retrieveTransactionsAmountSum(TransactionType.Expense, Global.selectedTimeSpan, Global.selectedDate.getValue());
-
         int incomesSum = retrieveTransactionsAmountSum(TransactionType.Income, Global.selectedTimeSpan, Global.selectedDate.getValue());
 
 
         if (Global.selectedTransactionType == TransactionType.Expense)
-            listTransactionVM.transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "%d €", expensesSum));
+            listTransactionVM.transactionTotalAmountTxt.setValue(
+                    String.format(Locale.getDefault(), "Expenses %d €", expensesSum)
+            );
         else
-            listTransactionVM.transactionTotalAmountTxt.setValue(String.format(Locale.getDefault(), "%d €", incomesSum));
+            listTransactionVM.transactionTotalAmountTxt.setValue(
+                    String.format(Locale.getDefault(), "Incomes %d €", incomesSum)
+            );
 
-        listTransactionVM.netAmountTxt.setValue(String.format(Locale.getDefault(), "%d €", (incomesSum - expensesSum)));
+        listTransactionVM.netAmountTxt.setValue(String.format(Locale.getDefault(), "Net Amount %d €", (incomesSum - expensesSum)));
     }
 
 }
