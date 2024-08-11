@@ -44,11 +44,6 @@ public class CreateEditTransactionVM extends ViewModel {
         ciBlueBg.setColorFilter(ContextCompat.getColor(ctx, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
     }
 
-    public void setupUI() {
-        uiDate.setValue(String.format(
-                Locale.ITALIAN, "%d-%d-%d", date.getDayOfMonth(), date.getMonthValue(), date.getYear())
-        );
-    }
 
     public void onOpenDatePickerClick(View view) {
         openDatePickerFragmentClicked.setValue(true);
@@ -64,12 +59,9 @@ public class CreateEditTransactionVM extends ViewModel {
     }
 
     public void onDateSelected(int year, int month, int day) {
-        uiDate.setValue(String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year));
+        uiDate.setValue(String.format(Locale.ITALIAN, "%d/%d/%d", day, month, year));
 
-        this.date = LocalDate.parse(
-                String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year),
-                DateTimeFormatter.ofPattern("d-M-yyyy")
-        );
+        this.date = LocalDate.parse(uiDate.getValue(), DateTimeFormatter.ofPattern("d/M/yyyy"));
     }
 
     public void updateCategoryIconsBackground(ViewGroup categoriesScrollView) {

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class CreateTransactionActivity extends BaseCreateEditActivity {
@@ -20,7 +21,9 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
         vm.amount.setValue("");
         vm.comment.setValue("");
         vm.selectedCategoryId.setValue(0);
-        vm.setupUI();
+        vm.uiDate.setValue(
+                String.format(Locale.ITALIAN, "%d/%d/%d", vm.date.getDayOfMonth(), vm.date.getMonthValue(), vm.date.getYear())
+        );
 
         vm.addEditBtnClicked.observe(
                 this,
