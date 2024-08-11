@@ -11,6 +11,8 @@ import com.example.expensetracker.service.Global;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class EditTransactionActivity extends BaseCreateEditActivity {
 
@@ -39,7 +41,8 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         DecimalFormat df = new DecimalFormat("0.##");
         vm.amount.setValue(df.format(transaction.amount));
         vm.comment.setValue(transaction.comment);
-        vm.uiDate.setValue(String.valueOf(transaction.date));
+        vm.uiDate.setValue(String.format(Locale.ITALIAN, "%d/%d/%d", transaction.date.getDayOfMonth(), transaction.date.getMonthValue(), transaction.date.getYear()));
+        vm.selectedCategoryId.setValue(transaction.category_id);
         vm.selectedCategoryId.setValue(transaction.category_id);
 
         vm.addEditBtnClicked.observe(
