@@ -1,10 +1,14 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
@@ -40,6 +44,19 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                         );
 
                         startActivity(new Intent(this, ListTransactionActivity.class));
+                    }
+                }
+        );
+
+        vm.openDatePickerFragmentClicked.observe(
+                this,
+                (Boolean clicked) -> {
+                    if (clicked) {
+                        DatePickerFragment datePickerFragment = new DatePickerFragment();
+                        datePickerFragment.datePickerListener = vm;
+                        datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
+
+
                     }
                 }
         );

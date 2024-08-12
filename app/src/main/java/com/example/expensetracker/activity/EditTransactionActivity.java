@@ -1,17 +1,18 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class EditTransactionActivity extends BaseCreateEditActivity {
@@ -56,6 +57,23 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                         db.updateTransaction(transaction);
 
                         startActivity(new Intent(this, ListTransactionActivity.class));
+                    }
+                }
+        );
+
+        vm.openDatePickerFragmentClicked.observe(
+                this,
+                (Boolean clicked) -> {
+                    if (clicked) {
+                        DatePickerFragment datePickerFragment = new DatePickerFragment(
+                                transaction.date.getYear(),
+                                transaction.date.getMonthValue(),
+                                transaction.date.getDayOfMonth()
+                        );
+                        datePickerFragment.datePickerListener = vm;
+                        datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
+
+                        vm.openDatePickerFragmentClicked.setValue(false);
                     }
                 }
         );

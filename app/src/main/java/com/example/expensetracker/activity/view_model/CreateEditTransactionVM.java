@@ -60,7 +60,6 @@ public class CreateEditTransactionVM extends ViewModel {
 
     public void onDateSelected(int year, int month, int day) {
         uiDate.setValue(String.format(Locale.ITALIAN, "%d/%d/%d", day, month, year));
-
         this.date = LocalDate.parse(uiDate.getValue(), DateTimeFormatter.ofPattern("d/M/yyyy"));
     }
 

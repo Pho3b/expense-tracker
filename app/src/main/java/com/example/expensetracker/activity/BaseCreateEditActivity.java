@@ -114,18 +114,6 @@ public class BaseCreateEditActivity extends AppCompatActivity {
                 }
         );
 
-        // Opens the date-picker Fragment
-        vm.openDatePickerFragmentClicked.observe(
-                this,
-                (Boolean clicked) -> {
-                    if (clicked) {
-                        DatePickerFragment datePickerFragment = new DatePickerFragment();
-                        datePickerFragment.datePickerListener = vm;
-                        datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
-                    }
-                }
-        );
-
         vm.amount.observe(this, (String value) -> addEditBtn.setEnabled(!value.isEmpty()));
 
         vm.selectedCategoryId.observe(
