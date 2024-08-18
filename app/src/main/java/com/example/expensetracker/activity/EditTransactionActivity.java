@@ -4,6 +4,7 @@ import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
@@ -30,6 +31,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
     }
 
     private void setupActivity() {
+        deleteBtn.setVisibility(View.VISIBLE);
         vm.editBtnText.setValue("Update");
 
         // Retrieve transaction data from the DB

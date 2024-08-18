@@ -4,7 +4,7 @@ import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
@@ -21,6 +21,7 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        deleteBtn.setVisibility(View.INVISIBLE);
         vm.editBtnText.setValue("Create");
         vm.amount.setValue("");
         vm.comment.setValue("");

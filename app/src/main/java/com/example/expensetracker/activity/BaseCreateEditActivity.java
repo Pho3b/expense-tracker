@@ -40,6 +40,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     protected CreateEditTransactionVM vm;
     protected Button addEditBtn;
     protected ViewGroup categoryIdsWrapper;
+    protected View deleteBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,6 +92,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
 
         addEditBtn = findViewById(R.id.add_edit_transaction_btn);
         categoryIdsWrapper = findViewById(R.id.category_ids_wrapper);
+        deleteBtn = findViewById(R.id.delete_transaction);
     }
 
     protected LinearLayout newLinearLayout() {

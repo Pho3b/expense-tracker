@@ -21,6 +21,8 @@ import java.util.Locale;
 
 public class CreateEditTransactionVM extends ViewModel {
     public LocalDate date = LocalDate.now();
+    public Drawable ciWhiteBg;
+    public Drawable ciBlueBg;
     public MutableLiveData<Integer> selectedCategoryId = new MutableLiveData<>(0);
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>();
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>();
@@ -30,8 +32,6 @@ public class CreateEditTransactionVM extends ViewModel {
     public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
     public MutableLiveData<String> editBtnText = new MutableLiveData<>();
-    public Drawable ciWhiteBg;
-    public Drawable ciBlueBg;
 
 
     public CreateEditTransactionVM(Context ctx) {
