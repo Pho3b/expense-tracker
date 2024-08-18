@@ -1,16 +1,20 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
+import java.util.Locale;
 
 public class EditTransactionActivity extends BaseCreateEditActivity {
 
@@ -27,6 +31,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
     }
 
     private void setupActivity() {
+        deleteBtn.setVisibility(View.VISIBLE);
         vm.editBtnText.setValue("Update");
 
         // Retrieve transaction data from the DB
@@ -39,7 +44,8 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         DecimalFormat df = new DecimalFormat("0.##");
         vm.amount.setValue(df.format(transaction.amount));
         vm.comment.setValue(transaction.comment);
-        vm.uiDate.setValue(String.valueOf(transaction.date));
+        vm.uiDate.setValue(String.format(Locale.ITALIAN, "%d/%d/%d", transaction.date.getDayOfMonth(), transaction.date.getMonthValue(), transaction.date.getYear()));
+        vm.selectedCategoryId.setValue(transaction.category_id);
         vm.selectedCategoryId.setValue(transaction.category_id);
 
         vm.addEditBtnClicked.observe(
@@ -53,6 +59,23 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                         db.updateTransaction(transaction);
 
                         startActivity(new Intent(this, ListTransactionActivity.class));
+                    }
+                }
+        );
+
+        vm.openDatePickerFragmentClicked.observe(
+                this,
+                (Boolean clicked) -> {
+                    if (clicked) {
+                        DatePickerFragment datePickerFragment = new DatePickerFragment(
+                                transaction.date.getYear(),
+                                transaction.date.getMonthValue(),
+                                transaction.date.getDayOfMonth()
+                        );
+                        datePickerFragment.datePickerListener = vm;
+                        datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
+
+                        vm.openDatePickerFragmentClicked.setValue(false);
                     }
                 }
         );
