@@ -2,6 +2,7 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,8 +40,9 @@ public class ListTransactionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MY-DEBUG", "ListTransactionActivity onCreate");
 
-        setContentView(R.layout.activity_list_transaction);
+        // setContentView(R.layout.activity_list_transaction);
         dbHelper = new TransactionTrackerDbHelper(this);
 
         // Adds the TransactionTypeSelectionFragment to the activity
@@ -62,6 +64,14 @@ public class ListTransactionActivity extends AppCompatActivity {
                 vm.expenseBackground,
                 vm.incomeBackground
         );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d("MY-DEBUG", "ListTransactionActivity onStop");
+        vm.startCreateTransactionClicked.setValue(false);
     }
 
     /**
@@ -86,6 +96,8 @@ public class ListTransactionActivity extends AppCompatActivity {
         vm.startCreateTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
+                    Log.d("MY-DEBUG", String.format("%s, clicked value: %b", "inside startCreateTransactionClicked", clicked));
+
                     if (clicked) {
                         startActivity(new Intent(this, CreateTransactionActivity.class));
                     }

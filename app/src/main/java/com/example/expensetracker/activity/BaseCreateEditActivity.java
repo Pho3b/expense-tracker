@@ -1,11 +1,11 @@
 package com.example.expensetracker.activity;
 
-import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.CreateEditTransactionVM;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
@@ -45,6 +44,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MY-DEBUG", "BaseCreateEditActivity onCreate");
 
         // Setting content view
         setContentView(R.layout.activity_create_edit_transaction);
@@ -70,14 +70,12 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         super.onResume();
         Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
         vm.openDatePickerFragmentClicked.setValue(false);
-        vm.addEditBtnClicked.setValue(false);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         vm.openDatePickerFragmentClicked.setValue(false);
-        vm.addEditBtnClicked.setValue(false);
     }
 
     /**
