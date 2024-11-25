@@ -4,6 +4,7 @@ import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -30,6 +31,12 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         setupActivity();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        vm.addEditBtnClicked.setValue(false);
+    }
+
     private void setupActivity() {
         deleteBtn.setVisibility(View.VISIBLE);
         vm.editBtnText.setValue("Update");
@@ -41,8 +48,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                 Global.selectedTransactionType
         );
 
-        DecimalFormat df = new DecimalFormat("0.##");
-        vm.amount.setValue(df.format(transaction.amount));
+        vm.amount.setValue(new DecimalFormat("0.##").format(transaction.amount));
         vm.comment.setValue(transaction.comment);
         vm.uiDate.setValue(String.format(Locale.ITALIAN, "%d/%d/%d", transaction.date.getDayOfMonth(), transaction.date.getMonthValue(), transaction.date.getYear()));
         vm.selectedCategoryId.setValue(transaction.category_id);

@@ -36,7 +36,6 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                 Log.d("MY-DEBUG", String.format("%s, clicked value: %b","inside addEditBtnClicked", clicked));
 
                 if (clicked) {
-
                     String amount = vm.amount.getValue();
 
                     if (amount != null && !amount.isEmpty()) {
@@ -75,7 +74,6 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         vm.addEditBtnClicked.setValue(false);
     }
 }
