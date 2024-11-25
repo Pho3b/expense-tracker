@@ -11,19 +11,22 @@ public class Transaction {
     public int category_id;
     public LocalDate date;
     public TransactionType type;
+    public boolean isHeader;
 
     public Transaction(
             double amount,
             String comment,
             int categoryId,
             LocalDate date,
-            TransactionType type
+            TransactionType type,
+            boolean isHeader
     ) {
         this.amount = amount;
         this.comment = comment;
         this.date = date;
         this.category_id = categoryId;
         this.type = type;
+        this.isHeader = isHeader;
     }
 
     public Transaction(
@@ -34,7 +37,7 @@ public class Transaction {
             LocalDate date,
             TransactionType type
     ) {
-        this(amount, comment, categoryId, date, type);
+        this(amount, comment, categoryId, date, type, false);
         this.id = id;
     }
 }

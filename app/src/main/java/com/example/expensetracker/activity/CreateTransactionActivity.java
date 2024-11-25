@@ -47,7 +47,8 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                                             vm.comment.getValue(),
                                             vm.selectedCategoryId.getValue(),
                                             vm.date,
-                                            Global.selectedTransactionType
+                                            Global.selectedTransactionType,
+                                            false
                                     )
                             );
                         }

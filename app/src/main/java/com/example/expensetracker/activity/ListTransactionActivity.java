@@ -149,10 +149,26 @@ public class ListTransactionActivity extends AppCompatActivity {
                 startDate.plusMonths(1).minusDays(1) :
                 startDate.plusYears(1).minusDays(1);
 
-        return dbHelper.retrieveTransactions(
+        ArrayList<Transaction> transactions = dbHelper.retrieveTransactions(
                 selectedType,
                 LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
+
+        LocalDate currentDate = null;
+
+        for (Transaction t : transactions) {
+            if (currentDate == null || !currentDate.equals(t.date)) {
+                currentDate = t.date;
+                t.isHeader = true;
+
+                continue;
+            }
+
+            t.isHeader = false;
+        }
+
+
+        return transactions;
     }
 }

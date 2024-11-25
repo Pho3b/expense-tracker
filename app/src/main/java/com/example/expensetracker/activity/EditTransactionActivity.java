@@ -69,7 +69,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                     if (clicked) {
                         DatePickerFragment datePickerFragment = new DatePickerFragment(
                                 transaction.date.getYear(),
-                                transaction.date.getMonthValue(),
+                                transaction.date.getMonth().getValue(),
                                 transaction.date.getDayOfMonth()
                         );
                         datePickerFragment.datePickerListener = vm;
