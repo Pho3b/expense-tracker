@@ -1,10 +1,10 @@
 package com.example.expensetracker.activity;
 
 import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
+import static com.example.expensetracker.model.Constants.DEL_TRANSACTION_ID;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -35,6 +35,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
     protected void onStop() {
         super.onStop();
         vm.addEditBtnClicked.setValue(false);
+        vm.deleteTransactionBtnClicked.setValue(false);
     }
 
     private void setupActivity() {
@@ -82,6 +83,19 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                         datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
 
                         vm.openDatePickerFragmentClicked.setValue(false);
+                    }
+                }
+        );
+
+        vm.deleteTransactionBtnClicked.observe(
+                this,
+                (Boolean clicked) -> {
+                    if (clicked) {
+                        Intent intent = new Intent(this, ListTransactionActivity.class)
+                                .putExtra(DEL_TRANSACTION_ID, transaction.id);
+                        db.deleteTransaction(transaction);
+
+                        startActivity(intent);
                     }
                 }
         );

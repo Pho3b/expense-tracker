@@ -3,7 +3,7 @@ package com.example.expensetracker.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toolbar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.expensetracker.model.Constants.DEL_TRANSACTION_ID;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
@@ -29,6 +31,8 @@ import com.example.expensetracker.service.TransactionAdapter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
 
 public class ListTransactionActivity extends AppCompatActivity {
     protected ListTransactionVM vm;
@@ -58,12 +62,20 @@ public class ListTransactionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
 
-        Global.updateSelectedTransactionType(
-                getApplication(),
-                vm.expenseBackground,
-                vm.incomeBackground
-        );
+        try {
+            Integer del_transaction_id = Objects.requireNonNull(getIntent().getExtras()).getInt(DEL_TRANSACTION_ID);
+
+            Toast.makeText(
+                    this,
+                    String.format(Locale.ITALY, "Correctly Deleted Transaction {%d}", del_transaction_id),
+                    Toast.LENGTH_SHORT
+            ).show();
+            getIntent().removeExtra(DEL_TRANSACTION_ID);
+        } catch (NullPointerException ignored) {
+            Log.d("MY-DEBUG", "Null value received after deletion");
+        }
     }
 
     @Override

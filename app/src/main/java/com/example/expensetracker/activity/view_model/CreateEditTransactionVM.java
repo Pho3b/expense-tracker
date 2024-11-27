@@ -28,6 +28,7 @@ public class CreateEditTransactionVM extends ViewModel {
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>();
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> addEditBtnClicked = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> deleteTransactionBtnClicked = new MutableLiveData<>(false);
     public MutableLiveData<String> uiDate = new MutableLiveData<>();
     public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
@@ -51,6 +52,10 @@ public class CreateEditTransactionVM extends ViewModel {
 
     public void onAddEditTransactionClick(View view) {
         addEditBtnClicked.setValue(true);
+    }
+
+    public void onDeleteTransactionClick(View view) {
+        deleteTransactionBtnClicked.setValue(true);
     }
 
     public void onCategoryIconClick(View categoryIcon) {
