@@ -82,7 +82,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public Transaction retrieveTransaction(int id, TransactionType type, TransactionType selectedTransactionType) {
+    public Transaction retrieveTransaction(int id, TransactionType type) {
         checkReadDbInstance();
 
         String query = String.format("SELECT * FROM '%s' WHERE _id = ?", formatTableName(type));

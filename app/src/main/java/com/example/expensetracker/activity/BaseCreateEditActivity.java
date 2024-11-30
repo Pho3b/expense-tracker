@@ -44,7 +44,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MY-DEBUG", "BaseCreateEditActivity onCreate");
+        Log.d("MY-DEBUG", "BaseCreateEditActivity onCreate transaction Type: " + Global.selectedTransactionType.toString());
 
         // Setting content view
         setContentView(R.layout.activity_create_edit_transaction);

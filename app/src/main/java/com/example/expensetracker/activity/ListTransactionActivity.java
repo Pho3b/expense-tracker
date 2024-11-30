@@ -44,7 +44,7 @@ public class ListTransactionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MY-DEBUG", "ListTransactionActivity onCreate");
+        Log.d("MY-DEBUG", "ListTransactionActivity onCreate transaction Type: " + Global.selectedTransactionType.toString());
 
         // setContentView(R.layout.activity_list_transaction);
         dbHelper = new TransactionTrackerDbHelper(this);
@@ -82,7 +82,7 @@ public class ListTransactionActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        Log.d("MY-DEBUG", "ListTransactionActivity onStop");
+        Log.d("MY-DEBUG", "ListTransactionActivity onStop  transaction Type: " + Global.selectedTransactionType.toString());
         vm.startCreateTransactionClicked.setValue(false);
     }
 
