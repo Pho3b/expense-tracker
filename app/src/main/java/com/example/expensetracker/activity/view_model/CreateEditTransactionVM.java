@@ -21,17 +21,18 @@ import java.util.Locale;
 
 public class CreateEditTransactionVM extends ViewModel {
     public LocalDate date = LocalDate.now();
+    public Drawable ciWhiteBg;
+    public Drawable ciBlueBg;
     public MutableLiveData<Integer> selectedCategoryId = new MutableLiveData<>(0);
     public MutableLiveData<Drawable> incomeBackground = new MutableLiveData<>();
     public MutableLiveData<Drawable> expenseBackground = new MutableLiveData<>();
     public MutableLiveData<Boolean> openDatePickerFragmentClicked = new MutableLiveData<>(false);
     public MutableLiveData<Boolean> addEditBtnClicked = new MutableLiveData<>(false);
+    public MutableLiveData<Boolean> deleteTransactionBtnClicked = new MutableLiveData<>(false);
     public MutableLiveData<String> uiDate = new MutableLiveData<>();
     public MutableLiveData<String> amount = new MutableLiveData<>();
     public MutableLiveData<String> comment = new MutableLiveData<>();
     public MutableLiveData<String> editBtnText = new MutableLiveData<>();
-    public Drawable ciWhiteBg;
-    public Drawable ciBlueBg;
 
 
     public CreateEditTransactionVM(Context ctx) {
@@ -44,11 +45,6 @@ public class CreateEditTransactionVM extends ViewModel {
         ciBlueBg.setColorFilter(ContextCompat.getColor(ctx, R.color.floating_blue), PorterDuff.Mode.MULTIPLY);
     }
 
-    public void setupUI() {
-        uiDate.setValue(String.format(
-                Locale.ITALIAN, "%d-%d-%d", date.getDayOfMonth(), date.getMonthValue(), date.getYear())
-        );
-    }
 
     public void onOpenDatePickerClick(View view) {
         openDatePickerFragmentClicked.setValue(true);
@@ -58,18 +54,18 @@ public class CreateEditTransactionVM extends ViewModel {
         addEditBtnClicked.setValue(true);
     }
 
+    public void onDeleteTransactionClick(View view) {
+        deleteTransactionBtnClicked.setValue(true);
+    }
+
     public void onCategoryIconClick(View categoryIcon) {
         CategoryIconView iconImageView = (CategoryIconView) categoryIcon;
         selectedCategoryId.setValue(iconImageView.categoryId);
     }
 
     public void onDateSelected(int year, int month, int day) {
-        uiDate.setValue(String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year));
-
-        this.date = LocalDate.parse(
-                String.format(Locale.ITALIAN, "%d-%d-%d", day, month, year),
-                DateTimeFormatter.ofPattern("d-M-yyyy")
-        );
+        uiDate.setValue(String.format(Locale.ITALIAN, "%d/%d/%d", day, month, year));
+        this.date = LocalDate.parse(uiDate.getValue(), DateTimeFormatter.ofPattern("d/M/yyyy"));
     }
 
     public void updateCategoryIconsBackground(ViewGroup categoriesScrollView) {

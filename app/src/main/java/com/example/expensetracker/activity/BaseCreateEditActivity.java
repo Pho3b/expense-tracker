@@ -1,11 +1,11 @@
 package com.example.expensetracker.activity;
 
-import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,7 +21,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
-import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.CreateEditTransactionVM;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
@@ -40,10 +39,12 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     protected CreateEditTransactionVM vm;
     protected Button addEditBtn;
     protected ViewGroup categoryIdsWrapper;
+    protected View deleteBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MY-DEBUG", "BaseCreateEditActivity onCreate transaction Type: " + Global.selectedTransactionType.toString());
 
         // Setting content view
         setContentView(R.layout.activity_create_edit_transaction);
@@ -69,14 +70,12 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         super.onResume();
         Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
         vm.openDatePickerFragmentClicked.setValue(false);
-        vm.addEditBtnClicked.setValue(false);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         vm.openDatePickerFragmentClicked.setValue(false);
-        vm.addEditBtnClicked.setValue(false);
     }
 
     /**
@@ -91,6 +90,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
 
         addEditBtn = findViewById(R.id.add_edit_transaction_btn);
         categoryIdsWrapper = findViewById(R.id.category_ids_wrapper);
+        deleteBtn = findViewById(R.id.delete_transaction);
     }
 
     protected LinearLayout newLinearLayout() {
@@ -110,18 +110,6 @@ public class BaseCreateEditActivity extends AppCompatActivity {
                     if (clicked) {
                         setupCategoryIconsUI(Global.selectedTransactionType);
                         vm.selectedCategoryId.setValue(0);
-                    }
-                }
-        );
-
-        // Opens the date-picker Fragment
-        vm.openDatePickerFragmentClicked.observe(
-                this,
-                (Boolean clicked) -> {
-                    if (clicked) {
-                        DatePickerFragment datePickerFragment = new DatePickerFragment();
-                        datePickerFragment.datePickerListener = vm;
-                        datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
                     }
                 }
         );

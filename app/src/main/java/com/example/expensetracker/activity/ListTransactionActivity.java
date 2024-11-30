@@ -2,7 +2,8 @@ package com.example.expensetracker.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toolbar;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -11,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.expensetracker.model.Constants.DEL_TRANSACTION_ID;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
@@ -28,6 +31,8 @@ import com.example.expensetracker.service.TransactionAdapter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Objects;
 
 public class ListTransactionActivity extends AppCompatActivity {
     protected ListTransactionVM vm;
@@ -39,8 +44,9 @@ public class ListTransactionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MY-DEBUG", "ListTransactionActivity onCreate transaction Type: " + Global.selectedTransactionType.toString());
 
-        setContentView(R.layout.activity_list_transaction);
+        // setContentView(R.layout.activity_list_transaction);
         dbHelper = new TransactionTrackerDbHelper(this);
 
         // Adds the TransactionTypeSelectionFragment to the activity
@@ -56,12 +62,28 @@ public class ListTransactionActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
 
-        Global.updateSelectedTransactionType(
-                getApplication(),
-                vm.expenseBackground,
-                vm.incomeBackground
-        );
+        try {
+            Integer del_transaction_id = Objects.requireNonNull(getIntent().getExtras()).getInt(DEL_TRANSACTION_ID);
+
+            Toast.makeText(
+                    this,
+                    String.format(Locale.ITALY, "Correctly Deleted Transaction {%d}", del_transaction_id),
+                    Toast.LENGTH_SHORT
+            ).show();
+            getIntent().removeExtra(DEL_TRANSACTION_ID);
+        } catch (NullPointerException ignored) {
+            Log.d("MY-DEBUG", "Null value received after deletion");
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d("MY-DEBUG", "ListTransactionActivity onStop  transaction Type: " + Global.selectedTransactionType.toString());
+        vm.startCreateTransactionClicked.setValue(false);
     }
 
     /**
@@ -86,6 +108,8 @@ public class ListTransactionActivity extends AppCompatActivity {
         vm.startCreateTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
+                    Log.d("MY-DEBUG", String.format("%s, clicked value: %b", "inside startCreateTransactionClicked", clicked));
+
                     if (clicked) {
                         startActivity(new Intent(this, CreateTransactionActivity.class));
                     }
@@ -137,10 +161,26 @@ public class ListTransactionActivity extends AppCompatActivity {
                 startDate.plusMonths(1).minusDays(1) :
                 startDate.plusYears(1).minusDays(1);
 
-        return dbHelper.retrieveTransactions(
+        ArrayList<Transaction> transactions = dbHelper.retrieveTransactions(
                 selectedType,
                 LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
+
+        LocalDate currentDate = null;
+
+        for (Transaction t : transactions) {
+            if (currentDate == null || !currentDate.equals(t.date)) {
+                currentDate = t.date;
+                t.isHeader = true;
+
+                continue;
+            }
+
+            t.isHeader = false;
+        }
+
+
+        return transactions;
     }
 }

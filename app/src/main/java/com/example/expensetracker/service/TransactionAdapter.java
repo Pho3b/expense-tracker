@@ -3,6 +3,7 @@ package com.example.expensetracker.service;
 import static com.example.expensetracker.model.Constants.EXPENSE_ICON_MODELS;
 import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -24,7 +25,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private static final int TRANSACTION = 0;
     private static final int HEADER_TRANSACTION = 1;
     private final List<Transaction> transactions;
-    private String lastDate;
 
     /**
      * Default constructor
@@ -33,7 +33,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      */
     public TransactionAdapter(List<Transaction> transactions) {
         this.transactions = transactions;
-        this.lastDate = "";
     }
 
     /**
@@ -93,7 +92,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        this.lastDate = "";
     }
 
     /**
@@ -105,11 +103,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      */
     @Override
     public int getItemViewType(int position) {
-        String currentTransactionDate = transactions.get(position).date.toString();
-
-        if (!lastDate.equals(currentTransactionDate)) {
-            lastDate = currentTransactionDate;
-
+        if (transactions.get(position).isHeader) {
             return HEADER_TRANSACTION;
         }
 

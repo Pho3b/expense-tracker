@@ -82,7 +82,7 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public Transaction retrieveTransaction(int id, TransactionType type, TransactionType selectedTransactionType) {
+    public Transaction retrieveTransaction(int id, TransactionType type) {
         checkReadDbInstance();
 
         String query = String.format("SELECT * FROM '%s' WHERE _id = ?", formatTableName(type));
@@ -159,6 +159,16 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
 
         cursor.close();
         return res;
+    }
+
+    public boolean deleteTransaction(Transaction transaction) {
+        initWriteDbInstanceIfNeeded();
+
+        return dbWrite.delete(
+                formatTableName(transaction.type),
+                String.format("%s = ?", TransactionEntry._ID),
+                new String[]{String.valueOf(transaction.id)}
+        ) > 0;
     }
 
     private void initWriteDbInstanceIfNeeded() {
