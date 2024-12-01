@@ -1,6 +1,7 @@
 package com.example.expensetracker.activity;
 
 import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
+import static com.example.expensetracker.model.Constants.ET_LOGS_TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +10,14 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Objects;
 
 public class CreateTransactionActivity extends BaseCreateEditActivity {
 
@@ -23,45 +25,51 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        initializeUI();
+        observeCreateButton();
+        observeDatePickerFragment();
+    }
+
+    private void initializeUI() {
+        LocalDate nowDate = LocalDate.now();
+
         deleteBtn.setVisibility(View.INVISIBLE);
-        vm.editBtnText.setValue("Create");
+        vm.editBtnText.setValue(getApplication().getString(R.string.transaction_crud_create));
         vm.amount.setValue("");
         vm.comment.setValue("");
         vm.selectedCategoryId.setValue(0);
-
-        LocalDate date = LocalDate.now();
+        vm.date = nowDate;
         vm.uiDate.setValue(
                 String.format(
                         Locale.ITALIAN,
                         "%d/%d/%d",
-                        date.getDayOfMonth(),
-                        date.getMonthValue(),
-                        date.getYear()
+                        nowDate.getDayOfMonth(),
+                        nowDate.getMonthValue(),
+                        nowDate.getYear()
                 )
         );
-        vm.date = LocalDate.parse(vm.uiDate.getValue(), DateTimeFormatter.ofPattern("d/M/yyyy"));
+    }
 
+    private void observeCreateButton() {
         vm.addEditBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
-                    Log.d("MY-DEBUG", String.format("%s, clicked value: %b", "inside addEditBtnClicked", clicked));
-
                     if (clicked) {
-                        String amount = vm.amount.getValue();
-
-                        if (amount != null && !amount.isEmpty()) {
-                            {
-                                db.insertNewTransaction(
-                                        new Transaction(
-                                                Double.parseDouble(amount),
-                                                vm.comment.getValue(),
-                                                vm.selectedCategoryId.getValue(),
-                                                vm.date,
-                                                Global.selectedTransactionType,
-                                                false
-                                        )
-                                );
-                            }
+                        try {
+                            db.insertNewTransaction(
+                                    new Transaction(
+                                            Double.parseDouble(vm.amount.getValue()),
+                                            vm.comment.getValue(),
+                                            Objects.requireNonNull(vm.selectedCategoryId.getValue()),
+                                            vm.date,
+                                            Global.selectedTransactionType,
+                                            false
+                                    )
+                            );
+                        } catch (NullPointerException e) {
+                            Log.e(ET_LOGS_TAG, "Transaction not created cause View selected category id is NULL");
+                        } catch (NumberFormatException e) {
+                            Log.e(ET_LOGS_TAG, "Transaction not created cause the current amount value is not a number");
                         }
 
                         vm.addEditBtnClicked.setValue(false);
@@ -69,7 +77,9 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                     }
                 }
         );
+    }
 
+    private void observeDatePickerFragment() {
         vm.openDatePickerFragmentClicked.observe(
                 this,
                 (Boolean clicked) -> {
@@ -80,12 +90,5 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                     }
                 }
         );
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        vm.addEditBtnClicked.setValue(false);
     }
 }

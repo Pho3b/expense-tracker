@@ -31,14 +31,14 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
 
         initializeUI(transaction);
         populateViewModel(transaction);
-        setupUpdateButton(transaction);
-        setupDatePickerFragment(transaction);
-        setupDeleteButton(transaction);
+        observeUpdateButton(transaction);
+        observeDatePickerFragment(transaction);
+        observeDeleteButton(transaction);
     }
 
     private void initializeUI(Transaction transaction) {
         deleteBtn.setVisibility(View.VISIBLE);
-        vm.editBtnText.setValue(getApplication().getString(R.string.edit_transaction_update));
+        vm.editBtnText.setValue(getApplication().getString(R.string.transaction_crud_update));
         vm.uiDate.setValue(String.format(
                         Locale.ITALIAN,
                         "%d/%d/%d",
@@ -53,11 +53,10 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         vm.amount.setValue(new DecimalFormat("0.##").format(transaction.amount));
         vm.comment.setValue(transaction.comment);
         vm.selectedCategoryId.setValue(transaction.category_id);
-        // vm.date = LocalDate.parse(currentTransactionDate, DateTimeFormatter.ofPattern("d/M/yyyy"));
         vm.date = transaction.date;
     }
 
-    private void setupUpdateButton(Transaction transaction) {
+    private void observeUpdateButton(Transaction transaction) {
         vm.addEditBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
@@ -69,7 +68,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                             transaction.category_id = Objects.requireNonNull(vm.selectedCategoryId.getValue());
                             db.updateTransaction(transaction);
                         } catch (NullPointerException e) {
-                            Log.w(
+                            Log.e(
                                     ET_LOGS_TAG,
                                     String.format(
                                             "Transaction with ID %d not update cause View selected category id is NULL",
@@ -85,7 +84,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         );
     }
 
-    private void setupDatePickerFragment(Transaction transaction) {
+    private void observeDatePickerFragment(Transaction transaction) {
         vm.openDatePickerFragmentClicked.observe(
                 this,
                 (Boolean clicked) -> {
@@ -104,7 +103,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
         );
     }
 
-    private void setupDeleteButton(Transaction transaction) {
+    private void observeDeleteButton(Transaction transaction) {
         vm.deleteTransactionBtnClicked.observe(this, clicked -> {
             if (clicked) {
                 Intent intent = new Intent(this, ListTransactionActivity.class)
