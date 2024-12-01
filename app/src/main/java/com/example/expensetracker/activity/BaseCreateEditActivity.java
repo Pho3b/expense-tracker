@@ -5,7 +5,6 @@ import static com.example.expensetracker.model.Constants.INCOME_ICON_MODELS;
 
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.expensetracker.R;
@@ -34,7 +31,7 @@ import com.example.expensetracker.ui.model.CategoryIconView;
 
 
 public class BaseCreateEditActivity extends AppCompatActivity {
-    protected TransactionTypeSelectionVM transactionTypeSelectionVM;
+    protected TransactionTypeSelectionVM ttVm;
     protected TransactionTrackerDbHelper db;
     protected CreateEditTransactionVM vm;
     protected Button addEditBtn;
@@ -44,25 +41,15 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MY-DEBUG", "BaseCreateEditActivity onCreate transaction Type: " + Global.selectedTransactionType.toString());
 
-        // Setting content view
-        setContentView(R.layout.activity_create_edit_transaction);
-
-        // Adds the TransactionTypeSelectionFragment to the activity
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
-        transaction.commit();
-
-        transactionTypeSelectionVM = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).
-                get(TransactionTypeSelectionVM.class);
         db = new TransactionTrackerDbHelper(this);
 
-        initViewModels();
-        setupObservers();
-        setupCategoryIconsUI(Global.selectedTransactionType);
+        initializeUI();
         setUpLayoutChangeListener();
+        observeTransactionTypeButton();
+        observeAmountInputField();
+        observeCategoryIdIcons();
+        setupCategoryIconsUI(Global.selectedTransactionType);
     }
 
     @Override
@@ -70,69 +57,36 @@ public class BaseCreateEditActivity extends AppCompatActivity {
         super.onResume();
 
         Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
-        vm.openDatePickerFragmentClicked.setValue(false);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        vm.openDatePickerFragmentClicked.setValue(false);
-    }
-
-    /**
-     * Binds the current Activity to its ViewModel
-     */
-    protected void initViewModels() {
+    private void initializeUI() {
+        // Initializes the Activity ViewModels
         vm = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).get(CreateEditTransactionVM.class);
+        ttVm = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).get(TransactionTypeSelectionVM.class);
 
-        ActivityCreateEditTransactionBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_create_edit_transaction);
-        binding.setViewModel(vm);
-        binding.setLifecycleOwner(this);
+        // Binding the ViewModel and the Activity to the layout and
+        ActivityCreateEditTransactionBinding b = DataBindingUtil.setContentView(this, R.layout.activity_create_edit_transaction);
+        b.setViewModel(vm);
+        b.setLifecycleOwner(this);
 
+        // Initialize the Activity UI elements
         addEditBtn = findViewById(R.id.add_edit_transaction_btn);
         categoryIdsWrapper = findViewById(R.id.category_ids_wrapper);
         deleteBtn = findViewById(R.id.delete_transaction);
+
+        // Adds the TransactionTypeSelectionFragment to the activity
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment()).
+                commit();
     }
 
-    protected LinearLayout newLinearLayout() {
-        LinearLayout linearLayout = new LinearLayout(this);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setLayoutParams(
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        );
-
-        return linearLayout;
-    }
-
-    protected void setupObservers() {
-        // Transactions Type buttons are clicked
-        transactionTypeSelectionVM.transactionTypeBtnClicked.observe(
-                this, (Boolean clicked) -> {
-                    if (clicked) {
-                        setupCategoryIconsUI(Global.selectedTransactionType);
-                        vm.selectedCategoryId.setValue(0);
-                    }
-                }
-        );
-
-        vm.amount.observe(this, (String value) -> addEditBtn.setEnabled(!value.isEmpty()));
-
-        vm.selectedCategoryId.observe(
-                this,
-                (Integer categoryId) -> {
-                    vm.updateCategoryIconsBackground(categoryIdsWrapper);
-                }
-        );
-    }
-
-    protected void setupCategoryIconsUI(TransactionType selectedType) {
-        CategoryIcon[] iconModels = selectedType == TransactionType.Expense ?
-                EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
-
+    private void setupCategoryIconsUI(TransactionType selectedType) {
+        CategoryIcon[] iconModels = selectedType == TransactionType.Expense ? EXPENSE_ICON_MODELS : INCOME_ICON_MODELS;
         LinearLayout wrapper = findViewById(R.id.category_ids_wrapper);
-        wrapper.removeAllViews();
-
         LinearLayout linearLayout = newLinearLayout();
+
+        wrapper.removeAllViews();
         wrapper.addView(linearLayout);
 
         for (int i = 1; i <= iconModels.length; i++) {
@@ -142,18 +96,51 @@ public class BaseCreateEditActivity extends AppCompatActivity {
                     new CategoryIconView(this, vm, iconModels[categoryId].categoryId, iconModels[categoryId].iconDrawableId)
             );
 
-            TextView tv = new TextView(this);
-            tv.setText(iconModels[categoryId].description);
-            tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            tv.setTextSize(16);
-            linearLayout.addView(tv);
+            TextView textView = new TextView(this);
+            textView.setText(iconModels[categoryId].description);
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textView.setTextSize(16);
+            linearLayout.addView(textView);
 
             if (i % 3 == 0) {
                 linearLayout = newLinearLayout();
                 wrapper.addView(linearLayout);
             }
-
         }
+    }
+
+    private LinearLayout newLinearLayout() {
+        LinearLayout linearLayout = new LinearLayout(this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        );
+
+        return linearLayout;
+    }
+
+    private void observeTransactionTypeButton() {
+        ttVm.transactionTypeBtnClicked.observe(
+                this, (Boolean clicked) -> {
+                    if (clicked) {
+                        setupCategoryIconsUI(Global.selectedTransactionType);
+                        vm.selectedCategoryId.setValue(0);
+                    }
+                }
+        );
+    }
+
+    private void observeAmountInputField() {
+        vm.amount.observe(this, (String value) -> addEditBtn.setEnabled(!value.isEmpty()));
+    }
+
+    private void observeCategoryIdIcons() {
+        vm.selectedCategoryId.observe(
+                this,
+                (Integer categoryId) -> {
+                    vm.updateCategoryIconsBackground(categoryIdsWrapper);
+                }
+        );
     }
 
     private void setUpLayoutChangeListener() {

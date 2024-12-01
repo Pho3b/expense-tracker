@@ -4,6 +4,7 @@ import com.example.expensetracker.R;
 
 public class Constants {
     public static final String ET_LOGS_TAG = "ET_LOGS";
+    public static final String ET_LOGS_TAG_DEV = "ET_LOGS_DEV";
     public static final String DATE_PICKER_TAG = "datePicker";
     public static final String CATEGORY_ICON_LABEL = "category_icon";
     public static final String DEL_TRANSACTION_ID = "deleted-transaction-id";

@@ -2,6 +2,7 @@ package com.example.expensetracker.activity;
 
 import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 import static com.example.expensetracker.model.Constants.ET_LOGS_TAG;
+import static com.example.expensetracker.model.Constants.ET_LOGS_TAG_DEV;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,8 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     }
 
     private void initializeUI() {
+        Log.d(ET_LOGS_TAG_DEV, "CreateTransactionActivity method(initializeUI)");
+
         LocalDate nowDate = LocalDate.now();
 
         deleteBtn.setVisibility(View.INVISIBLE);
@@ -87,6 +90,8 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
                         DatePickerFragment datePickerFragment = new DatePickerFragment();
                         datePickerFragment.datePickerListener = vm;
                         datePickerFragment.show(getSupportFragmentManager(), DATE_PICKER_TAG);
+
+                        vm.openDatePickerFragmentClicked.setValue(false);
                     }
                 }
         );
