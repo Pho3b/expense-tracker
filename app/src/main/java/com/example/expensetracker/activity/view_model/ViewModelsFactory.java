@@ -19,6 +19,7 @@ public class ViewModelsFactory implements ViewModelProvider.Factory {
 
     @NonNull
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         // TransactionTypeSelectionVM
         if (modelClass.isAssignableFrom(TransactionTypeSelectionVM.class)) {
