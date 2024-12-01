@@ -61,10 +61,11 @@ public class BaseCreateEditActivity extends AppCompatActivity {
 
     private void initializeUI() {
         // Initializes the Activity ViewModels
-        vm = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).get(CreateEditTransactionVM.class);
-        ttVm = new ViewModelProvider(this, new ViewModelsFactory(getApplication())).get(TransactionTypeSelectionVM.class);
+        ViewModelProvider vmProvider = new ViewModelProvider(this, new ViewModelsFactory(getApplication()));
+        vm = vmProvider.get(CreateEditTransactionVM.class);
+        ttVm = vmProvider.get(TransactionTypeSelectionVM.class);
 
-        // Binding the ViewModel and the Activity to the layout and
+        // Binding the ViewModel and the Activity to the layout
         ActivityCreateEditTransactionBinding b = DataBindingUtil.setContentView(this, R.layout.activity_create_edit_transaction);
         b.setViewModel(vm);
         b.setLifecycleOwner(this);

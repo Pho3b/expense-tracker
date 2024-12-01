@@ -7,13 +7,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.example.expensetracker.model.Constants.DEL_TRANSACTION_ID;
+import static com.example.expensetracker.model.Constants.ET_LOGS_TAG;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
@@ -37,26 +36,20 @@ import java.util.Objects;
 public class ListTransactionActivity extends AppCompatActivity {
     protected ListTransactionVM vm;
     protected TransactionTypeSelectionVM transactionTypeSelectionVM;
-    private TransactionTrackerDbHelper dbHelper;
+    private TransactionTrackerDbHelper db;
     private RecyclerView recyclerView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("MY-DEBUG", "ListTransactionActivity onCreate transaction Type: " + Global.selectedTransactionType.toString());
 
-        // setContentView(R.layout.activity_list_transaction);
-        dbHelper = new TransactionTrackerDbHelper(this);
+        db = new TransactionTrackerDbHelper(this);
 
-        // Adds the TransactionTypeSelectionFragment to the activity
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment());
-        transaction.commit();
-
-        initViewModels();
-        setupObservers();
+        initializeUI();
+        observeCreateTransactionButton();
+        observeTransactionTypeButton();
+        observeDateSpanSelectionButtons();
     }
 
     @Override
@@ -66,57 +59,52 @@ public class ListTransactionActivity extends AppCompatActivity {
 
         try {
             Integer del_transaction_id = Objects.requireNonNull(getIntent().getExtras()).getInt(DEL_TRANSACTION_ID);
+            getIntent().removeExtra(DEL_TRANSACTION_ID);
 
             Toast.makeText(
                     this,
                     String.format(Locale.ITALY, "Correctly Deleted Transaction {%d}", del_transaction_id),
                     Toast.LENGTH_SHORT
             ).show();
-            getIntent().removeExtra(DEL_TRANSACTION_ID);
         } catch (NullPointerException ignored) {
-            Log.d("MY-DEBUG", "Null value received after deletion");
+            Log.w(ET_LOGS_TAG, "Null value received after deletion");
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    private void initializeUI() {
+        // Initializes the Activity ViewModels
+        ViewModelProvider vmProvider = new ViewModelProvider(this, new ViewModelsFactory(getApplication()));
+        vm = vmProvider.get(ListTransactionVM.class);
+        transactionTypeSelectionVM = vmProvider.get(TransactionTypeSelectionVM.class);
 
-        Log.d("MY-DEBUG", "ListTransactionActivity onStop  transaction Type: " + Global.selectedTransactionType.toString());
-        vm.startCreateTransactionClicked.setValue(false);
-    }
+        // Binding the ViewModel and the Activity to the layout
+        ActivityListTransactionBinding b = DataBindingUtil.setContentView(this, R.layout.activity_list_transaction);
+        b.setViewModel(vm);
+        b.setLifecycleOwner(this);
 
-    /**
-     * Binds the current Activity to its ViewModel
-     */
-    private void initViewModels() {
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new ViewModelsFactory(getApplication()));
-        vm = viewModelProvider.get(ListTransactionVM.class);
-        transactionTypeSelectionVM = viewModelProvider.get(TransactionTypeSelectionVM.class);
-
-        ActivityListTransactionBinding binding = DataBindingUtil.setContentView(
-                this,
-                R.layout.activity_list_transaction
-        );
-        binding.setViewModel(vm);
-        binding.setLifecycleOwner(this);
-
+        // Initialize the Activity UI elements
         recyclerView = findViewById(R.id.recyclerView);
+
+        // Adds the TransactionTypeSelectionFragment to the activity
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment()).
+                commit();
     }
 
-    private void setupObservers() {
+    private void observeCreateTransactionButton() {
         vm.startCreateTransactionClicked.observe(
                 this,
                 (Boolean clicked) -> {
-                    Log.d("MY-DEBUG", String.format("%s, clicked value: %b", "inside startCreateTransactionClicked", clicked));
-
                     if (clicked) {
+                        vm.startCreateTransactionClicked.setValue(false);
                         startActivity(new Intent(this, CreateTransactionActivity.class));
                     }
                 }
         );
+    }
 
-
+    private void observeTransactionTypeButton() {
         transactionTypeSelectionVM.transactionTypeBtnClicked.observe(
                 this,
                 (Boolean clicked) -> {
@@ -131,7 +119,9 @@ public class ListTransactionActivity extends AppCompatActivity {
                     }
                 }
         );
+    }
 
+    private void observeDateSpanSelectionButtons() {
         Global.selectedDate.observe(
                 this,
                 (LocalDate selectedDate) -> {
@@ -149,20 +139,16 @@ public class ListTransactionActivity extends AppCompatActivity {
         recyclerView.setAdapter(new TransactionAdapter(transactions));
     }
 
-    private ArrayList<Transaction> retrieveTransactions(
-            TransactionType selectedType,
-            TimeSpanSelection selectedTimeSpan,
-            LocalDate selectedDate
-    ) {
-        LocalDate startDate = selectedTimeSpan == TimeSpanSelection.Month ?
-                LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), 1) :
-                LocalDate.of(selectedDate.getYear(), 1, 1);
-        LocalDate endDate = selectedTimeSpan == TimeSpanSelection.Month ?
+    private ArrayList<Transaction> retrieveTransactions(TransactionType type, TimeSpanSelection timeSpan, LocalDate date) {
+        LocalDate startDate = timeSpan == TimeSpanSelection.Month ?
+                LocalDate.of(date.getYear(), date.getMonth(), 1) :
+                LocalDate.of(date.getYear(), 1, 1);
+        LocalDate endDate = timeSpan == TimeSpanSelection.Month ?
                 startDate.plusMonths(1).minusDays(1) :
                 startDate.plusYears(1).minusDays(1);
 
-        ArrayList<Transaction> transactions = dbHelper.retrieveTransactions(
-                selectedType,
+        ArrayList<Transaction> transactions = db.retrieveTransactions(
+                type,
                 LocalDate.parse(startDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                 LocalDate.parse(endDate.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
