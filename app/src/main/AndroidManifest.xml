@@ -6,9 +6,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_piggy_bank"
+        android:icon="@mipmap/ic_piggy_bank_foreground"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_piggy_bank_round"
+        android:roundIcon="@mipmap/ic_piggy_bank_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseTracker"
         tools:targetApi="31">
@@ -26,13 +26,13 @@
         <activity
             android:name=".activity.CreateTransactionActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
+            android:theme="@style/Theme.ExpenseTracker.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".activity.EditTransactionActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/Theme.ExpenseTracker.NoActionBar" />
+            android:theme="@style/Theme.ExpenseTracker.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
