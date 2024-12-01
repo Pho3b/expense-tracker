@@ -3,9 +3,11 @@ package com.example.expensetracker.model;
 import com.example.expensetracker.R;
 
 public class Constants {
+    public static final String ET_LOGS_TAG = "ET_LOGS";
     public static final String DATE_PICKER_TAG = "datePicker";
     public static final String CATEGORY_ICON_LABEL = "category_icon";
     public static final String DEL_TRANSACTION_ID = "deleted-transaction-id";
+    public static final String CLICKED_TRANS_ID_EXTRA = "_id";
 
     public static final CategoryIcon[] EXPENSE_ICON_MODELS = new CategoryIcon[]{
             new CategoryIcon(R.drawable.ci_groceries, 0, "Groceries"),

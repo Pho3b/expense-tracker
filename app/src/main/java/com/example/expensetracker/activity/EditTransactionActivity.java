@@ -1,8 +1,9 @@
 package com.example.expensetracker.activity;
 
+import static com.example.expensetracker.model.Constants.CLICKED_TRANS_ID_EXTRA;
 import static com.example.expensetracker.model.Constants.DATE_PICKER_TAG;
 import static com.example.expensetracker.model.Constants.DEL_TRANSACTION_ID;
-import static com.example.expensetracker.model.view_holder.TransactionOnClick.CLICKED_TRANSACTION_ID;
+import static com.example.expensetracker.model.Constants.ET_LOGS_TAG;
 
 import android.content.Intent;
 import android.util.Log;
@@ -14,8 +15,6 @@ import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -25,33 +24,37 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
     protected void onResume() {
         super.onResume();
 
-        deleteBtn.setVisibility(View.VISIBLE);
-        vm.editBtnText.setValue(getApplication().getString(R.string.edit_transaction_update));
         Transaction transaction = db.retrieveTransaction(
-                getIntent().getIntExtra(CLICKED_TRANSACTION_ID, -1),
+                getIntent().getIntExtra(CLICKED_TRANS_ID_EXTRA, -1),
                 Global.selectedTransactionType
         );
 
-        setupTransactionViewData(transaction);
+        initializeUI(transaction);
+        populateViewModel(transaction);
         setupUpdateButton(transaction);
         setupDatePickerFragment(transaction);
         setupDeleteButton(transaction);
     }
 
-    private void setupTransactionViewData(Transaction transaction) {
-        String currentTransactionDate = String.format(
-                Locale.ITALIAN,
-                "%d/%d/%d",
-                transaction.date.getDayOfMonth(),
-                transaction.date.getMonthValue(),
-                transaction.date.getYear()
+    private void initializeUI(Transaction transaction) {
+        deleteBtn.setVisibility(View.VISIBLE);
+        vm.editBtnText.setValue(getApplication().getString(R.string.edit_transaction_update));
+        vm.uiDate.setValue(String.format(
+                        Locale.ITALIAN,
+                        "%d/%d/%d",
+                        transaction.date.getDayOfMonth(),
+                        transaction.date.getMonthValue(),
+                        transaction.date.getYear()
+                )
         );
+    }
 
+    private void populateViewModel(Transaction transaction) {
         vm.amount.setValue(new DecimalFormat("0.##").format(transaction.amount));
         vm.comment.setValue(transaction.comment);
         vm.selectedCategoryId.setValue(transaction.category_id);
-        vm.uiDate.setValue(currentTransactionDate);
-        vm.date = LocalDate.parse(currentTransactionDate, DateTimeFormatter.ofPattern("d/M/yyyy"));
+        // vm.date = LocalDate.parse(currentTransactionDate, DateTimeFormatter.ofPattern("d/M/yyyy"));
+        vm.date = transaction.date;
     }
 
     private void setupUpdateButton(Transaction transaction) {
@@ -66,8 +69,8 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                             transaction.category_id = Objects.requireNonNull(vm.selectedCategoryId.getValue());
                             db.updateTransaction(transaction);
                         } catch (NullPointerException e) {
-                            Log.d(
-                                    "WARNING",
+                            Log.w(
+                                    ET_LOGS_TAG,
                                     String.format(
                                             "Transaction with ID %d not update cause View selected category id is NULL",
                                             transaction.id
@@ -89,7 +92,7 @@ public class EditTransactionActivity extends BaseCreateEditActivity {
                     if (clicked) {
                         DatePickerFragment datePickerFragment = new DatePickerFragment(
                                 transaction.date.getYear(),
-                                transaction.date.getMonth().getValue(),
+                                (transaction.date.getMonth().getValue() - 1),
                                 transaction.date.getDayOfMonth()
                         );
                         datePickerFragment.datePickerListener = vm;
