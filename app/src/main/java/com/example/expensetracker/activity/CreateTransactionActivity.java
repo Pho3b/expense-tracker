@@ -13,6 +13,8 @@ import com.example.expensetracker.activity.fragment.DatePickerFragment;
 import com.example.expensetracker.model.Transaction;
 import com.example.expensetracker.service.Global;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class CreateTransactionActivity extends BaseCreateEditActivity {
@@ -26,37 +28,46 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
         vm.amount.setValue("");
         vm.comment.setValue("");
         vm.selectedCategoryId.setValue(0);
+
+        LocalDate date = LocalDate.now();
         vm.uiDate.setValue(
-                String.format(Locale.ITALIAN, "%d/%d/%d", vm.date.getDayOfMonth(), vm.date.getMonthValue(), vm.date.getYear())
+                String.format(
+                        Locale.ITALIAN,
+                        "%d/%d/%d",
+                        date.getDayOfMonth(),
+                        date.getMonthValue(),
+                        date.getYear()
+                )
         );
+        vm.date = LocalDate.parse(vm.uiDate.getValue(), DateTimeFormatter.ofPattern("d/M/yyyy"));
 
         vm.addEditBtnClicked.observe(
-            this,
-            (Boolean clicked) -> {
-                Log.d("MY-DEBUG", String.format("%s, clicked value: %b","inside addEditBtnClicked", clicked));
+                this,
+                (Boolean clicked) -> {
+                    Log.d("MY-DEBUG", String.format("%s, clicked value: %b", "inside addEditBtnClicked", clicked));
 
-                if (clicked) {
-                    String amount = vm.amount.getValue();
+                    if (clicked) {
+                        String amount = vm.amount.getValue();
 
-                    if (amount != null && !amount.isEmpty()) {
-                        {
-                            db.insertNewTransaction(
-                                    new Transaction(
-                                            Double.parseDouble(amount),
-                                            vm.comment.getValue(),
-                                            vm.selectedCategoryId.getValue(),
-                                            vm.date,
-                                            Global.selectedTransactionType,
-                                            false
-                                    )
-                            );
+                        if (amount != null && !amount.isEmpty()) {
+                            {
+                                db.insertNewTransaction(
+                                        new Transaction(
+                                                Double.parseDouble(amount),
+                                                vm.comment.getValue(),
+                                                vm.selectedCategoryId.getValue(),
+                                                vm.date,
+                                                Global.selectedTransactionType,
+                                                false
+                                        )
+                                );
+                            }
                         }
-                    }
 
-                    vm.addEditBtnClicked.setValue(false);
-                    startActivity(new Intent(this, ListTransactionActivity.class));
+                        vm.addEditBtnClicked.setValue(false);
+                        startActivity(new Intent(this, ListTransactionActivity.class));
+                    }
                 }
-            }
         );
 
         vm.openDatePickerFragmentClicked.observe(
@@ -74,6 +85,7 @@ public class CreateTransactionActivity extends BaseCreateEditActivity {
     @Override
     protected void onStop() {
         super.onStop();
+
         vm.addEditBtnClicked.setValue(false);
     }
 }

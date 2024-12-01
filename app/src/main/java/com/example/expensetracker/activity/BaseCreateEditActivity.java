@@ -68,6 +68,7 @@ public class BaseCreateEditActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         Global.updateSelectedTransactionType(getApplication(), vm.expenseBackground, vm.incomeBackground);
         vm.openDatePickerFragmentClicked.setValue(false);
     }

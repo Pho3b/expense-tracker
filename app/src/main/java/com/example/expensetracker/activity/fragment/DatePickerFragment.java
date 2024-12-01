@@ -68,7 +68,7 @@ public class DatePickerFragment extends DialogFragment {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             if (datePickerListener != null) {
-                datePickerListener.onDateSelected(year, month, dayOfMonth);
+                datePickerListener.onDateSelected(year, ++month, dayOfMonth);
             }
         }
     }
