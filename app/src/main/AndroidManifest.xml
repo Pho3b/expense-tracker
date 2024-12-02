@@ -13,6 +13,10 @@
         android:theme="@style/Theme.ExpenseTracker"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="android.webkit.WebView.UpdateService"
+            android:value="true" />
+
         <activity
             android:name=".activity.ListTransactionActivity"
             android:exported="true"
