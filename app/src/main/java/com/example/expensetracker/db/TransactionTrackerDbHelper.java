@@ -18,11 +18,11 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "transaction_tracker.db";
-    private SQLiteDatabase dbWrite;
-    private SQLiteDatabase dbRead;
+    private final SQLiteDatabase sqlLiteDb;
 
     public TransactionTrackerDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.sqlLiteDb = this.getWritableDatabase();
     }
 
     @Override
@@ -53,27 +53,23 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertNewTransaction(Transaction transaction) {
-        initWriteDbInstanceIfNeeded();
-
         ContentValues values = new ContentValues();
         values.put(TransactionEntry.COLUMN_NAME_AMOUNT, transaction.amount);
         values.put(TransactionEntry.COLUMN_NAME_COMMENT, transaction.comment);
         values.put(TransactionEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
         values.put(TransactionEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
-        return dbWrite.insert(formatTableName(transaction.type), null, values) != -1;
+        return sqlLiteDb.insert(formatTableName(transaction.type), null, values) != -1;
     }
 
     public boolean updateTransaction(Transaction transaction) {
-        initWriteDbInstanceIfNeeded();
-
         ContentValues values = new ContentValues();
         values.put(TransactionEntry.COLUMN_NAME_COMMENT, transaction.comment);
         values.put(TransactionEntry.COLUMN_NAME_AMOUNT, transaction.amount);
         values.put(TransactionEntry.COLUMN_NAME_CATEGORY_ID, transaction.category_id);
         values.put(TransactionEntry.COLUMN_NAME_DATE, String.valueOf(transaction.date));
 
-        return dbWrite.update(
+        return sqlLiteDb.update(
                 formatTableName(transaction.type),
                 values,
                 String.format("%s = ?", TransactionEntry._ID),
@@ -83,10 +79,8 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
 
     @SuppressLint("Range")
     public Transaction retrieveTransaction(int id, TransactionType type) {
-        checkReadDbInstance();
-
         String query = String.format("SELECT * FROM '%s' WHERE _id = ?", formatTableName(type));
-        Cursor cursor = dbRead.rawQuery(query, new String[]{String.valueOf(id)});
+        Cursor cursor = sqlLiteDb.rawQuery(query, new String[]{String.valueOf(id)});
 
         if (cursor.moveToFirst()) {
             int _id = cursor.getInt(cursor.getColumnIndex(TransactionEntry._ID));
@@ -111,14 +105,12 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
             LocalDate startDate,
             LocalDate endDate
     ) {
-        checkReadDbInstance();
-
         ArrayList<Transaction> res = new ArrayList<>();
         String query = String.format(
                 "SELECT * FROM '%s' WHERE date BETWEEN ? AND ? ORDER BY date DESC",
                 formatTableName(type)
         );
-        Cursor cursor = dbRead.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
+        Cursor cursor = sqlLiteDb.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
 
         while (cursor.moveToNext()) {
             int id = cursor.getInt(cursor.getColumnIndex(TransactionEntry._ID));
@@ -144,14 +136,12 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
             LocalDate startDate,
             LocalDate endDate
     ) {
-        checkReadDbInstance();
-
         int res = 0;
         String query = String.format(
                 "SELECT SUM(amount) AS sum FROM '%s' WHERE date BETWEEN ? AND ?",
                 formatTableName(type)
         );
-        Cursor cursor = dbRead.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
+        Cursor cursor = sqlLiteDb.rawQuery(query, new String[]{startDate.toString(), endDate.toString()});
 
         while (cursor.moveToNext()) {
             res = cursor.getInt(cursor.getColumnIndex("sum"));
@@ -162,25 +152,11 @@ public class TransactionTrackerDbHelper extends SQLiteOpenHelper {
     }
 
     public boolean deleteTransaction(Transaction transaction) {
-        initWriteDbInstanceIfNeeded();
-
-        return dbWrite.delete(
+        return sqlLiteDb.delete(
                 formatTableName(transaction.type),
                 String.format("%s = ?", TransactionEntry._ID),
                 new String[]{String.valueOf(transaction.id)}
         ) > 0;
-    }
-
-    private void initWriteDbInstanceIfNeeded() {
-        if (dbWrite == null) {
-            dbWrite = this.getWritableDatabase();
-        }
-    }
-
-    private void checkReadDbInstance() {
-        if (dbRead == null) {
-            dbRead = this.getWritableDatabase();
-        }
     }
 
     /**

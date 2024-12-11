@@ -46,15 +46,15 @@ public class CreateEditTransactionVM extends ViewModel {
     }
 
 
-    public void onOpenDatePickerClick(View view) {
+    public void onOpenDatePickerClick(View ignored) {
         openDatePickerFragmentClicked.setValue(true);
     }
 
-    public void onAddEditTransactionClick(View view) {
+    public void onAddEditTransactionClick(View ignored) {
         addEditBtnClicked.setValue(true);
     }
 
-    public void onDeleteTransactionClick(View view) {
+    public void onDeleteTransactionClick(View ignored) {
         deleteTransactionBtnClicked.setValue(true);
     }
 

@@ -1,7 +1,6 @@
 package com.example.expensetracker.activity.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,11 +37,11 @@ public class TransactionTypeSelectionFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        assert getActivity() != null;
-        ViewModelProvider viewModelProvider = new ViewModelProvider(this, new ViewModelsFactory(getActivity().getApplication()));
-        vm = viewModelProvider.get(TransactionTypeSelectionVM.class);
-        listTransactionVM = viewModelProvider.get(ListTransactionVM.class);
+        ViewModelProvider vmp = new ViewModelProvider(this, new ViewModelsFactory(getActivity().getApplication()));
+        vm = vmp.get(TransactionTypeSelectionVM.class);
+        listTransactionVM = vmp.get(ListTransactionVM.class);
 
+        assert getActivity() != null;
         db = new TransactionTrackerDbHelper(getActivity().getApplicationContext());
     }
 
