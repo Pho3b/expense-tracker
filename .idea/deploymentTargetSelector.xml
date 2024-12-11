@@ -5,7 +5,10 @@
       <SelectionState runConfigName="ListTransactionActivityTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="UiElementsPresenceTest()">
+      <SelectionState runConfigName="TransactionTypeSelectionTest()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="CreateTransactionActivityTransitionTest()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
