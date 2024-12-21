@@ -11,6 +11,12 @@
       <SelectionState runConfigName="CreateTransactionActivityTransitionTest()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="Expenses Tracker">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="CorrectlyOpenCreateNewTransactionViewTest()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
