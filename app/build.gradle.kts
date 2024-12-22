@@ -45,6 +45,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.8.5")
     implementation("androidx.navigation:navigation-ui:2.8.5")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.0"))
+    implementation(platform("com.android.support:design:28.0.0"))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test:runner:1.6.2")

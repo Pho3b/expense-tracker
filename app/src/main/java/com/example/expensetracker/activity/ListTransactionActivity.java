@@ -1,5 +1,6 @@
 package com.example.expensetracker.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +17,7 @@ import static com.example.expensetracker.model.Constants.DEL_TRANSACTION_ID;
 import static com.example.expensetracker.model.Constants.ET_LOGS_TAG;
 
 import com.example.expensetracker.R;
+import com.example.expensetracker.activity.fragment.ActivityHeaderFragment;
 import com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment;
 import com.example.expensetracker.activity.view_model.ListTransactionVM;
 import com.example.expensetracker.activity.view_model.TransactionTypeSelectionVM;
@@ -26,6 +29,7 @@ import com.example.expensetracker.enumerator.TimeSpanSelection;
 import com.example.expensetracker.enumerator.TransactionType;
 import com.example.expensetracker.service.Global;
 import com.example.expensetracker.service.TransactionAdapter;
+import com.google.android.material.navigation.NavigationView;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -84,12 +88,29 @@ public class ListTransactionActivity extends AppCompatActivity {
 
         // Initialize the Activity UI elements
         recyclerView = findViewById(R.id.recyclerView);
+        DrawerLayout drawer = findViewById(R.id.drawer);
 
         // Adds the TransactionTypeSelectionFragment to the activity
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.type_selection_fragment_container, new TransactionTypeSelectionFragment()).
+                replace(R.id.activity_header_fragment_container, new ActivityHeaderFragment(drawer)).
                 commit();
+
+        initNavigationDrawer(this, drawer);
+    }
+
+    private void initNavigationDrawer(Context ctx, DrawerLayout drawer) {
+        NavigationView navView = findViewById(R.id.navigationView);
+
+        navView.setNavigationItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.nav_csv_actions) {
+                startActivity(new Intent(ctx, CsvActionsActivity.class));
+            }
+
+            drawer.close();
+            return true;
+        });
     }
 
     private void observeCreateTransactionButton() {

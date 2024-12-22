@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transaction_type_selection_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -21,6 +22,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:height="48dp"
             android:background="@{vm.expenseBackground}"
             android:clickable="true"
             android:gravity="start"
@@ -44,6 +46,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="4dp"
+            android:height="48dp"
             android:background="@{vm.incomeBackground}"
             android:clickable="true"
             android:gravity="end"

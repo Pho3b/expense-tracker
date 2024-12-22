@@ -71,7 +71,7 @@ public class ListTransactionVM extends ViewModel {
         monthYearTxt.setValue(displayTxt);
     }
 
-    public void rightArrowOnClick(View view) {
+    public void rightArrowOnClick(View ignored) {
         LocalDate selectedDate = Objects.requireNonNull(Global.selectedDate.getValue());
 
         switch (Global.selectedTimeSpan) {
@@ -86,7 +86,7 @@ public class ListTransactionVM extends ViewModel {
         }
     }
 
-    public void leftArrowOnClick(View view) {
+    public void leftArrowOnClick(View ignored) {
         LocalDate selectedDate = Objects.requireNonNull(Global.selectedDate.getValue());
 
         switch (Global.selectedTimeSpan) {

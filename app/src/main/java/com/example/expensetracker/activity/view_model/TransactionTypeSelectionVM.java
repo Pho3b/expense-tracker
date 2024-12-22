@@ -31,10 +31,8 @@ public class TransactionTypeSelectionVM extends ViewModel {
 
     /**
      * Handles the onClick event for the view button with ID 'expense_type_btn'.
-     *
-     * @param view current View instance.
      */
-    public void expenseTypeBtnOnClick(View view) {
+    public void expenseTypeBtnOnClick(View ignored) {
         Global.selectedTransactionType = TransactionType.Expense;
         Global.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
@@ -42,15 +40,11 @@ public class TransactionTypeSelectionVM extends ViewModel {
 
     /**
      * Handles the onClick event for the view button with ID 'income_type_btn'.
-     *
-     * @param view current View instance.
      */
-    public void incomeTypeBtnOnClick(View view) {
+    public void incomeTypeBtnOnClick(View ignored) {
         Global.selectedTransactionType = TransactionType.Income;
         Global.updateSelectedTransactionType(application, expenseBackground, incomeBackground);
         transactionTypeBtnClicked.setValue(true);
     }
-
-
 
 }
