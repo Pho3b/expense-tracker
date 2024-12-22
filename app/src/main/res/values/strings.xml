@@ -30,4 +30,5 @@
     <string name="subtract_selected_time_span">Subtract selected time span</string>
     <string name="add_selected_time_span">Add selected time span</string>
     <string name="category_icon">Category Icon</string>
+    <string name="opens_drawer_menu">opens drawer menu</string>
 </resources>
