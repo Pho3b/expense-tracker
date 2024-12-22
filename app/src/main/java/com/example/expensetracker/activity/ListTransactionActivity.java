@@ -75,19 +75,6 @@ public class ListTransactionActivity extends AppCompatActivity {
         }
     }
 
-    private void initNavigationDrawer(Context ctx, DrawerLayout drawer) {
-        NavigationView navView = findViewById(R.id.navigationView);
-
-        navView.setNavigationItemSelectedListener(menuItem -> {
-            if (menuItem.getItemId() == R.id.nav_configurations) {
-                startActivity(new Intent(ctx, ListTransactionActivity.class));
-            }
-
-            drawer.close();
-            return true;
-        });
-    }
-
     private void initializeUI() {
         // Initializes the Activity ViewModels
         ViewModelProvider vmProvider = new ViewModelProvider(this, new ViewModelsFactory(getApplication()));
@@ -111,6 +98,19 @@ public class ListTransactionActivity extends AppCompatActivity {
                 commit();
 
         initNavigationDrawer(this, drawer);
+    }
+
+    private void initNavigationDrawer(Context ctx, DrawerLayout drawer) {
+        NavigationView navView = findViewById(R.id.navigationView);
+
+        navView.setNavigationItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.nav_csv_actions) {
+                startActivity(new Intent(ctx, CsvActionsActivity.class));
+            }
+
+            drawer.close();
+            return true;
+        });
     }
 
     private void observeCreateTransactionButton() {

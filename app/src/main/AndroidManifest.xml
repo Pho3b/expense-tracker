@@ -37,6 +37,11 @@
             android:exported="true"
             android:theme="@style/Theme.ExpenseTracker.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activity.CsvActionsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ExpenseTracker.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
