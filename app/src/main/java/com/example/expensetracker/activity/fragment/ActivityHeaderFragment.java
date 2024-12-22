@@ -24,7 +24,15 @@ public class ActivityHeaderFragment extends Fragment {
     protected DrawerLayout drawer;
     private ActivityHeaderBinding binding;
 
+    /**
+     * Default constructor required for DataBinding
+     */
+    public ActivityHeaderFragment() {
+    }
 
+    /**
+     * Constructor with DrawerLayout reference to open the drawer
+     */
     public ActivityHeaderFragment(DrawerLayout drawer) {
         this.drawer = drawer;
     }

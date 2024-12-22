@@ -29,19 +29,23 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/activity_header_fragment_container"
+                android:name="com.example.expensetracker.activity.fragment.ActivityHeaderFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout="@layout/activity_header" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/type_selection_fragment_container"
+                android:name="com.example.expensetracker.activity.fragment.TransactionTypeSelectionFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_header_fragment_container" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_header_fragment_container"
+                tools:layout="@layout/transaction_type_selection" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
