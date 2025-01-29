@@ -43,5 +43,4 @@
             android:theme="@style/Theme.ExpenseTracker.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
     </application>
-
 </manifest>
