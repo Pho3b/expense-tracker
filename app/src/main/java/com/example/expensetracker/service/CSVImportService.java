@@ -38,13 +38,20 @@ public class CSVImportService {
                 Log.i(ET_LOGS_TAG_DEV, "Column length: " + columns.length);
                 if (columns.length == 5) { // Adjust based on your table structure
                     Log.i(ET_LOGS_TAG_DEV, "Importing values");
+                    TransactionType type = columns[1].equals("Spese") ? TransactionType.Expense : TransactionType.Income;
+                    int categoryId = 0;
+
+                    try {
+                        Integer.parseInt(columns[2]);
+                    } catch (Exception ignored) {
+                    }
 
                     Transaction toInsert = new Transaction(
                             Double.parseDouble(columns[4]),
                             columns[3],
-                            1,
+                            categoryId,
                             LocalDate.parse(columns[0], DateTimeFormatter.ofPattern("yyyy-MM-dd")),
-                            TransactionType.Expense,
+                            type,
                             false
                     );
 
