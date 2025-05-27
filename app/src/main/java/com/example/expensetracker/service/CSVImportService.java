@@ -5,6 +5,7 @@ import static com.example.expensetracker.model.Constants.ET_LOGS_TAG_DEV;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.enumerator.TransactionType;
@@ -15,29 +16,76 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.Objects;
 
 public class CSVImportService {
+    final String[] CSV_HEADER = {"DATA", "TYPE", "CATEGORY", "DESCRIPTION", "AMOUNT"};
+
     private final TransactionTrackerDbHelper dbHelper;
+    private final Context context;
+
 
     public CSVImportService(Context context) {
-        dbHelper = new TransactionTrackerDbHelper(context);
+        this.dbHelper = new TransactionTrackerDbHelper(context);
+        this.context = context;
+    }
+
+    public boolean validateCsvHeader(String headerRow) {
+        String[] columns = headerRow.split(",");
+
+        if (columns.length != 5) {
+            Toast.makeText(
+                    this.context,
+                    String.format(Locale.ITALY, "CSV header columns length must be 5, found %d columns instead", columns.length),
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return false;
+        }
+
+
+        for (int i = 0; i < CSV_HEADER.length; i++) {
+            if (!Objects.equals(columns[i].toUpperCase().trim(), CSV_HEADER[i])) {
+                Log.e(ET_LOGS_TAG_DEV, String.format("This value is not equal %s:%s", columns[i].toUpperCase(), CSV_HEADER[i]));
+
+                Toast.makeText(
+                        this.context,
+                        String.format(Locale.ITALY, "Incorrect Header columns naming, correct one is: %s", Arrays.toString(CSV_HEADER)),
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void importCSV(InputStream inputStream) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        int lineNumber = 0;
         String line;
+
 
         try {
             db.beginTransaction();
 
             while ((line = reader.readLine()) != null) {
+                if (lineNumber == 0) {
+                    if (!validateCsvHeader(line)) {
+                        return;
+                    }
+
+                    lineNumber++;
+                    continue;
+                }
+
                 String[] columns = line.split(","); // Assuming CSV is comma-separated
 
-                Log.i(ET_LOGS_TAG_DEV, "Line: " + line);
-                Log.i(ET_LOGS_TAG_DEV, "Column length: " + columns.length);
-                if (columns.length == 5) { // Adjust based on your table structure
-                    Log.i(ET_LOGS_TAG_DEV, "Importing values");
+                if (columns.length == CSV_HEADER.length) {
                     TransactionType type = columns[1].equals("Spese") ? TransactionType.Expense : TransactionType.Income;
                     int categoryId = 0;
 
@@ -56,7 +104,11 @@ public class CSVImportService {
                     );
 
                     dbHelper.insertNewTransaction(toInsert);
+                } else {
+                    Log.e(ET_LOGS_TAG_DEV, "Incorrect number of columns in line " + lineNumber);
                 }
+
+                lineNumber++;
             }
 
             db.setTransactionSuccessful();
@@ -67,6 +119,7 @@ public class CSVImportService {
 
             try {
                 reader.close();
+                Log.i(ET_LOGS_TAG_DEV, "Reader correctly closed");
             } catch (Exception e) {
                 Log.e(ET_LOGS_TAG_DEV, "Error closing reader", e);
             }

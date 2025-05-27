@@ -3,13 +3,11 @@ package com.example.expensetracker.activity;
 import static com.example.expensetracker.model.Constants.ET_LOGS_TAG_DEV;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -26,7 +24,6 @@ import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.service.CSVImportService;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.activity.ComponentActivity;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
