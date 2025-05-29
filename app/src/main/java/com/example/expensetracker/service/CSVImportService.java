@@ -21,7 +21,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class CSVImportService {
-    final String[] CSV_HEADER = {"DATA", "TYPE", "CATEGORY", "DESCRIPTION", "AMOUNT"};
+    public static final String[] CSV_HEADERS = {"DATA", "TYPE", "CATEGORY", "DESCRIPTION", "AMOUNT"};
 
     private final TransactionTrackerDbHelper dbHelper;
     private final Context context;
@@ -46,13 +46,13 @@ public class CSVImportService {
         }
 
 
-        for (int i = 0; i < CSV_HEADER.length; i++) {
-            if (!Objects.equals(columns[i].toUpperCase().trim(), CSV_HEADER[i])) {
-                Log.e(ET_LOGS_TAG_DEV, String.format("This value is not equal %s:%s", columns[i].toUpperCase(), CSV_HEADER[i]));
+        for (int i = 0; i < CSV_HEADERS.length; i++) {
+            if (!Objects.equals(columns[i].toUpperCase().trim(), CSV_HEADERS[i])) {
+                Log.e(ET_LOGS_TAG_DEV, String.format("This value is not equal %s:%s", columns[i].toUpperCase(), CSV_HEADERS[i]));
 
                 Toast.makeText(
                         this.context,
-                        String.format(Locale.ITALY, "Incorrect Header columns naming, correct one is: %s", Arrays.toString(CSV_HEADER)),
+                        String.format(Locale.ITALY, "Incorrect Header columns naming, correct one is: %s", Arrays.toString(CSV_HEADERS)),
                         Toast.LENGTH_SHORT
                 ).show();
 
@@ -85,7 +85,7 @@ public class CSVImportService {
 
                 String[] columns = line.split(","); // Assuming CSV is comma-separated
 
-                if (columns.length == CSV_HEADER.length) {
+                if (columns.length == CSV_HEADERS.length) {
                     TransactionType type = columns[1].equals("Spese") ? TransactionType.Expense : TransactionType.Income;
                     int categoryId = 0;
 

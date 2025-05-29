@@ -6,8 +6,8 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer"
         android:layout_width="match_parent"
-        android:padding="0dp"
         android:layout_height="match_parent"
+        android:padding="0dp"
         tools:context=".activity.CsvActionsActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/import_export_db"
+                android:text="@string/import_db"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -63,6 +63,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_import_csv" />
 
+            <TableLayout
+                android:id="@+id/csv_preview_table"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@android:color/white"
+                android:padding="8dp"
+                android:layout_margin="20dp"
+                android:stretchColumns="*"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_export_csv">
+
+                <TableRow>
+
+                </TableRow>
+
+                <!-- Add more TableRows as needed -->
+            </TableLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.navigation.NavigationView
@@ -70,9 +91,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:padding="0dp"
             android:fitsSystemWindows="true"
+            android:padding="0dp"
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/nav_items" />
     </androidx.drawerlayout.widget.DrawerLayout>
+
 </layout>

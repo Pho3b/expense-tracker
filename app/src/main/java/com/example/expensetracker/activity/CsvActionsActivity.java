@@ -8,7 +8,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,7 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.expensetracker.R;
 import com.example.expensetracker.activity.fragment.ActivityHeaderFragment;
-import com.example.expensetracker.databinding.CsvActionsActivityBinding;
+import com.example.expensetracker.databinding.ActivityImportCsvBinding;
 import com.example.expensetracker.db.TransactionTrackerDbHelper;
 import com.example.expensetracker.service.CSVImportService;
 import com.google.android.material.navigation.NavigationView;
@@ -29,7 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class CsvActionsActivity extends AppCompatActivity {
-//    private static final int PICK_CSV_FILE = 1;
+    //    private static final int PICK_CSV_FILE = 1;
     private TransactionTrackerDbHelper db;
 
     @Override
@@ -76,7 +81,7 @@ public class CsvActionsActivity extends AppCompatActivity {
         //        transactionTypeSelectionVM = vmProvider.get(TransactionTypeSelectionVM.class);
 
         // Binding the ViewModel and the Activity to the layout
-        CsvActionsActivityBinding b = DataBindingUtil.setContentView(this, R.layout.csv_actions_activity);
+        ActivityImportCsvBinding b = DataBindingUtil.setContentView(this, R.layout.activity_import_csv);
         //b.setViewModel(vm);
         b.setLifecycleOwner(this);
 
@@ -99,6 +104,23 @@ public class CsvActionsActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             startActivityForResultLauncher.launch(intent);
         });
+
+
+        TableLayout tableLayout = findViewById(R.id.csv_preview_table);
+        TableRow row = new TableRow(this);
+        row.setGravity(Gravity.CENTER);
+        row.setPadding(4, 4, 4, 4);
+
+        for (String header : CSVImportService.CSV_HEADERS) {
+            TextView text = new TextView(this);
+            text.setTextSize(10);
+            text.setText(header);
+            text.setTextColor(getResources().getColor(R.color.black, getTheme()));
+            text.setGravity(Gravity.CENTER);
+            row.addView(text);
+        }
+
+        tableLayout.addView(row);
     }
 
     private void initNavigationDrawer(Context ctx, DrawerLayout drawer) {

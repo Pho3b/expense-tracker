@@ -35,5 +35,5 @@
     <!--  CSV import/export view -->
     <string name="import_csv">Import CSV</string>
     <string name="export_csv">Export CSV</string>
-    <string name="import_export_db">Import/Export Database</string>
+    <string name="import_db">Import Database</string>
 </resources>
